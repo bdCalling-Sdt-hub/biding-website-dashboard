@@ -2,6 +2,15 @@ import { baseApi } from "./baseApi";
 
 const dashboardApi = baseApi.injectEndpoints({
     endpoints : (builder) =>({
+        /** Dashboard chart api */
+        getDashboardChart : builder.query({
+            query : (year)=>{
+                return {
+                    url : `/dashboard/get-income-chart-data?year=${year}`,
+                    method : "GET"
+                }
+            }
+        }),
         getDashboardData : builder.query({
             query : ()=>{
                 return {
@@ -10,8 +19,10 @@ const dashboardApi = baseApi.injectEndpoints({
                 }
             }
         }),
+        /** Auction managment all api */
         getAllAuction : builder.query({
-            query : (status)=>{
+            query : ({status , page})=>{
+                console.log(page);
                 if(status){
                     return {
                         url : `/auction?status=${status}`,
@@ -19,12 +30,22 @@ const dashboardApi = baseApi.injectEndpoints({
                     }
                 }else{
                     return {
-                        url : `/auction`,
+                        url : `/auction?page=${page}`,
                         method : 'GET'
                     }
                 }
             },
             providesTags  : ["allAuction"]
+        }),
+        createAuction :  builder.mutation({
+            query : (formData)=>{
+                return  {
+                    url : "/auction/create-auction",
+                    method :"POST",
+                    body : formData
+                }
+            },
+            invalidatesTags : ['allAuction']
         }),
         deleteAuction : builder.mutation({
             query : (id)=>{
@@ -35,15 +56,8 @@ const dashboardApi = baseApi.injectEndpoints({
             },
             invalidatesTags : ['allAuction']
         }),
-        getDashboardChart : builder.query({
-            query : (year)=>{
-                return {
-                    url : `/dashboard/get-income-chart-data?year=${year}`,
-                    method : "GET"
-                }
-            }
-        })
+        
     })
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, } = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation } = dashboardApi 

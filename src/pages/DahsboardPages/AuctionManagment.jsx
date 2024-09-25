@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import img1 from '../../assets/prod1.png'
-import { Popconfirm, Table, } from 'antd';
+import { Pagination, Popconfirm, Table, } from 'antd';
 import { CiEdit } from 'react-icons/ci';
 import { Link } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -11,14 +11,14 @@ import CreateUpdateAuctionModal from '../../components/ui/CreateUpdateAuctionMod
 import { useDeleteAuctionMutation, useGetAllAuctionQuery } from '../../redux/api/dashboardApi';
 import { checkImageSource } from '../../lib/checkImageSource';
 const AuctionManagment = () => {
+  const [page, setPage] = useState(1)
   /** Get all auction api */
-  const { data: getAllAuction, isLoading } = useGetAllAuctionQuery()
+  const { data: getAllAuction, isLoading } = useGetAllAuctionQuery({ page })
   /** Delete auction api */
   const [deleteAuction] = useDeleteAuctionMutation()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [visible, setVisible] = useState(false);
   const [fileList, setFileList] = useState([]);
-
 
   const handleUploadChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -50,7 +50,7 @@ const AuctionManagment = () => {
   const handleDeleteAuction = (id) => {
     deleteAuction(id).unwrap()
       .then((payload) => console.log('fulfilled', payload))
-      .catch((error) => console.error('rejected', error));
+      .catch((error) => console.error(error));
   }
 
   const columns = [
@@ -138,18 +138,18 @@ const AuctionManagment = () => {
           <a href="#edit" onClick={() => {
             setIsModalOpen(true)
           }} className="bg-yellow text-white p-1 rounded-sm"><CiEdit size={20} /></a>
-          {/* <a href="#delete" onClick={() => handleDeleteAuction(record?.id)} className="bg-[#D9000A] text-white p-1 rounded-sm"><RiDeleteBin6Line size={20} /></a> */}
+
           <Popconfirm
-           placement="topRight"
+            placement="topRight"
             title="Are you sure to delete this auction?"
-            onConfirm={() => handleDeleteAuction(record?.id)} // Handle delete on confirmation
+            onConfirm={() => handleDeleteAuction(record?.id)}
             okText="Yes"
             cancelText="No"
-        >
+          >
             <a href="#delete" className="bg-[#D9000A] text-white p-1 rounded-sm">
-                <RiDeleteBin6Line size={20} />
+              <RiDeleteBin6Line size={20} />
             </a>
-        </Popconfirm>
+          </Popconfirm>
         </div>
       ),
     },
@@ -173,15 +173,16 @@ const AuctionManagment = () => {
 
 
       <div className='mt-10'>
-        <Table dataSource={auctionDataFormat} columns={columns} className="custom-pagination" pagination={{
-          pageSize: 10,
-          showTotal: (total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`,
-          locale: {
-            items_per_page: '',
-            prev_page: 'Previous',
-            next_page: 'Next',
-          },
-        }} />
+        <Table dataSource={auctionDataFormat} columns={columns} className="custom-pagination" pagination={false} />
+        <div className='flex items-center justify-center mt-5'>
+          <Pagination
+            total={getAllAuction?.data?.meta?.total}
+            pageSize={getAllAuction?.data?.meta?.limit}
+            current={page || getAllAuction?.data?.meta?.page}
+            showSizeChanger={false}
+            onChange={(page) => setPage(page)}
+          />
+        </div>
       </div>
 
 
