@@ -7,12 +7,10 @@ import { useCreateAuctionMutation } from '../../redux/api/dashboardApi';
 import { toast } from 'sonner';
 
 const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
-  const [createAuction ] = useCreateAuctionMutation();
+  const [createAuction , {isLoading} ] = useCreateAuctionMutation();
   const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm()
 
-
-  console.log(fileList);
   // handle upload image 
   const handleUploadChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -24,11 +22,17 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
 
   // Add auction product
   const onFinish = (values) => {
-    if(fileList.length <= 3){
+    const data ={
+      ...values,
+      incrementValue  :  Number(values?.incrementValue),
+      reservedBid : Number(values?.reservedBid)
+    }
+
+    if(fileList.length < 3){
       return toast.error("Please selecet at least 3 image!!")
     }
     const formData = new FormData();
-    formData.append('data', JSON.stringify(values));
+    formData.append('data', JSON.stringify(data));
 
     fileList.forEach((file) => {
       formData.append('image', file.originFileObj || file);
@@ -87,7 +91,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
               className='w-full'
               rules={[{ required: true, message: 'Please input reserved bid!' }]}
             >
-              <Input type='Number' />
+              <Input type='number' />
             </Form.Item>
             <Form.Item
               label="Increment Value"
@@ -95,7 +99,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
               className='w-full'
               rules={[{ required: true, message: 'Please input increment value!' }]}
             >
-              <Input type='Number' />
+              <Input type='number' />
             </Form.Item>
           </div>
           <div className='flex justify-between items-center gap-2'>
@@ -144,7 +148,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
 
           <div className='flex justify-between gap-3'>
             <Form.Item className='w-full'>
-              <Button className='w-full'>Save</Button>
+              <Button className='w-full' >Save</Button>
             </Form.Item>
             <Form.Item className='w-full'>
               <button className='bg-[#d9000a] text-white w-full p-1 rounded-md' onClick={() => setIsModalOpen(false)}>Cancel</button>

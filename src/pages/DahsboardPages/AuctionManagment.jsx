@@ -10,24 +10,16 @@ import { IoAddOutline } from 'react-icons/io5';
 import CreateUpdateAuctionModal from '../../components/ui/CreateUpdateAuctionModal';
 import { useDeleteAuctionMutation, useGetAllAuctionQuery } from '../../redux/api/dashboardApi';
 import { checkImageSource } from '../../lib/checkImageSource';
+import UpdateAuctionModal from '../../components/ui/UpdateAuctionModal';
 const AuctionManagment = () => {
   const [page, setPage] = useState(1)
+  const [singleAuction , setSingleAuction] = useState()
   /** Get all auction api */
   const { data: getAllAuction, isLoading } = useGetAllAuctionQuery({ page })
   /** Delete auction api */
   const [deleteAuction] = useDeleteAuctionMutation()
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [visible, setVisible] = useState(false);
-  const [fileList, setFileList] = useState([]);
-
-  const handleUploadChange = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
-  };
-
-  const handleRemove = (file) => {
-    setFileList(fileList.filter((item) => item.uid !== file.uid));
-  }
-
+  const [isEditModalOpen , setIsEditModalOpen] = useState(false)
 
   /** Auction managment data format table */
   const auctionDataFormat = getAllAuction?.data?.result?.map((auction, i) => {
@@ -35,8 +27,9 @@ const AuctionManagment = () => {
       id: auction?._id,
       key: i + 1,
       name: auction?.name,
-      img: checkImageSource(auction?.images?.[0]),
+      img:auction?.images,
       category: auction?.category,
+      description: auction?.description, 
       reservedBid: auction?.reservedBid,
       incrementValue: auction?.incrementValue,
       statingAndEndTime: `${auction?.startingDate.split('T')[0]}-at-${auction?.startingTime
@@ -67,7 +60,7 @@ const AuctionManagment = () => {
         return (
           <div className="flex items-center gap-2">
             <img
-              src={record?.img}
+              src={record?.img?.[0]}
               className="w-[40px] h-[40px] rounded-[8px]"
               alt=""
             />
@@ -136,7 +129,8 @@ const AuctionManagment = () => {
       render: (text, record) => (
         <div className="flex items-center gap-2">
           <a href="#edit" onClick={() => {
-            setIsModalOpen(true)
+            setIsEditModalOpen(true)
+            setSingleAuction(record)
           }} className="bg-yellow text-white p-1 rounded-sm"><CiEdit size={20} /></a>
 
           <Popconfirm
@@ -186,98 +180,9 @@ const AuctionManagment = () => {
       </div>
 
 
-      {/* <Modal centered
-        open={isModalOpen}
-        footer={false}
-        onCancel={() => setIsModalOpen(false)}
-      >
-        <h1 className='text-center font-medium text-[20px]'>Edit Auction</h1>
-
-
-        <Form
-          layout='vertical'
-        >
-          <div className='flex  justify-between items-center gap-2 mt-5'>
-            <Form.Item
-              label="Item Name"
-              className='w-full'
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Category"
-              className='w-full'
-            >
-              <Input />
-            </Form.Item>
-          </div>
-          <div className='flex  justify-between items-center gap-2 '>
-            <Form.Item
-              label="Reserved Bid"
-              className='w-full'
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Increment Value"
-              className='w-full'
-            >
-              <Input />
-            </Form.Item>
-          </div>
-          <div className='flex justify-between items-center gap-2 '>
-            <Form.Item
-              label="Starting Date"
-              className='w-full'
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Starting Time"
-              className='w-full'
-            >
-              <Input />
-            </Form.Item>
-          </div>
-          <Form.Item
-            label="Description"
-          >
-            <TextArea />
-          </Form.Item>
-
-
-          <Form.Item label="Upload Images">
-            <Upload
-              listType="picture-card"
-              fileList={fileList}
-              onChange={handleUploadChange}
-              onRemove={handleRemove}
-              beforeUpload={() => false}
-              multiple
-            >
-              {fileList.length >= 4 ? null : (
-                <div>
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>Add Image</div>
-                </div>
-              )}
-            </Upload>
-          </Form.Item>
-
-          <div className='flex justify-between  gap-3'>
-            <Form.Item className='w-full' >
-              <Button className='w-full'>Save</Button>
-            </Form.Item>
-            <Form.Item className='w-full' >
-              <button className='bg-[#d9000a] text-white w-full p-1 rounded-md' onClick={() => setIsModalOpen(false)} >cancel</button>
-            </Form.Item>
-
-          </div>
-        </Form>
-
-
-      </Modal> */}
-      <CreateUpdateAuctionModal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />
+     
+      <CreateUpdateAuctionModal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen}  />
+      <UpdateAuctionModal singleAuction={singleAuction}  setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen}  />
 
     </div>
   );

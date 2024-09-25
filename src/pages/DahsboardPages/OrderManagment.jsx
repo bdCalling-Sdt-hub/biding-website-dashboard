@@ -5,10 +5,12 @@ import { IoArrowBackSharp, IoEyeOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 import img1 from '../../assets/user6.png'
 import img2 from '../../assets/phone2.png'
+import { useGetAllOrderQuery } from '../../redux/api/dashboardApi'
 const OrderManagment = () => {
+    const {data :  getOrders, isLoading} = useGetAllOrderQuery()
+    console.log(getOrders?.data);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalData, setModalData] = useState()
-    console.log(modalData);
     const columns = [
         {
             title: "Order ID",
@@ -83,6 +85,21 @@ const OrderManagment = () => {
 
 
     ];
+    const orderManagmentTableData = getOrders?.data?.map((order, i)=>{
+        return {
+            key: i+ 1,
+            // name: ,
+            img: img1,
+            winningProduct: 'iPhone 13 Pro Max',
+            winningProductImg: img2,
+            winningPrice: "$24.00",
+            status: "Payment Success",
+            expectedDeliveryDate: "1/04/22",
+            phone: '+8245854768',
+            shippingAddress: "Royal Ln, new jesssy",
+            orderId: '#3256489'
+        }
+    })
     const dataSource = [
         {
             key: "01",
