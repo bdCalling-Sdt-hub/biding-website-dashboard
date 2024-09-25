@@ -3,9 +3,7 @@ import income from '../../assets/income.png'
 import auction from '../../assets/auction.png'
 import user from '../../assets/user5.png'
 import IncomeOverview from '../../components/ui/IncomeOverview';
-import { Link } from 'react-router-dom';
-import img1 from '../../assets/user6.png'
-import img2 from '../../assets/user7.png'
+import { Link } from 'react-router-dom'
 import ActiveAuction from './ActiveAuction';
 import TopBidderAndPerformingTable from '../../components/ui/TopBidderAndPerformingTable';
 import { useGetAllAuctionQuery, useGetDashboardDataQuery } from '../../redux/api/dashboardApi';
@@ -102,7 +100,7 @@ const DashboardHome = () => {
                     </div>
                 </div>
             </div>
-            {/* active auction */}
+            {/* active auction table */}
 
             <div className='bg-white rounded-md p-5 mt-5'>
                 <div className='flex items-center justify-between my-5 '>

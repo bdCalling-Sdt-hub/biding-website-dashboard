@@ -23,8 +23,17 @@ const dashboardApi = baseApi.injectEndpoints({
                         method : 'GET'
                     }
                 }
-               
-            }
+            },
+            providesTags  : ["allAuction"]
+        }),
+        deleteAuction : builder.mutation({
+            query : (id)=>{
+                return {
+                    url : `/auction/delete-auction/${id}`,
+                    method : 'DELETE'
+                }
+            },
+            invalidatesTags : ['allAuction']
         }),
         getDashboardChart : builder.query({
             query : (year)=>{
@@ -37,4 +46,4 @@ const dashboardApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery } = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, } = dashboardApi 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import img1 from '../../assets/prod1.png'
-import { Table, } from 'antd';
+import { Popconfirm, Table, } from 'antd';
 import { CiEdit } from 'react-icons/ci';
 import { Link } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -8,11 +8,13 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import Button from '../../components/ui/Button';
 import { IoAddOutline } from 'react-icons/io5';
 import CreateUpdateAuctionModal from '../../components/ui/CreateUpdateAuctionModal';
-import { useGetAllAuctionQuery } from '../../redux/api/dashboardApi';
+import { useDeleteAuctionMutation, useGetAllAuctionQuery } from '../../redux/api/dashboardApi';
 import { checkImageSource } from '../../lib/checkImageSource';
 const AuctionManagment = () => {
-
+  /** Get all auction api */
   const { data: getAllAuction, isLoading } = useGetAllAuctionQuery()
+  /** Delete auction api */
+  const [deleteAuction] = useDeleteAuctionMutation()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [visible, setVisible] = useState(false);
   const [fileList, setFileList] = useState([]);
@@ -26,11 +28,11 @@ const AuctionManagment = () => {
     setFileList(fileList.filter((item) => item.uid !== file.uid));
   }
 
-console.log(getAllAuction?.data?.result);
 
   /** Auction managment data format table */
   const auctionDataFormat = getAllAuction?.data?.result?.map((auction, i) => {
     return {
+      id: auction?._id,
       key: i + 1,
       name: auction?.name,
       img: checkImageSource(auction?.images?.[0]),
@@ -38,46 +40,18 @@ console.log(getAllAuction?.data?.result);
       reservedBid: auction?.reservedBid,
       incrementValue: auction?.incrementValue,
       statingAndEndTime: `${auction?.startingDate.split('T')[0]}-at-${auction?.startingTime
-      }  ` ,
+        }  `,
       status: auction?.status
     }
   })
-  // const dataSource = [
-  //   {
-  //     key: "#12333",
-  //     name: "Kathryn Murphy",
-  //     img: img1,
-  //     category: "Electronics",
-  //     reservedBid: "2",
-  //     incrementValue: "1 cent",
-  //     statingAndEndTime: "10/06/24 at 4:45 PM",
-  //     status: "Active"
 
-  //   },
-  //   {
-  //     key: "#12333",
-  //     name: "Kathryn Murphy",
-  //     img: img1,
-  //     category: "Electronics",
-  //     reservedBid: "2",
-  //     incrementValue: "1 cent",
-  //     statingAndEndTime: "10/06/24 at 4:45 PM",
-  //     status: "Upcoming"
+  /** delete auction functionlity */
 
-  //   },
-  //   {
-  //     key: "#12333",
-  //     name: "Kathryn Murphy",
-  //     img: img1,
-  //     category: "Electronics",
-  //     reservedBid: "2",
-  //     incrementValue: "1 cent",
-  //     statingAndEndTime: "10/06/24 at 4:45 PM",
-  //     status: "Complete"
-
-  //   },
-
-  // ];
+  const handleDeleteAuction = (id) => {
+    deleteAuction(id).unwrap()
+      .then((payload) => console.log('fulfilled', payload))
+      .catch((error) => console.error('rejected', error));
+  }
 
   const columns = [
     {
@@ -164,7 +138,18 @@ console.log(getAllAuction?.data?.result);
           <a href="#edit" onClick={() => {
             setIsModalOpen(true)
           }} className="bg-yellow text-white p-1 rounded-sm"><CiEdit size={20} /></a>
-          <a href="#delete" className="bg-[#D9000A] text-white p-1 rounded-sm"><RiDeleteBin6Line size={20} /></a>
+          {/* <a href="#delete" onClick={() => handleDeleteAuction(record?.id)} className="bg-[#D9000A] text-white p-1 rounded-sm"><RiDeleteBin6Line size={20} /></a> */}
+          <Popconfirm
+           placement="topRight"
+            title="Are you sure to delete this auction?"
+            onConfirm={() => handleDeleteAuction(record?.id)} // Handle delete on confirmation
+            okText="Yes"
+            cancelText="No"
+        >
+            <a href="#delete" className="bg-[#D9000A] text-white p-1 rounded-sm">
+                <RiDeleteBin6Line size={20} />
+            </a>
+        </Popconfirm>
         </div>
       ),
     },
