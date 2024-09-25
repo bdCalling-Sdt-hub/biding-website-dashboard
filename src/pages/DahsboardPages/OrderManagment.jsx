@@ -8,7 +8,6 @@ import img2 from '../../assets/phone2.png'
 import { useGetAllOrderQuery } from '../../redux/api/dashboardApi'
 const OrderManagment = () => {
     const {data :  getOrders, isLoading} = useGetAllOrderQuery()
-    console.log(getOrders?.data);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalData, setModalData] = useState()
     const columns = [
@@ -85,49 +84,25 @@ const OrderManagment = () => {
 
 
     ];
+
+    // Order management table data
     const orderManagmentTableData = getOrders?.data?.map((order, i)=>{
+      
         return {
             key: i+ 1,
-            // name: ,
-            img: img1,
-            winningProduct: 'iPhone 13 Pro Max',
-            winningProductImg: img2,
-            winningPrice: "$24.00",
-            status: "Payment Success",
-            expectedDeliveryDate: "1/04/22",
-            phone: '+8245854768',
-            shippingAddress: "Royal Ln, new jesssy",
+            name: order?.user?.name ,
+            img: order?.user?.profile_image,
+            winningProduct: order?.item?.name,
+            winningProductImg: order?.item?.images[0],
+            winningPrice: order?.item?.currentPrice,
+            status: order?.status,
+            expectedDeliveryDate: order?.expectedDeliveryData || "No Date",
+            phone:order?.user?.phone_number,
+            shippingAddress: order?.shippingAddress?.city,
             orderId: '#3256489'
         }
     })
-    const dataSource = [
-        {
-            key: "01",
-            name: "Kathryn Murphy",
-            img: img1,
-            winningProduct: 'iPhone 13 Pro Max',
-            winningProductImg: img2,
-            winningPrice: "$24.00",
-            status: "Payment Success",
-            expectedDeliveryDate: "1/04/22",
-            phone: '+8245854768',
-            shippingAddress: "Royal Ln, new jesssy",
-            orderId: '#3256489'
-
-        },
-        {
-            key: "02",
-            name: "Kathryn Murphy",
-            img: img1,
-            winningProduct: 'iPhone 13 Pro Max',
-            winningProductImg: img2,
-            winningPrice: "$24.00",
-            status: "Payment Success",
-            expectedDeliveryDate: "1/04/22",
-
-        },
-
-    ];
+    
     return (
         <div className='bg-white p-5 rounded-md'>
             <div className='flex  justify-between items-center'>
@@ -151,7 +126,7 @@ const OrderManagment = () => {
 
 
             <div className='mt-5'>
-                <Table dataSource={dataSource} columns={columns} className="custom-pagination" pagination={{
+                <Table dataSource={orderManagmentTableData} columns={columns} className="custom-pagination" pagination={{
                     pageSize: 5,
                     showTotal: (total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`,
                     locale: {
