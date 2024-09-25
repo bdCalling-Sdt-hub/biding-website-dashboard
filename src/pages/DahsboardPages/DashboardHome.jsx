@@ -42,6 +42,7 @@ const DashboardHome = () => {
     /** active user table data format */
     const activeUserTableData = getAuction?.data?.result?.slice(0,3)?.map((user , i)=>{
         return  {
+            id : user?._id,
             key : i + 1,
             name : user?.name,
             img : user?.images?.[0],

@@ -13,7 +13,7 @@ const ActiveAuction = ({ dataSource }) => {
             key: "key",
         },
         {
-            title: "Aurcion Item",
+            title: "Auction Item",
             dataIndex: "auctionItem",
             key: "auctionItem",
             render: (_, record) => {
@@ -68,9 +68,10 @@ const ActiveAuction = ({ dataSource }) => {
             dataIndex: "key",
             key: "key",
             render: (_, record) => {
+                console.log(record);
                 return (
                     <div className="flex items-center justify-center gap-1">
-                        <Link className='bg-yellow p-1 rounded-sm'>
+                        <Link to={`http://192.168.10.103:3000/product-details/${record?.id}`} target='_blank' className='bg-yellow p-1 rounded-sm'>
                             <IoMdLink size={22} className='text-white' />
                         </Link>
                     </div>
