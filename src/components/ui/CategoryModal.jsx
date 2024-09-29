@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 
 const CategoryModal = ({ setOpenAddModal, openAddModal }) => {
     // const [isModalOpen, isModalOpen] = useState(false);
-    const [createCatrgory , {isLoading}] = useCreateCategoryMutation()
+    const [createCatrgory, { isLoading }] = useCreateCategoryMutation()
 
     const [fileList, setFileList] = useState();
     const [form] = Form.useForm()
@@ -33,6 +33,8 @@ const CategoryModal = ({ setOpenAddModal, openAddModal }) => {
         createCatrgory(formData).unwrap()
             .then((payload) => {
                 toast.success(payload?.message)
+                form.resetFields()
+                setFileList([])
                 setOpenAddModal(false)
             })
             .catch((error) => toast.error(error?.data?.message));
@@ -44,7 +46,7 @@ const CategoryModal = ({ setOpenAddModal, openAddModal }) => {
             setFileList([])
             setOpenAddModal(false)
         }}  >
-            <h1 className='text-center font-medium mb-5'>Edit Category</h1>
+            <h1 className='text-center font-medium mb-5'>Add Category</h1>
             <Form
                 layout='vertical'
                 form={form}
@@ -76,7 +78,7 @@ const CategoryModal = ({ setOpenAddModal, openAddModal }) => {
                 </Form.Item>
                 <div className='flex justify-between  gap-3'>
                     <Form.Item className='w-full' >
-                        <Button className='w-full'  disabled={isLoading} >{isLoading ? <Spin/> : 'Save'}</Button>
+                        <Button className='w-full' disabled={isLoading} >{isLoading ? <Spin /> : 'Save'}</Button>
                     </Form.Item>
                     <Form.Item className='w-full' >
                         <button className='bg-[#d9000a] text-white w-full p-1 rounded-md' onClick={() => {

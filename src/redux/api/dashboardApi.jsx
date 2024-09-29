@@ -113,9 +113,40 @@ const dashboardApi = baseApi.injectEndpoints({
                 }
             },
             invalidatesTags : ['category']
+        }),
+
+        /** dashboard banner api  */
+        getBanner : builder.query({
+            query : ()=>{
+                return {
+                    url : '/dashboard/get-banner',
+                    method : 'GET'
+                }
+            },
+            providesTags : ['banner']
+        }),
+
+        createBanner : builder.mutation({
+            query : (formData) =>{
+                return {
+                    url : '/dashboard/create-banner',
+                    method : 'POST',
+                    body : formData
+                }
+            },
+            invalidatesTags : ['banner']
+        }),
+        deleteBanner : builder.mutation({
+            query : (id)=>{
+                return {
+                    url : `/dashboard/delete-banner/${id}`,
+                    method : 'DELETE'
+                }
+            },
+            invalidatesTags : ['banner']
         })
     }),
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery , useCreateCategoryMutation , useDeleteCategoryMutation, useUpdateCategoryMutation} = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery , useCreateCategoryMutation , useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation , useDeleteBannerMutation,useGetBannerQuery} = dashboardApi 
