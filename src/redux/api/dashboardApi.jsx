@@ -103,9 +103,19 @@ const dashboardApi = baseApi.injectEndpoints({
                 }
             },
             invalidatesTags : ['category']
+        }),
+        updateCategory : builder.mutation({
+            query : ({formData , id})=>{
+                return {
+                    url : `/category/update-category/${id}`,
+                    method : 'PATCH',
+                    body : formData
+                }
+            },
+            invalidatesTags : ['category']
         })
     }),
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery , useCreateCategoryMutation , useDeleteCategoryMutation} = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery , useCreateCategoryMutation , useDeleteCategoryMutation, useUpdateCategoryMutation} = dashboardApi 

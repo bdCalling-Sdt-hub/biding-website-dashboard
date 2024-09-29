@@ -29,7 +29,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
     }
 
     if(fileList.length < 3){
-      return toast.error("Please selecet at least 3 image!!")
+      return toast.error("Please select at least 3 image!!")
     }
     const formData = new FormData();
     formData.append('data', JSON.stringify(data));
@@ -138,9 +138,9 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
               multiple
             >
               {fileList.length >= 4 ? null : (
-                <div>
+                <div className='flex items-center gap-2'>
                   <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>Add Image</div>
+                  <div >Add Image</div>
                 </div>
               )}
             </Upload>

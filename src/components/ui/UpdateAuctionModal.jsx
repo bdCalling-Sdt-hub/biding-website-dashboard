@@ -170,13 +170,13 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
                             fileList={fileList}
                             onChange={handleUploadChange}
                             onRemove={handleRemove}
-                            beforeUpload={() => false} // Prevent auto upload
+                            beforeUpload={() => false}
                             multiple
                         >
                             {fileList.length >= 4 ? null : (
-                                <div>
+                                <div className='flex items-center gap-2'>
                                     <PlusOutlined />
-                                    <div style={{ marginTop: 8 }}>Add Image</div>
+                                    <div >Add Image</div>
                                 </div>
                             )}
                         </Upload>

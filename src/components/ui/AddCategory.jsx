@@ -1,21 +1,44 @@
-import { Form, Input, Modal, Popconfirm, Table, Upload, message } from 'antd';
-import React, { useState } from 'react';
+import { Form, Input, Modal, Popconfirm, Spin, Table, Upload } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import Button from './Button';
 import { PlusOutlined } from '@ant-design/icons';
-import { useDeleteCategoryMutation } from '../../redux/api/dashboardApi';
+import { useDeleteCategoryMutation, useUpdateCategoryMutation } from '../../redux/api/dashboardApi';
 import { toast } from 'sonner';
 
 const AddCategory = ({ getAllCategory }) => {
-    const [deleteCategory] = useDeleteCategoryMutation()
+    const [deleteCategory] = useDeleteCategoryMutation();
+    const [updateCategoryData, { isLoading }] = useUpdateCategoryMutation();
     const [fileList, setFileList] = useState([]);
-    const [form] = Form.useForm()
+    const [form] = Form.useForm();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalData, setModalData] = useState(null);
+    
 
-    // handle upload image 
+    useEffect(() => {
+        if (modalData) {
+            form.setFieldsValue({
+                name: modalData.categoryName,
+            });
+
+            if (modalData.imageUrl) {
+                setFileList([
+                    {
+                        uid: '-1',
+                        name: 'image.png',
+                        status: 'done',
+                        url: modalData.imageUrl,
+                    },
+                ]);
+            } else {
+                setFileList([]);
+            }
+        }
+    }, [modalData, form]);
+
+    // Handle upload image
     const handleUploadChange = ({ fileList: newFileList }) => {
         setFileList(newFileList);
     };
@@ -25,7 +48,30 @@ const AddCategory = ({ getAllCategory }) => {
         deleteCategory(id).unwrap()
             .then((payload) => toast.success(payload?.message))
             .catch((error) => toast.error(error?.data?.message));
-    }
+    };
+
+    /** Update category data modal */
+    const handleUpdateCategory = (values) => {
+        const formData = new FormData();
+        formData.append('data', JSON.stringify(values));
+
+        // Append new image if uploaded
+        if (fileList.length > 0 && fileList[0].originFileObj) {
+            formData.append('image', fileList[0].originFileObj);
+        }
+
+        updateCategoryData({ formData, id: modalData.id })
+            .unwrap()
+            .then((payload) => {
+                toast.success(payload?.message);
+                setIsModalOpen(false);
+                form.resetFields();
+                setFileList([]);
+            })
+            .catch((error) => {
+                toast.error(error?.data?.message);
+            });
+    };
 
     const columns = [
         {
@@ -42,7 +88,9 @@ const AddCategory = ({ getAllCategory }) => {
             title: 'Image',
             dataIndex: 'image',
             key: 'image',
-            render: (text, record) => <img src={record.imageUrl} alt={record.categoryName} style={{ width: 50, height: 50 }} />,
+            render: (text, record) => (
+                <img className='rounded-md ' src={record.imageUrl} alt={record.categoryName} style={{ width: 50, height: 50 }} />
+            ),
         },
         {
             title: 'Action',
@@ -56,7 +104,7 @@ const AddCategory = ({ getAllCategory }) => {
                             setModalData(record);
                             setIsModalOpen(true);
                         }}
-                        className="bg-yellow text-white p-1 rounded-sm"
+                        className="bg-yellow hover:text-white text-white p-1 rounded-sm"
                     >
                         <CiEdit size={20} />
                     </a>
@@ -67,7 +115,7 @@ const AddCategory = ({ getAllCategory }) => {
                         okText="Yes"
                         cancelText="No"
                     >
-                        <a href="#delete" className="bg-[#D9000A] text-white p-1 rounded-sm">
+                        <a href="#delete" className="bg-[#D9000A] hover:text-white text-white p-1 rounded-sm">
                             <RiDeleteBin6Line size={20} />
                         </a>
                     </Popconfirm>
@@ -93,16 +141,19 @@ const AddCategory = ({ getAllCategory }) => {
                 open={isModalOpen}
                 centered
                 footer={false}
-                onCancel={() => setIsModalOpen(false)}
+                onCancel={() => {
+                    form.resetFields();
+                    setIsModalOpen(false);
+                    setFileList([]);
+                }}
             >
-                <h1 className="text-center font-medium mb-5">Edit Categorysss</h1>
+                <h1 className="text-center font-medium mb-5">Edit Category</h1>
                 <Form
                     layout="vertical"
-                    initialValues={{
-                        name: modalData?.categoryName,
-                    }}
+                    form={form}
+                    onFinish={handleUpdateCategory}
                 >
-                    <Form.Item label="Category Namesss" name="name">
+                    <Form.Item label="Category Name" name="name">
                         <Input defaultValue={modalData?.categoryName} />
                     </Form.Item>
 
@@ -113,20 +164,25 @@ const AddCategory = ({ getAllCategory }) => {
                                 fileList={fileList}
                                 onChange={handleUploadChange}
                                 beforeUpload={() => false}
-                                multiple
+                                multiple={false}
                                 className="upload-full-width"
+                                maxCount={1}
                             >
-                                <div>
-                                    <PlusOutlined />
-                                    <div style={{ marginTop: 8 }}>Add Image</div>
-                                </div>
+                                {fileList.length >= 1 ? null : (
+                                    <div className='flex items-center gap-2'>
+                                        <PlusOutlined />
+                                        <div>Add Image</div>
+                                    </div>
+                                )}
                             </Upload>
                         </div>
                     </Form.Item>
 
                     <div className="flex justify-between gap-3">
                         <Form.Item className="w-full">
-                            <Button className="w-full">Save</Button>
+                            <Button disabled={isLoading} className="w-full" htmlType="submit">
+                                {isLoading ? <Spin/>  : 'Save'}
+                            </Button>
                         </Form.Item>
                         <Form.Item className="w-full">
                             <button
