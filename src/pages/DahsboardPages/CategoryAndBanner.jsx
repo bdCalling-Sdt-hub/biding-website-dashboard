@@ -18,7 +18,7 @@ const CategoryAndBanner = () => {
     const [openBannerModal, setOpenBannerModal] = useState(false)
     const [modalTitle, setModalTitle] = useState('')
     // const [openCategoryModal, setOpenCategoryModal] = useState(false)
-
+    
     const handleCategoryModal =()=>{
         setModalTitle('Add New Ads')
         setCategory(true)

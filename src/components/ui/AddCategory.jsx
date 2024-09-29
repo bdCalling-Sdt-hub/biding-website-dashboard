@@ -1,11 +1,14 @@
-import { Form, Input, Modal, Table, Upload, message } from 'antd';
+import { Form, Input, Modal, Popconfirm, Table, Upload, message } from 'antd';
 import React, { useState } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import Button from './Button';
 import { PlusOutlined } from '@ant-design/icons';
+import { useDeleteCategoryMutation } from '../../redux/api/dashboardApi';
+import { toast } from 'sonner';
 
 const AddCategory = ({ getAllCategory }) => {
+    const [deleteCategory] = useDeleteCategoryMutation()
     const [fileList, setFileList] = useState([]);
     const [form] = Form.useForm()
 
@@ -16,6 +19,13 @@ const AddCategory = ({ getAllCategory }) => {
     const handleUploadChange = ({ fileList: newFileList }) => {
         setFileList(newFileList);
     };
+
+    /** Delete category  */
+    const handleDeleteCategory = (id) => {
+        deleteCategory(id).unwrap()
+            .then((payload) => toast.success(payload?.message))
+            .catch((error) => toast.error(error?.data?.message));
+    }
 
     const columns = [
         {
@@ -43,16 +53,24 @@ const AddCategory = ({ getAllCategory }) => {
                     <a
                         href="#edit"
                         onClick={() => {
-                            setModalData(record); 
-                            setIsModalOpen(true); 
+                            setModalData(record);
+                            setIsModalOpen(true);
                         }}
                         className="bg-yellow text-white p-1 rounded-sm"
                     >
                         <CiEdit size={20} />
                     </a>
-                    <a href="#delete" className="bg-[#D9000A] text-white p-1 rounded-sm">
-                        <RiDeleteBin6Line size={20} />
-                    </a>
+                    <Popconfirm
+                        placement="topRight"
+                        title="Are you sure to delete this category?"
+                        onConfirm={() => handleDeleteCategory(record?.id)}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <a href="#delete" className="bg-[#D9000A] text-white p-1 rounded-sm">
+                            <RiDeleteBin6Line size={20} />
+                        </a>
+                    </Popconfirm>
                 </div>
             ),
         },
@@ -60,6 +78,7 @@ const AddCategory = ({ getAllCategory }) => {
 
     // Format the data for the table
     const categoryFormattedData = getAllCategory?.data?.map((category, i) => ({
+        id: category?._id,
         key: i + 1,
         categoryName: category?.name,
         imageUrl: category?.image,
