@@ -46,12 +46,12 @@ const dashboardApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ['allAuction']
         }),
-        updateAuction : builder.mutation({
-            query : ({formData , id}) =>{
+        updateAuction: builder.mutation({
+            query: ({ formData, id }) => {
                 return {
-                    url : `/auction/update-auction/${id}`,
-                    method : 'PATCH',
-                    body : formData
+                    url: `/auction/update-auction/${id}`,
+                    method: 'PATCH',
+                    body: formData
                 }
             },
             invalidatesTags: ['allAuction']
@@ -76,128 +76,147 @@ const dashboardApi = baseApi.injectEndpoints({
         }),
 
         /** Category Api */
-        getAllCategory : builder.query({
-            query :() => {
+        getAllCategory: builder.query({
+            query: () => {
                 return {
-                    url : '/category',
-                    method : 'GET'
+                    url: '/category',
+                    method: 'GET'
                 }
             },
-            providesTags : ['category']
+            providesTags: ['category']
         }),
-        createCategory : builder.mutation({
-            query : (formData)=>{
+        createCategory: builder.mutation({
+            query: (formData) => {
                 return {
-                    url : '/category/create-category',
-                    method : 'POST',
-                    body : formData
+                    url: '/category/create-category',
+                    method: 'POST',
+                    body: formData
                 }
             },
-            invalidatesTags : ['category']
+            invalidatesTags: ['category']
         }),
-        deleteCategory : builder.mutation({
-            query : (id)=>{
+        deleteCategory: builder.mutation({
+            query: (id) => {
                 return {
-                    url : `/category/delete-category/${id}`,
-                    method : "DELETE"
+                    url: `/category/delete-category/${id}`,
+                    method: "DELETE"
                 }
             },
-            invalidatesTags : ['category']
+            invalidatesTags: ['category']
         }),
-        updateCategory : builder.mutation({
-            query : ({formData , id})=>{
+        updateCategory: builder.mutation({
+            query: ({ formData, id }) => {
                 return {
-                    url : `/category/update-category/${id}`,
-                    method : 'PATCH',
-                    body : formData
+                    url: `/category/update-category/${id}`,
+                    method: 'PATCH',
+                    body: formData
                 }
             },
-            invalidatesTags : ['category']
+            invalidatesTags: ['category']
         }),
 
         /** dashboard banner api  */
-        getBanner : builder.query({
-            query : ()=>{
+        getBanner: builder.query({
+            query: () => {
                 return {
-                    url : '/dashboard/get-banner',
-                    method : 'GET'
+                    url: '/dashboard/get-banner',
+                    method: 'GET'
                 }
             },
-            providesTags : ['banner']
+            providesTags: ['banner']
         }),
 
-        createBanner : builder.mutation({
-            query : (formData) =>{
+        createBanner: builder.mutation({
+            query: (formData) => {
                 return {
-                    url : '/dashboard/create-banner',
-                    method : 'POST',
-                    body : formData
+                    url: '/dashboard/create-banner',
+                    method: 'POST',
+                    body: formData
                 }
             },
-            invalidatesTags : ['banner']
+            invalidatesTags: ['banner']
         }),
-        deleteBanner : builder.mutation({
-            query : (id)=>{
+        deleteBanner: builder.mutation({
+            query: (id) => {
                 return {
-                    url : `/dashboard/delete-banner/${id}`,
-                    method : 'DELETE'
+                    url: `/dashboard/delete-banner/${id}`,
+                    method: 'DELETE'
                 }
             },
-            invalidatesTags : ['banner']
+            invalidatesTags: ['banner']
         }),
         /** Notification  */
-        getNotification :  builder.query({
-            query : ()=>{
+        getNotification: builder.query({
+            query: () => {
                 return {
-                    url : '/notification/get-all-notification',
-                    method : 'GET'
+                    url: '/notification/get-all-notification',
+                    method: 'GET'
                 }
             }
         }),
         /** User management */
-        getAllUsers : builder.query({
-            query : (searchParams)=>{
+        getAllUsers: builder.query({
+            query: (searchParams) => {
                 return {
-                    url : `/dashboard/auth/get-all-user?searchTerm=${searchParams}`,
-                    method : 'GET'
+                    url: `/dashboard/auth/get-all-user?searchTerm=${searchParams}`,
+                    method: 'GET'
                 }
             },
-            providesTags :['userManagement']
+            providesTags: ['userManagement']
         }),
-        blockUnblockUser : builder.mutation({
-            query : (data)=>{
+        blockUnblockUser: builder.mutation({
+            query: (data) => {
                 return {
-                    url : '/dashboard/auth/block-unblock-user',
-                    method : 'PATCH',
-                    body : data
+                    url: '/dashboard/auth/block-unblock-user',
+                    method: 'PATCH',
+                    body: data
                 }
             },
-            invalidatesTags : ['userManagement']
+            invalidatesTags: ['userManagement']
         }),
 
 
         /** setting api */
-        createAboutUs : builder.mutation({
-            query : (data)=>{
+        createAboutUs: builder.mutation({
+            query: (data) => {
                 return {
-                    url : '/manage/about-us',
-                    method : "POST",
-                    body : data
+                    url: '/manage/about-us',
+                    method: "POST",
+                    body: data
                 }
             },
-            invalidatesTags : ['about']
+            invalidatesTags: ['about']
         }),
-        getAboutUs : builder.query({
-            query : ()=>{
+        getAboutUs: builder.query({
+            query: () => {
                 return {
-                    url : '/manage/about-us',
-                    method : 'GET'
+                    url: '/manage/about-us',
+                    method: 'GET'
                 }
             },
-            providesTags : ['about']
-        })
+            providesTags: ['about']
+        }),
+        createTipsTricks: builder.mutation({
+            query: (data) => {
+                return {
+                    url: '/manage/tips-and-tricks',
+                    method: "POST",
+                    body: data
+                }
+            },
+            invalidatesTags: ['tipsTricks']
+        }),
+        getTipsTricks: builder.query({
+            query: () => {
+                return {
+                    url: '/manage/tips-and-tricks',
+                    method: 'GET'
+                }
+            },
+            providesTags: ['tipsTricks']
+        }),
     }),
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery , useCreateCategoryMutation , useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation , useDeleteBannerMutation,useGetBannerQuery , useGetNotificationQuery, useGetAllUsersQuery ,  useBlockUnblockUserMutation , useGetAboutUsQuery , useCreateAboutUsMutation} = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation , useCreateTipsTricksMutation, useGetTipsTricksQuery} = dashboardApi 
