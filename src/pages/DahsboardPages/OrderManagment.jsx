@@ -3,9 +3,8 @@ import React, { useState } from 'react'
 import { CiLocationOn, CiSearch } from 'react-icons/ci'
 import { IoArrowBackSharp, IoEyeOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
-import img1 from '../../assets/user6.png'
-import img2 from '../../assets/phone2.png'
 import { useGetAllOrderQuery } from '../../redux/api/dashboardApi'
+
 const OrderManagment = () => {
     const {data :  getOrders, isLoading} = useGetAllOrderQuery()
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -86,7 +85,7 @@ const OrderManagment = () => {
     ];
 
     // Order management table data
-    const orderManagmentTableData = getOrders?.data?.map((order, i)=>{
+    const orderManagmentTableData = getOrders?.data?.result?.map((order, i)=>{
       
         return {
             key: i+ 1,
@@ -99,7 +98,7 @@ const OrderManagment = () => {
             expectedDeliveryDate: order?.expectedDeliveryData || "No Date",
             phone:order?.user?.phone_number,
             shippingAddress: order?.shippingAddress?.city,
-            orderId: '#3256489'
+            orderId: order?._id
         }
     })
     

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import img1 from '../../assets/prod1.png'
 import { Pagination, Popconfirm, Table, } from 'antd';
 import { CiEdit } from 'react-icons/ci';
 import { Link } from 'react-router-dom';
@@ -9,8 +8,9 @@ import Button from '../../components/ui/Button';
 import { IoAddOutline } from 'react-icons/io5';
 import CreateUpdateAuctionModal from '../../components/ui/CreateUpdateAuctionModal';
 import { useDeleteAuctionMutation, useGetAllAuctionQuery } from '../../redux/api/dashboardApi';
-import { checkImageSource } from '../../lib/checkImageSource';
 import UpdateAuctionModal from '../../components/ui/UpdateAuctionModal';
+import { toast } from 'sonner';
+
 const AuctionManagment = () => {
   const [page, setPage] = useState(1)
   const [singleAuction , setSingleAuction] = useState()
@@ -42,8 +42,8 @@ const AuctionManagment = () => {
 
   const handleDeleteAuction = (id) => {
     deleteAuction(id).unwrap()
-      .then((payload) => console.log('fulfilled', payload))
-      .catch((error) => console.error(error));
+      .then((payload) => toast.success(payload?.message))
+      .catch((error) => toast.error(error?.data?.message));
   }
 
   const columns = [

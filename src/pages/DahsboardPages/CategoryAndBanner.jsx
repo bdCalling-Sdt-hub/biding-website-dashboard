@@ -6,8 +6,13 @@ import AddCategory from '../../components/ui/AddCategory'
 import AddBanner from '../../components/ui/AddBanner'
 import CategoryModal from '../../components/ui/CategoryModal'
 import BannerModal from '../../components/ui/BannerAModal'
+import { useGetAllCategoryQuery } from '../../redux/api/dashboardApi'
+import { CgLogIn } from 'react-icons/cg'
 
 const CategoryAndBanner = () => {
+
+    const {data: getAllCategory} = useGetAllCategoryQuery()
+
     const [category, setCategory] = useState(true)
     const [openAddModal, setOpenAddModal] = useState(false)
     const [openBannerModal, setOpenBannerModal] = useState(false)
@@ -58,7 +63,7 @@ const CategoryAndBanner = () => {
 
                 
             {
-                category ? <AddCategory/>  : <AddBanner/>
+                category ? <AddCategory getAllCategory={getAllCategory} />  : <AddBanner/>
             }
             <CategoryModal setOpenAddModal={setOpenAddModal} openAddModal={openAddModal} />
             <BannerModal setOpenBannerModal={setOpenBannerModal} openBannerModal={openBannerModal} />

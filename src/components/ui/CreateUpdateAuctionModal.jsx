@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Upload } from 'antd';
+import { Form, Input, Modal, Spin, Upload } from 'antd';
 import React, { useState } from 'react';
 import Button from './Button';
 import { PlusOutlined } from '@ant-design/icons';
@@ -134,7 +134,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
               fileList={fileList}
               onChange={handleUploadChange}
               onRemove={handleRemove}
-              beforeUpload={() => false} // Prevent auto upload
+              beforeUpload={() => false} 
               multiple
             >
               {fileList.length >= 4 ? null : (
@@ -148,7 +148,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
 
           <div className='flex justify-between gap-3'>
             <Form.Item className='w-full'>
-              <Button className='w-full' >Save</Button>
+              <Button className='w-full' >{isLoading ? <Spin/> : "Save"}</Button>
             </Form.Item>
             <Form.Item className='w-full'>
               <button className='bg-[#d9000a] text-white w-full p-1 rounded-md' onClick={() => setIsModalOpen(false)}>Cancel</button>

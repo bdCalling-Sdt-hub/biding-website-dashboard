@@ -73,9 +73,39 @@ const dashboardApi = baseApi.injectEndpoints({
                     method: 'GET'
                 }
             }
+        }),
+
+        /** Category Api */
+        getAllCategory : builder.query({
+            query :() => {
+                return {
+                    url : '/category',
+                    method : 'GET'
+                }
+            },
+            providesTags : ['category']
+        }),
+        createCategory : builder.mutation({
+            query : (formData)=>{
+                return {
+                    url : '/category/create-category',
+                    method : 'POST',
+                    body : formData
+                }
+            },
+            invalidatesTags : ['category']
+        }),
+        deleteCategory : builder.mutation({
+            query : (id)=>{
+                return {
+                    url : `/category/delete-category/${id}`,
+                    method : "DELETE"
+                }
+            },
+            invalidatesTags : ['category']
         })
     }),
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation } = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery , useCreateCategoryMutation , useDeleteCategoryMutation} = dashboardApi 
