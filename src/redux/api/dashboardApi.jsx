@@ -144,9 +144,38 @@ const dashboardApi = baseApi.injectEndpoints({
                 }
             },
             invalidatesTags : ['banner']
+        }),
+        /** Notification  */
+        getNotification :  builder.query({
+            query : ()=>{
+                return {
+                    url : '/notification/get-all-notification',
+                    method : 'GET'
+                }
+            }
+        }),
+        /** User management */
+        getAllUsers : builder.query({
+            query : ()=>{
+                return {
+                    url : '/dashboard/auth/get-all-user',
+                    method : 'GET'
+                }
+            },
+            providesTags :['userManagement']
+        }),
+        blockUnblockUser : builder.mutation({
+            query : (data)=>{
+                return {
+                    url : '/dashboard/auth/block-unblock-user',
+                    method : 'PATCH',
+                    body : data
+                }
+            },
+            invalidatesTags : ['userManagement']
         })
     }),
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery , useCreateCategoryMutation , useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation , useDeleteBannerMutation,useGetBannerQuery} = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery , useCreateCategoryMutation , useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation , useDeleteBannerMutation,useGetBannerQuery , useGetNotificationQuery, useGetAllUsersQuery ,  useBlockUnblockUserMutation} = dashboardApi 

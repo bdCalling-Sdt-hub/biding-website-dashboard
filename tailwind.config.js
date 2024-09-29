@@ -7,7 +7,8 @@ export default {
   theme: {
     colors: {
       'yellow': '#F3A211',
-      'white' : 'white'
+      'white' : 'white',
+      'gray' : '#585858'
     },
     extend: {
       fontFamily: {

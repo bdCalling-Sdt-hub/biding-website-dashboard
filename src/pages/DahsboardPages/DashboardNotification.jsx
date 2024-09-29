@@ -2,28 +2,39 @@ import { Button, Table } from 'antd';
 import { IoArrowBackSharp } from 'react-icons/io5';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
+import { useGetNotificationQuery } from '../../redux/api/dashboardApi';
 
 
 
-const data = [
-    {
-        key: '1',
-        notification: 'A new user has applied for gold membership packages and waiting for approval, review the application for approval.',
-        time: 'Just Now',
-    },
-    {
-        key: '2',
-        notification: 'Swap ID #12344 failed due to insufficient balance on User A\'s account. Swap ID #12344 failed due to insufficient balance on User A\'s account.',
-        time: '30 min ago',
-    },
-    {
-        key: '3',
-        notification: 'Swap ID #12345 between User A and User B has been successfully completed. Swap ID #12345 between User A and User B has been successfully completed.',
-        time: '6 hours ago',
-    }
-]
+
 
 const DashboardNotification = () => {
+    const { data: getAllNotification } = useGetNotificationQuery();
+    console.log(getAllNotification);
+    const timeAgo = (date) => {
+        const now = new Date();
+        const past = new Date(date);
+        const secondsAgo = Math.floor((now - past) / 1000);
+
+        const intervals = {
+            year: 31536000,
+            month: 2592000,
+            week: 604800,
+            day: 86400,
+            hour: 3600,
+            minute: 60,
+            second: 1,
+        };
+
+        for (const [unit, seconds] of Object.entries(intervals)) {
+            const count = Math.floor(secondsAgo / seconds);
+            if (count >= 1) {
+                return `${count} ${unit}${count > 1 ? 's' : ''} ago`;
+            }
+        }
+        return 'just now';
+    };
+    console.log(getAllNotification?.data?.result);
     const columns = [
         {
             dataIndex: 'notification',
@@ -36,8 +47,16 @@ const DashboardNotification = () => {
             width: '150px',
             render: text => <span>{text}</span>,
         },
-       
+
     ];
+    /** formatted notification table data */
+    const formattedTableData = getAllNotification?.data?.result?.map((notification) => (
+        {
+            key: notification?._id,
+            notification: notification?.message,
+            time: timeAgo(notification?.createdAt),
+        }
+    ))
     const handleDelete = key => {
         console.log(`Delete notification with key: ${key}`);
     }
@@ -50,8 +69,8 @@ const DashboardNotification = () => {
 
             </div>
             <div>
-                <h2 className='text-[18px] font-semibold py-2'>Total 128 Notifications</h2>
-                <Table columns={columns} dataSource={data} pagination={false}
+                <h2 className='text-[18px] font-semibold py-2'>Total {getAllNotification?.data?.result?.length} Notifications</h2>
+                <Table columns={columns} dataSource={formattedTableData} pagination={false}
                     className="custom-pagination" />
             </div>
         </div>
