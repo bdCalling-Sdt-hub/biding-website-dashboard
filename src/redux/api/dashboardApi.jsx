@@ -173,9 +173,31 @@ const dashboardApi = baseApi.injectEndpoints({
                 }
             },
             invalidatesTags : ['userManagement']
+        }),
+
+
+        /** setting api */
+        createAboutUs : builder.mutation({
+            query : (data)=>{
+                return {
+                    url : '/manage/about-us',
+                    method : "POST",
+                    body : data
+                }
+            },
+            invalidatesTags : ['about']
+        }),
+        getAboutUs : builder.query({
+            query : ()=>{
+                return {
+                    url : '/manage/about-us',
+                    method : 'GET'
+                }
+            },
+            providesTags : ['about']
         })
     }),
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery , useCreateCategoryMutation , useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation , useDeleteBannerMutation,useGetBannerQuery , useGetNotificationQuery, useGetAllUsersQuery ,  useBlockUnblockUserMutation} = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery , useCreateCategoryMutation , useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation , useDeleteBannerMutation,useGetBannerQuery , useGetNotificationQuery, useGetAllUsersQuery ,  useBlockUnblockUserMutation , useGetAboutUsQuery , useCreateAboutUsMutation} = dashboardApi 
