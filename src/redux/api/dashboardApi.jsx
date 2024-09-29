@@ -67,9 +67,9 @@ const dashboardApi = baseApi.injectEndpoints({
         }),
         /** Order Managment api  */
         getAllOrder: builder.query({
-            query: () => {
+            query: (searchParams) => {
                 return {
-                    url: '/order/get-all-orders',
+                    url: `/order/get-all-orders?searchTerm=${searchParams}`,
                     method: 'GET'
                 }
             }
@@ -156,9 +156,9 @@ const dashboardApi = baseApi.injectEndpoints({
         }),
         /** User management */
         getAllUsers : builder.query({
-            query : ()=>{
+            query : (searchParams)=>{
                 return {
-                    url : '/dashboard/auth/get-all-user',
+                    url : `/dashboard/auth/get-all-user?searchTerm=${searchParams}`,
                     method : 'GET'
                 }
             },

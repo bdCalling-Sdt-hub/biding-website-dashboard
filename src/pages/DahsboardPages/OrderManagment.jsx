@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom'
 import { useGetAllOrderQuery } from '../../redux/api/dashboardApi'
 
 const OrderManagment = () => {
-    const {data :  getOrders, isLoading} = useGetAllOrderQuery()
+    const [searchParams, setSearchParams] =  useState('')
+    const {data :  getOrders, isLoading} = useGetAllOrderQuery(searchParams)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalData, setModalData] = useState()
     const columns = [
@@ -112,6 +113,7 @@ const OrderManagment = () => {
                 <div>
                     <div className="relative">
                         <input
+                        onChange={(e)=>setSearchParams(e.target.value)}
                             type="text"
                             placeholder="Search here..."
                             className="w-full pl-10 pr-4 py-1 rounded-md border border-[#EAEAEA] focus:border-blue-500 focus:outline-none focus:ring-1 "

@@ -215,7 +215,7 @@
 /* Jodit react */
 
 .custom-jodit-editor .jodit-react-container .jodit-container .jodit-toolbar__box .jodit-toolbar-editor-collection {
-  justify-content: flex-end;
+  justify-content: flex-end !important;
 }
 
 .jodit-footer {

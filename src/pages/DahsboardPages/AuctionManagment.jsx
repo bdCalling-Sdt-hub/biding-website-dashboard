@@ -158,7 +158,7 @@ const AuctionManagment = () => {
       <div className="flex justify-between item-center ">
         <div className="flex items-center gap-2">
           <Link to={-1}><FaArrowLeft size={18} className='text-yellow' /></Link>
-          <span className='font-semibold text-[20px]'>Auction Mangment</span>
+          <span className='font-semibold text-[20px]'>Auction Management</span>
         </div>
         <div>
           <Button className='flex  items-center px-5 py-2' onClick={() => setIsModalOpen(true)} ><IoAddOutline /> Create Auction</Button>

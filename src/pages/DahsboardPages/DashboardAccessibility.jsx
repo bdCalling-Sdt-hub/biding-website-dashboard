@@ -25,7 +25,7 @@ const DashboardAccessibility = () => {
     }
   return (
     <>
-      <div className='flex justify-start items-center gap-2 mb-3 relative m-5'>
+      <div className='flex justify-between items-center  gap-2 mb-3 relative m-5'>
         <div className='absolute top-6 left-2 flex items-center'>
           <Link to={-1} className='py-1 px-2 rounded-md flex justify-start items-center gap-1'><IoArrowBackSharp className='text-yellow' /></Link> <p className='font-semibold'>Accessibility</p>
         </div>

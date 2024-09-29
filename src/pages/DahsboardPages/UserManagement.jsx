@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import React from 'react'
+import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci';
 import { FaArrowLeft } from 'react-icons/fa';
 import { MdBlock } from 'react-icons/md';
@@ -8,7 +8,8 @@ import { useBlockUnblockUserMutation, useGetAllUsersQuery } from '../../redux/ap
 import { toast } from 'sonner';
 
 const UserManagement = () => {
-  const { data: getAllUsers } = useGetAllUsersQuery();
+  const [searchParams, setSearchParams] = useState('')
+  const { data: getAllUsers } = useGetAllUsersQuery(searchParams);
   const [blockUnblockUser , {isLoading}] = useBlockUnblockUserMutation()
   const columns = [
     {
@@ -113,6 +114,7 @@ const UserManagement = () => {
         <div>
           <div className="relative">
             <input
+            onChange={(e)=>setSearchParams(e.target.value)}
               type="text"
               placeholder="Search here..."
               className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "

@@ -1,16 +1,24 @@
-import { Form, Input, Modal, Spin, Upload } from 'antd';
+import { Form, Input, Modal, Select, Spin, Upload } from 'antd';
 import React, { useState } from 'react';
 import Button from './Button';
 import { PlusOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
-import { useCreateAuctionMutation } from '../../redux/api/dashboardApi';
+import { useCreateAuctionMutation, useGetAllCategoryQuery } from '../../redux/api/dashboardApi';
 import { toast } from 'sonner';
 
 const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
   const [createAuction , {isLoading} ] = useCreateAuctionMutation();
+  const {data : getCategory} = useGetAllCategoryQuery()
   const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm()
 
+
+  /** category options */
+  const categoryOptions = getCategory?.data?.map((category)=>(
+    <Select.Option key={category._id} value={category.name}>
+      {category?.name}
+    </Select.Option>
+  ))
   // handle upload image 
   const handleUploadChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -81,7 +89,9 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
               className='w-full'
               rules={[{ required: true, message: 'Please input category!' }]}
             >
-              <Input />
+             <Select placeholder="Select a category">
+              {categoryOptions}
+             </Select>
             </Form.Item>
           </div>
           <div className='flex justify-between items-center gap-2'>
