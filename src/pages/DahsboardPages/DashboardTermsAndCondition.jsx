@@ -1,15 +1,23 @@
 import JoditEditor from 'jodit-react';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { IoArrowBackSharp } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import { useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery } from '../../redux/api/dashboardApi';
+import { toast } from 'sonner';
 
 
 const DashboardTermsAndCondition = () => {
+  const [createTerms] = useCreateTermsAndConditionMutation();
+  const {data : getTerms} = useGetTermsAndConditionQuery()
     const editor = useRef(null);
     const [content, setContent] = useState('');
-    const [isLoading, seLoading] = useState(false)
     const handleTerms = () => {
-        console.log(content)
+      const data = {
+        'description': content
+      }
+      createTerms(data).unwrap()
+        .then((payload) => toast.success('Terms and condition create successfully!'))
+        .catch((error) => toast.error(error?.data?.message));
     }
     const config = {
         readonly: false,
@@ -23,6 +31,13 @@ const DashboardTermsAndCondition = () => {
             'align'
         ]
     }
+
+    
+  useEffect(() => {
+    if (getTerms?.data?.description) {
+      setContent(getTerms?.data?.description);
+    }
+  }, [getTerms])
   return (
     <>
       <div className='flex justify-start items-center gap-2 mb-3 relative m-5'>
@@ -41,7 +56,7 @@ const DashboardTermsAndCondition = () => {
           onChange={newContent => { }}
         />
         <div className='flex items-center   justify-center mt-5'>
-          <button className='bg-yellow  text-white px-4 py-2 rounded-lg test'>Save Changes</button>
+          <button onClick={()=>handleTerms()} className='bg-yellow  text-white px-4 py-2 rounded-lg test'>Save Changes</button>
         </div>
 
       </div>

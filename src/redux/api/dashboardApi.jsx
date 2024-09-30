@@ -234,8 +234,27 @@ const dashboardApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ['accessibility']
         }),
+        getTermsAndCondition : builder.query({
+            query: () => {
+                return {
+                    url: '/manage/get-terms-conditions',
+                    method: 'GET'
+                }
+            },
+            providesTags: ['terms']
+        }),
+        createTermsAndCondition : builder.mutation({
+            query: (data) => {
+                return {
+                    url: '/manage/add-terms-conditions',
+                    method: "POST",
+                    body: data
+                }
+            },
+            invalidatesTags: ['terms']
+        }),
     }),
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation , useCreateTipsTricksMutation, useGetTipsTricksQuery , useCreateAccessibilityMutation, useGetAccessibilityQuery} = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation , useCreateTipsTricksMutation, useGetTipsTricksQuery , useCreateAccessibilityMutation, useGetAccessibilityQuery , useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery} = dashboardApi 
