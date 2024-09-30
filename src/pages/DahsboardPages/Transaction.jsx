@@ -1,11 +1,13 @@
 import { Pagination, Table } from 'antd'
 import React, { useState } from 'react'
-import img1 from '../../assets/user.png'
-import img2 from '../../assets/user2.png'
 import { Link } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import { CiSearch } from 'react-icons/ci';
+import { useGetTransactionQuery } from '../../redux/api/dashboardApi';
 const Transaction = () => {
+    const [searchParams, setSearchParams] = useState('')
+    const { data: getAllTransaction } = useGetTransactionQuery(searchParams  )
+    console.log(getAllTransaction?.data?.meta);
     const [current, setCurrent] = useState(1);
 
     const onChange = (page) => {
@@ -62,50 +64,27 @@ const Transaction = () => {
             dataIndex: "paymentType",
             key: "paymentType",
         },
-        
-      
+
+
     ];
 
 
+    /**Table data format */
+    const tableData = getAllTransaction?.data?.result?.map((item, i) => {
+        return {
+            key: i + 1,
+            date: item?.createdAt?.split('T')[0],
+            name: item?.user?.name,
+            img: item?.user?.profile_image,
+            email: item?.user?.email,
+            item: item?.item,
+            paymentStatus: item?.paymentStatus,
+            paymentAmount: item?.paidAmount,
+            paymentType: item?.paymentType,
+        }
+    })
 
-    const dataSource = [
-        {
-            key: "#12333",
-            date : '12/06/24',
-            name: "Kathryn Murp",
-            img: img1, 
-            email: "bockely@att.com",
-            item : "iphone 13 Pro Max",
-            paymentStatus: "Paid",
-            paymentAmount: "$24.00",
-            paymentType: "Online Payment",
-        },
-        {
-            key: "#12333",
-            date : '12/06/24',
-            name: "Kathryn Murp",
-            img: img1, 
-            email: "bockely@att.com",
-            item : "iphone 13 Pro Max",
-            paymentStatus: "Paid",
-            paymentAmount: "$24.00",
-            paymentType: "Online Payment",
-        },
-        {
-            key: "#12333",
-            date : '12/06/24',
-            name: "Kathryn Murp",
-            img: img1, 
-            email: "bockely@att.com",
-            item : "iphone 13 Pro Max",
-            paymentStatus: "Paid",
-            paymentAmount: "$24.00",
-            paymentType: "Online Payment",
-        },
-       
-        
-
-    ];
+    
 
 
     return (
@@ -117,6 +96,7 @@ const Transaction = () => {
                 <div>
                     <div className="relative">
                         <input
+                        onChange={(e)=> setSearchParams(e.target.value)}
                             type="text"
                             placeholder="Search here..."
                             className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
@@ -129,17 +109,17 @@ const Transaction = () => {
                 </div>
             </div>
             <div className='mt-2 '>
-                <Table dataSource={dataSource} columns={columns} className="custom-pagination"
+                <Table dataSource={tableData} columns={columns} className="custom-pagination"
                     pagination={false}
                 />
-                <div className='flex items-center  justify-center mt-5'>
+                {/* <div className='flex items-center  justify-center mt-5'>
                     <Pagination current={current}
                         onChange={onChange}
-                        total={12}
-                        pageSize={1}
+                        total={getAllTransaction?.data?.meta?.totalPage}
+                        pageSize={getAllTransaction?.data?.meta?.limit}
                         showSizeChanger={false}
                         showTotal={(total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`} />
-                </div>
+                </div> */}
             </div>
         </div>
     )
