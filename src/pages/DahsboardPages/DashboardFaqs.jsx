@@ -3,35 +3,36 @@ import React, { useState } from 'react'
 import { GoPlus } from 'react-icons/go'
 import { IoArrowBackSharp } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
+import { useCreateFaqMutation, useGetFaqQuery } from '../../redux/api/dashboardApi'
+import { toast } from 'sonner'
 const { TextArea } = Input;
 
 const DashboardFaqs = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [createFaq] = useCreateFaqMutation()
+  const { data: getFaq } = useGetFaqQuery()
+  console.log(getFaq?.data);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const faq = [
-    {
-      question: 'How do I book an appointment?',
-      answer: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal ."
-    },
-    {
-      question: 'Can I cancel or reschedule an appointment?',
-      answer: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal ."
-    },
-    {
-      question: 'How do I join a telemedicine consultation?',
-      answer: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal ."
-    },
-    {
-      question: 'How do I access my medical records?',
-      answer: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal ."
-    },
-  ]
+  // const faq = getFaq?.data?.map(faq => {
+  //   return {
+  //     question: faq?.question,
+  //     answer: faq?.answer
+  //   }
+  // }
+
+  // )
 
   // add question and answer modal function
   const handleAddFaq = () => {
-    console.log('click');
     setIsModalOpen(true)
 
+  }
+
+  const onFinish = (values) => {
+    createFaq(values).unwrap()
+      .then((payload) => toast.success('FAQ create successfully!'))
+      .catch((error) => toast.error(error?.data?.message));
+    setIsModalOpen(false)
   }
 
   return (
@@ -45,11 +46,11 @@ const DashboardFaqs = () => {
 
       <div className='grid grid-cols-2 gap-5 mt-2'>
         {
-          faq.map((qusetion, i) => <div key={i} className='p-2'>
+          getFaq?.data?.map((qusetion, i) => <div key={i} className='p-2'>
             <p className='pb-3'>Question no: {i + 1}</p>
-            <p className='bg-[#F2F2F2] p-2 rounded-md'>How do I book an appointment?</p>
+            <p className='bg-[#F2F2F2] p-2 rounded-md'>{qusetion?.question}</p>
             <p className='py-2'>Answer</p>
-            <p className='bg-[#F2F2F2] p-2 rounded-md'>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal .</p>
+            <p className='bg-[#F2F2F2] p-2 rounded-md'>{qusetion?.answer}</p>
           </div>)
         }
 
@@ -65,16 +66,20 @@ const DashboardFaqs = () => {
 
       <Modal centered open={isModalOpen} footer={false} onCancel={() => setIsModalOpen(false)}>
         <p className='text-center font-semibold pb-5 text-xl'>Add FAQ</p>
-        <Form>
-          <Form.Item>
+        <Form
+          onFinish={onFinish}
+        >
+          <Form.Item
+            name='question'
+          >
             <Input placeholder="Type Answer Here.." variant="filled" />
 
           </Form.Item>
-          <Form.Item>
-            <TextArea rows={4} placeholder="Type question here.." variant="filled" maxLength={6} />
+          <Form.Item name='answer'>
+            <TextArea rows={4} placeholder="Type question here.." variant="filled" />
           </Form.Item>
           <div className='flex items-center justify-center mt-2'>
-            <button onClick={() => handleAddFaq()} className='flex w-full items-center justify-center gap-2 bg-yellow text-white px-10 py-2 text-xl rounded-3xl'> Save</button>
+            <button className='flex w-full items-center justify-center gap-2 bg-yellow text-white px-10 py-2 text-xl rounded-3xl'> Save</button>
           </div>
         </Form>
 
