@@ -1,8 +1,8 @@
-import { Button, Table } from 'antd';
+import { Table } from 'antd';
 import { IoArrowBackSharp } from 'react-icons/io5';
-import { RiDeleteBin6Line } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import { useGetNotificationQuery } from '../../redux/api/dashboardApi';
+import { useSocketContext } from '../../lib/SocketProviders';
 
 
 
@@ -10,7 +10,8 @@ import { useGetNotificationQuery } from '../../redux/api/dashboardApi';
 
 const DashboardNotification = () => {
     const { data: getAllNotification } = useGetNotificationQuery();
-    console.log(getAllNotification);
+    const { notifications } = useSocketContext()
+    console.log(notifications?.length);
     const timeAgo = (date) => {
         const now = new Date();
         const past = new Date(date);
@@ -34,7 +35,6 @@ const DashboardNotification = () => {
         }
         return 'just now';
     };
-    console.log(getAllNotification?.data?.result);
     const columns = [
         {
             dataIndex: 'notification',
@@ -50,7 +50,7 @@ const DashboardNotification = () => {
 
     ];
     /** formatted notification table data */
-    const formattedTableData = getAllNotification?.data?.result?.map((notification) => (
+    const formattedTableData = notifications?.map((notification) => (
         {
             key: notification?._id,
             notification: notification?.message,
@@ -69,8 +69,8 @@ const DashboardNotification = () => {
 
             </div>
             <div>
-                <h2 className='text-[18px] font-semibold py-2'>Total {getAllNotification?.data?.result?.length} Notifications</h2>
-                <Table columns={columns} dataSource={formattedTableData} pagination={false}
+                <h2 className='text-[18px] font-semibold py-2'>Total {notifications?.length} Notifications</h2>
+                <Table columns={columns} dataSource={formattedTableData?.reverse()} pagination={false}
                     className="custom-pagination" />
             </div>
         </div>

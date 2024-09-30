@@ -2,18 +2,20 @@ import { Badge } from 'antd'
 import React from 'react'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { Link, useNavigate } from 'react-router-dom'
-import img from '../../assets/user2.png'
 import { useGetUserProfileQuery } from '../../redux/api/userApi'
+import { useSocketContext } from '../../lib/SocketProviders'
+import { useReadNotificationMutation } from '../../redux/api/dashboardApi'
 const Header = () => {
+    const { newNotifications } = useSocketContext()
+    const [readNotification] = useReadNotificationMutation()
     const { data: getUserInfo,isError, isLoading } = useGetUserProfileQuery();
-    console.log(getUserInfo?.data);
   const navigate = useNavigate()
 
   return (
     <div className='w-full py-4 bg-[#2e2e2e] flex justify-end items-center  gap-4'>
     <div>
-        <Link to="/notification" style={{ boxShadow: "0px 0px 10px 2px rgba(0,0,0,0.24)" }} className=' bg-[#fef6e7] h-10 flex items-center w-10 rounded-full p-2'>
-            <Badge>
+        <Link to="/notification"  onClick={() => readNotification()} style={{ boxShadow: "0px 0px 10px 2px rgba(0,0,0,0.24)" }} className=' bg-[#fef6e7] h-10 flex items-center w-10 rounded-full p-2'>
+            <Badge count={newNotifications || 0}>
                 <IoIosNotificationsOutline className='text-yellow' size={25} />
             </Badge>
         </Link>
