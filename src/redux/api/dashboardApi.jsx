@@ -215,8 +215,27 @@ const dashboardApi = baseApi.injectEndpoints({
             },
             providesTags: ['tipsTricks']
         }),
+        getAccessibility : builder.query({
+            query: () => {
+                return {
+                    url: '/manage/accessibility',
+                    method: 'GET'
+                }
+            },
+            providesTags: ['accessibility']
+        }),
+        createAccessibility: builder.mutation({
+            query: (data) => {
+                return {
+                    url: '/manage/accessibility',
+                    method: "POST",
+                    body: data
+                }
+            },
+            invalidatesTags: ['accessibility']
+        }),
     }),
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation , useCreateTipsTricksMutation, useGetTipsTricksQuery} = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation , useCreateTipsTricksMutation, useGetTipsTricksQuery , useCreateAccessibilityMutation, useGetAccessibilityQuery} = dashboardApi 

@@ -1,28 +1,43 @@
 import JoditEditor from 'jodit-react';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { IoArrowBackSharp } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import { useCreateAccessibilityMutation, useGetAccessibilityQuery } from '../../redux/api/dashboardApi';
+import { toast } from 'sonner';
 
 
 const DashboardAccessibility = () => {
-    const editor = useRef(null);
-    const [content, setContent] = useState('');
-    const [isLoading, seLoading] = useState(false)
-    const handleTerms = () => {
-        console.log(content)
+  const [createAccessibility] = useCreateAccessibilityMutation()
+  const { data: getAccessibility } = useGetAccessibilityQuery()
+  const editor = useRef(null);
+  const [content, setContent] = useState('');
+  
+  const handleTerms = () => {
+    const data = {
+      'description': content
     }
-    const config = {
-        readonly: false,
-        placeholder: 'Start typings...',
-        style: {
-            height: 400,
-        },
-        buttons: [
-            'image', 'fontsize', 'bold', 'italic', 'underline', '|',
-            'font', 'brush',
-            'align'
-        ]
+    createAccessibility(data).unwrap()
+      .then((payload) => toast.success('Accessibility create successfully!'))
+      .catch((error) => toast.error(error?.data?.message));
+  }
+  const config = {
+    readonly: false,
+    placeholder: 'Start typings...',
+    style: {
+      height: 400,
+    },
+    buttons: [
+      'image', 'fontsize', 'bold', 'italic', 'underline', '|',
+      'font', 'brush',
+      'align'
+    ]
+  }
+
+  useEffect(() => {
+    if (getAccessibility?.data?.description) {
+      setContent(getAccessibility?.data?.description);
     }
+  }, [getAccessibility])
   return (
     <>
       <div className='flex justify-between items-center  gap-2 mb-3 relative m-5'>
@@ -41,7 +56,7 @@ const DashboardAccessibility = () => {
           onChange={newContent => { }}
         />
         <div className='flex items-center   justify-center mt-5'>
-          <button className='bg-yellow  text-white px-4 py-2 rounded-lg test'>Save Changes</button>
+          <button onClick={() => handleTerms()} className='bg-yellow  text-white px-4 py-2 rounded-lg test'>Save Changes</button>
         </div>
 
       </div>
