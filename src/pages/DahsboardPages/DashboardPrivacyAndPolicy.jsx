@@ -1,15 +1,25 @@
 import JoditEditor from 'jodit-react';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { IoArrowBackSharp } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import { useCreatePrivacyPolicyMutation, useGetPrivacyPolicyQuery } from '../../redux/api/dashboardApi';
+import { toast } from 'sonner';
 
 
 const DashboardPrivacyAndPolicy = () => {
+  const [createPrivacyPolicy] = useCreatePrivacyPolicyMutation()
+  const {data :  getPrivacyPolicy} = useGetPrivacyPolicyQuery()
+
+  console.log(getPrivacyPolicy);
     const editor = useRef(null);
     const [content, setContent] = useState('');
-    const [isLoading, seLoading] = useState(false)
     const handleTerms = () => {
-        console.log(content)
+      const data = {
+        'description': content
+    }
+    createPrivacyPolicy(data).unwrap()
+        .then((payload) => toast.success('Privacy policy create successfully'))
+        .catch((error) => toast.error(error?.data?.message));
     }
     const config = {
         readonly: false,
@@ -23,6 +33,11 @@ const DashboardPrivacyAndPolicy = () => {
             'align'
         ]
     }
+    useEffect(()=>{
+      if (getPrivacyPolicy?.data?.description) {
+          setContent(getPrivacyPolicy?.data?.description);
+      }
+  },[getPrivacyPolicy])
   return (
     <>
       <div className='flex justify-start items-center gap-2 mb-3 relative m-5'>
@@ -41,7 +56,7 @@ const DashboardPrivacyAndPolicy = () => {
           onChange={newContent => { }}
         />
         <div className='flex items-center   justify-center mt-5'>
-          <button className='bg-yellow  text-white px-4 py-2 rounded-lg test'>Save Changes</button>
+          <button onClick={()=>handleTerms()} className='bg-yellow  text-white px-4 py-2 rounded-lg test'>Save Changes</button>
         </div>
 
       </div>

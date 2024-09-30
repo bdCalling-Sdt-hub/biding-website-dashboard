@@ -253,8 +253,27 @@ const dashboardApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ['terms']
         }),
+        getPrivacyPolicy: builder.query({
+            query: () => {
+                return {
+                    url: '/manage/get-privacy-policy',
+                    method: 'GET'
+                }
+            },
+            providesTags: ['privacyPolicy']
+        }),
+        createPrivacyPolicy : builder.mutation({
+            query: (data) => {
+                return {
+                    url: '/manage/add-privacy-policy',
+                    method: "POST",
+                    body: data
+                }
+            },
+            invalidatesTags: ['privacyPolicy']
+        }),
     }),
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation , useCreateTipsTricksMutation, useGetTipsTricksQuery , useCreateAccessibilityMutation, useGetAccessibilityQuery , useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery} = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation , useCreateTipsTricksMutation, useGetTipsTricksQuery , useCreateAccessibilityMutation, useGetAccessibilityQuery , useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation} = dashboardApi 
