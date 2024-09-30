@@ -48,7 +48,7 @@ const AdminLogin = () => {
                     <Form.Item
 
                     >
-                        <Button type="primary" className='w-[100%] mt-4 bg-yellow  custom-button' htmlType="submit">
+                        <Button type="primary" className='w-[100%] mt-4 bg-yellow hover:bg-yellow custom-button' htmlType="submit">
                             Sign in
                         </Button>
                     </Form.Item>

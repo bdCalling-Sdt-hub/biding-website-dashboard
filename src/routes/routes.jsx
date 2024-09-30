@@ -19,12 +19,13 @@ import DashboardAccessibility from "../pages/DahsboardPages/DashboardAccessibili
 import Transaction from "../pages/DahsboardPages/Transaction.jsx";
 import DashboardNotification from "../pages/DahsboardPages/DashboardNotification.jsx";
 import CategoryAndBanner from "../pages/DahsboardPages/CategoryAndBanner.jsx";
+import PrivateRoutes from "./PrivateRoutes.jsx";
 
 const router = createBrowserRouter([
    
     {
         path : '/',
-        element : <DashboardLayout/>,
+        element : <PrivateRoutes><DashboardLayout/></PrivateRoutes>,
         children :[
             {
                 index : true,
@@ -41,7 +42,7 @@ const router = createBrowserRouter([
             {
                 path : 'order-managment',
                 element : <OrderManagment/>
-                
+
             },
             {
                 path : 'user-managment',

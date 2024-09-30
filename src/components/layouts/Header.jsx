@@ -3,7 +3,10 @@ import React from 'react'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { Link, useNavigate } from 'react-router-dom'
 import img from '../../assets/user2.png'
+import { useGetUserProfileQuery } from '../../redux/api/userApi'
 const Header = () => {
+    const { data: getUserInfo,isError, isLoading } = useGetUserProfileQuery();
+    console.log(getUserInfo?.data);
   const navigate = useNavigate()
 
   return (
@@ -16,8 +19,8 @@ const Header = () => {
         </Link>
     </div>
     <div onClick={() => navigate('/profile')} className='flex justify-end items-center gap-1 border-gray-400 p-[2px] px-4 rounded-md cursor-pointer'>
-        <img className='h-10 w-10 rounded-full' src={img} alt="" />
-        <p className='font-medium text-white'>Robert Smith</p>
+        <img className='h-10 w-10 rounded-full' src={getUserInfo?.data?.profile_image} alt="" />
+        <p className='font-medium text-white'>{getUserInfo?.data?.name}</p>
     </div>
 </div>
   )
