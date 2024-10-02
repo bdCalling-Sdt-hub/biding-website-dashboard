@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Spin } from "antd";
-import profile from '../../assets/user4.png'
 import { IoCameraOutline } from "react-icons/io5";
-import { useGetUserProfileQuery, useUpdateUserProfileMutation } from "../../redux/api/userApi";
+import { useChangePasswordMutation, useGetUserProfileQuery, useUpdateUserProfileMutation } from "../../redux/api/userApi";
 import { toast } from "sonner";
 
 const Profile = () => {
-    const [updateProfile , {isLoading}] = useUpdateUserProfileMutation();
+    const [updateProfile, { isLoading }] = useUpdateUserProfileMutation();
+    const [changePassword] = useChangePasswordMutation()
+
     const { data: getProfile } = useGetUserProfileQuery();
     const [image, setImage] = useState(null);
     const [form] = Form.useForm()
@@ -25,17 +26,18 @@ const Profile = () => {
 
     }
     const onFinish = (values) => {
-        if (values?.new_password === values.current_password) {
+        if (values?.newPassword === values.currentPassword) {
             return setPassError('Your old password cannot be your new password')
         }
-        if (values?.new_password !== values?.confirm_password) {
+        if (values?.newPassword !== values?.confirmPassword) {
             return setPassError("Confirm password doesn't match")
-        } else {
-            setPassError('')
         }
+        changePassword(values).unwrap()
+            .then((payload) => toast.success(payload?.message))
+            .catch((error) => toast.error(error?.data?.message));
+
     };
     const onEditProfile = (values) => {
-        console.log(values);
         const formData = new FormData();
         formData.append("data", JSON.stringify(values));
         if (image) {
@@ -220,7 +222,7 @@ const Profile = () => {
                                         }}
                                         className='font-normal text-[16px] leading-6 bg-yellow rounded-full'
                                     >
-                                        {isLoading  ? <Spin/> : 'Save & Changes'}
+                                        {isLoading ? <Spin /> : 'Save & Changes'}
                                     </Button>
                                 </Form.Item>
                             </Form>
@@ -237,7 +239,7 @@ const Profile = () => {
                                 form={form}
                             >
                                 <Form.Item
-                                    name="current_password"
+                                    name="oldPassword"
                                     label={<p className="text-[#415D71] text-sm leading-5 poppins-semibold">Current
                                         Password</p>}
                                     rules={[
@@ -263,7 +265,7 @@ const Profile = () => {
 
 
                                 <Form.Item
-                                    name="new_password"
+                                    name="newPassword"
                                     rules={[
                                         {
                                             required: true,
@@ -290,7 +292,7 @@ const Profile = () => {
                                 <Form.Item
                                     label={<p className="text-[#415D71] text-sm leading-5 poppins-semibold">Confirm
                                         Password</p>}
-                                    name="confirm_password"
+                                    name="confirmPassword"
                                     rules={[
                                         {
                                             required: true,
@@ -311,7 +313,7 @@ const Profile = () => {
                                         placeholder="***************"
                                     />
                                 </Form.Item>
-                                {passError && <p className="text-red-600 -mt-4 mb-2">{passError}</p>}
+                                {passError && <p className="text-yellow -mt-4 my-5 ">{passError}</p>}
                                 <Form.Item
                                     style={{
                                         marginBottom: 0,

@@ -40,8 +40,17 @@ const userApi = baseApi.injectEndpoints({
                 }
             },
             invalidatesTags : ['user']
+        }),
+        changePassword : builder.mutation({
+            query : (data)=>{
+                return{
+                    url : '/admin/auth/change-password',
+                    method : 'PATCH',
+                    body :  data
+                }
+            }
         })
     })
 })
 
-export const { useRegisterUserMutation , useLoginAdminMutation , useGetUserProfileQuery , useUpdateUserProfileMutation } = userApi;
+export const { useRegisterUserMutation , useLoginAdminMutation , useGetUserProfileQuery , useUpdateUserProfileMutation , useChangePasswordMutation } = userApi;
