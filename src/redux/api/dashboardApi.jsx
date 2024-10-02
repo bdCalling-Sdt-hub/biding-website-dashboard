@@ -307,12 +307,12 @@ const dashboardApi = baseApi.injectEndpoints({
                 return {
                     url : `/transaction/get-all-transaction?searchTerm=${searchParams}`,
                     method : 'GET',
-
                 }
             }
-        })
+        }),
+        
     }),
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation , useCreateTipsTricksMutation, useGetTipsTricksQuery , useCreateAccessibilityMutation, useGetAccessibilityQuery , useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation , useCreateFaqMutation , useGetFaqQuery , useReadNotificationMutation , useGetTransactionQuery}  = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation , useCreateTipsTricksMutation, useGetTipsTricksQuery , useCreateAccessibilityMutation, useGetAccessibilityQuery , useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation , useCreateFaqMutation , useGetFaqQuery , useReadNotificationMutation , useGetTransactionQuery }  = dashboardApi 

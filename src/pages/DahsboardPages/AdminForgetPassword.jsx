@@ -26,7 +26,7 @@ const AdminForgetPassword = () => {
 
                     >
                         <Button type="primary" className='w-[100%] mt-4 bg-yellow  custom-button' htmlType="submit">
-                            Countinue
+                            Continue
                         </Button>
                     </Form.Item>
                 </Form>

@@ -27,9 +27,21 @@ const userApi = baseApi.injectEndpoints({
                     url : '/admin/auth/profile',
                     method : 'GET'
                 }
-            }
+            },
+            providesTags : ['user']
+        }),
+        updateUserProfile : builder.mutation({
+            query : (data)=>{
+                console.log(data);
+                return {
+                    url : '/admin/auth/update-profile',
+                    method : "PATCH",
+                    body: data
+                }
+            },
+            invalidatesTags : ['user']
         })
     })
 })
 
-export const { useRegisterUserMutation , useLoginAdminMutation , useGetUserProfileQuery } = userApi;
+export const { useRegisterUserMutation , useLoginAdminMutation , useGetUserProfileQuery , useUpdateUserProfileMutation } = userApi;

@@ -9,7 +9,7 @@ import { useGetUserProfileQuery } from "../redux/api/userApi";
         return <div className="flex items-center justify-center"><Skeleton active /></div>;
     }
     if (isError || !getUserInfo?.data?.email) {
-        return <Navigate to="/login" state={{ from: location }} />;
+        return <Navigate to="/admin-login" state={{ from: location }} />;
       }
     
       return children;

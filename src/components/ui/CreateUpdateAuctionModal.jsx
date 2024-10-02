@@ -7,14 +7,22 @@ import { useCreateAuctionMutation, useGetAllCategoryQuery } from '../../redux/ap
 import { toast } from 'sonner';
 
 const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
-  const [createAuction , {isLoading} ] = useCreateAuctionMutation();
-  const {data : getCategory} = useGetAllCategoryQuery()
+  const [isFinancingAvailable, setIsFinancingAvailable] = useState(false);
+  const [createAuction, { isLoading }] = useCreateAuctionMutation();
+  const { data: getCategory } = useGetAllCategoryQuery()
   const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm()
+  
 
+
+
+  // Handle the change in financing selection
+  const handleFinancingChange = (value) => {
+      setIsFinancingAvailable(value === 'available');
+  };
 
   /** category options */
-  const categoryOptions = getCategory?.data?.map((category)=>(
+  const categoryOptions = getCategory?.data?.map((category) => (
     <Select.Option key={category._id} value={category.name}>
       {category?.name}
     </Select.Option>
@@ -30,13 +38,13 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
 
   // Add auction product
   const onFinish = (values) => {
-    const data ={
+    const data = {
       ...values,
-      incrementValue  :  Number(values?.incrementValue),
-      reservedBid : Number(values?.reservedBid)
+      incrementValue: Number(values?.incrementValue),
+      reservedBid: Number(values?.reservedBid)
     }
 
-    if(fileList.length < 3){
+    if (fileList.length < 3) {
       return toast.error("Please select at least 3 image!!")
     }
     const formData = new FormData();
@@ -54,7 +62,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
         form.resetFields();
         setFileList([])
       })
-      .catch((error) =>toast.error(error?.data?.message));
+      .catch((error) => toast.error(error?.data?.message));
   };
 
   return (
@@ -89,9 +97,9 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
               className='w-full'
               rules={[{ required: true, message: 'Please input category!' }]}
             >
-             <Select placeholder="Select a category">
-              {categoryOptions}
-             </Select>
+              <Select placeholder="Select a category">
+                {categoryOptions}
+              </Select>
             </Form.Item>
           </div>
           <div className='flex justify-between items-center gap-2'>
@@ -138,13 +146,39 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
             <TextArea />
           </Form.Item>
 
+
+          <div style={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
+            {/* Financing Select */}
+            <div>
+              <label>Financing</label>
+              <Select
+                defaultValue="Select"
+                style={{ width: 200 }}
+                onChange={handleFinancingChange}
+              >
+                <Option value="available">Available</Option>
+                <Option value="not_available">Not Available</Option>
+              </Select>
+            </div>
+
+            {/* Months Input */}
+            <div>
+              <label>Months</label>
+              <Input
+                placeholder="12 Months"
+                style={{ width: 200 }}
+                disabled={!isFinancingAvailable}  // Disable when financing is not available
+              />
+            </div>
+          </div>
+
           <Form.Item label="Upload Images">
             <Upload
               listType="picture-card"
               fileList={fileList}
               onChange={handleUploadChange}
               onRemove={handleRemove}
-              beforeUpload={() => false} 
+              beforeUpload={() => false}
               multiple
             >
               {fileList.length >= 4 ? null : (
@@ -158,7 +192,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
 
           <div className='flex justify-between gap-3'>
             <Form.Item className='w-full'>
-              <Button className='w-full' >{isLoading ? <Spin/> : "Save"}</Button>
+              <Button className='w-full' >{isLoading ? <Spin /> : "Save"}</Button>
             </Form.Item>
             <Form.Item className='w-full'>
               <button className='bg-[#d9000a] text-white w-full p-1 rounded-md' onClick={() => setIsModalOpen(false)}>Cancel</button>

@@ -1,11 +1,14 @@
-import React, { useState } from "react";
-import { Button, Form, Input } from "antd";
-import { CiEdit } from "react-icons/ci";
+import React, { useEffect, useState } from "react";
+import { Button, Form, Input, Spin } from "antd";
 import profile from '../../assets/user4.png'
 import { IoCameraOutline } from "react-icons/io5";
-const admin = false;
+import { useGetUserProfileQuery, useUpdateUserProfileMutation } from "../../redux/api/userApi";
+import { toast } from "sonner";
+
 const Profile = () => {
-    const [image, setImage] = useState();
+    const [updateProfile , {isLoading}] = useUpdateUserProfileMutation();
+    const { data: getProfile } = useGetUserProfileQuery();
+    const [image, setImage] = useState(null);
     const [form] = Form.useForm()
     const [tab, setTab] = useState(new URLSearchParams(window.location.search).get('tab') || "Profile");
     const [passError, setPassError] = useState('')
@@ -23,7 +26,7 @@ const Profile = () => {
     }
     const onFinish = (values) => {
         if (values?.new_password === values.current_password) {
-            return setPassError('your old password cannot be your new password')
+            return setPassError('Your old password cannot be your new password')
         }
         if (values?.new_password !== values?.confirm_password) {
             return setPassError("Confirm password doesn't match")
@@ -32,13 +35,28 @@ const Profile = () => {
         }
     };
     const onEditProfile = (values) => {
-        const data = {
-            profile_image: image,
-            name: values.fullName,
-            contact: values.mobileNumber,
-            address: values.address
+        console.log(values);
+        const formData = new FormData();
+        formData.append("data", JSON.stringify(values));
+        if (image) {
+            formData.append("profile_image", image);
         }
+        updateProfile(formData).unwrap()
+            .then((payload) => toast.success(payload?.message))
+            .catch((error) => toast.error(error?.data?.message));
     }
+
+
+    useEffect(() => {
+        if (getProfile?.data) {
+            form.setFieldsValue({
+                name: getProfile?.data.name,
+                email: getProfile?.data.email,
+                phone_number: getProfile?.data.phone_number,
+                location: getProfile?.data?.address || 'N/A'
+            });
+        }
+    }, [getProfile?.data, form]);
 
     return (
         <div>
@@ -50,7 +68,7 @@ const Profile = () => {
                         <input type="file" onInput={handleChange} id='img' style={{ display: "none" }} />
                         <img
                             style={{ width: 140, height: 140, borderRadius: "100%" }}
-                            src={profile}
+                            src={`${image ? URL.createObjectURL(image) : `${getProfile?.data?.profile_image}`}`}
                             alt=""
                         />
 
@@ -74,7 +92,7 @@ const Profile = () => {
 
                     </div>
                     <div className='w-fit'>
-                        <p className=' text-[#575757] text-[24px] leading-[32px] font-semibold'>{`Mr. Admin`}</p>
+                        <p className=' text-[#575757] text-[24px] leading-[32px] font-semibold'>{getProfile?.data?.name}</p>
                     </div>
                 </div>
 
@@ -113,7 +131,7 @@ const Profile = () => {
                                 form={form}
                             >
                                 <Form.Item
-                                    name="fullName"
+                                    name="name"
                                     label={<p className="text-[16px]  font-normal">User
                                         Name</p>}
                                 >
@@ -127,7 +145,7 @@ const Profile = () => {
                                             outline: "none"
                                         }}
                                         className='text-[16px] leading-5 '
-                                        placeholder="Asadujjaman"
+                                        placeholder="Your Name"
                                     />
                                 </Form.Item>
                                 <Form.Item
@@ -142,13 +160,14 @@ const Profile = () => {
                                             color: "#919191",
                                             outline: "none"
                                         }}
+                                        disabled
                                         className='text-[16px] leading-5'
                                         placeholder={`xyz@gmail.com`}
                                     />
                                 </Form.Item>
 
                                 <Form.Item
-                                    name="mobileNumber"
+                                    name="phone_number"
                                     label={<p className="text-[#919191] text-[16px] leading-5 font-normal">Contact
                                         no</p>}
                                 >
@@ -165,7 +184,7 @@ const Profile = () => {
                                     />
                                 </Form.Item>
                                 <Form.Item
-                                    name="address"
+                                    name="location"
                                     label={<p className="text-[#919191] text-[16px] leading-5 font-normal">Address</p>}
                                 >
                                     <Input
@@ -201,7 +220,7 @@ const Profile = () => {
                                         }}
                                         className='font-normal text-[16px] leading-6 bg-yellow rounded-full'
                                     >
-                                        Save & Changes
+                                        {isLoading  ? <Spin/> : 'Save & Changes'}
                                     </Button>
                                 </Form.Item>
                             </Form>
@@ -211,7 +230,7 @@ const Profile = () => {
                             className='max-w-[481px] mx-auto rounded-lg p-6'
 
                         >
-                            <h1 className='text-center text-[var(--primary-color)] leading-7 text-2xl font-medium mb-7'>Edit Your Profile</h1>
+                            <h1 className='text-center text-[var(--primary-color)] leading-7 text-2xl font-medium mb-7'>Edit Your Password</h1>
                             <Form
                                 layout='vertical'
                                 onFinish={onFinish}
