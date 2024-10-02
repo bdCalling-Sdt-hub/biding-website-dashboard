@@ -72,7 +72,8 @@ const dashboardApi = baseApi.injectEndpoints({
                     url: `/order/get-all-orders?searchTerm=${searchParams}`,
                     method: 'GET'
                 }
-            }
+            },
+            providesTags : ['orderStatus']
         }),
 
         /** Category Api */
@@ -310,9 +311,22 @@ const dashboardApi = baseApi.injectEndpoints({
                 }
             }
         }),
-        
+
+        /** Change order status */
+        changeOrderStatus : builder.mutation({
+            query : ({orderId, status}) =>{
+                console.log(status);
+                return {
+                    url : `/order/change-order-status/${orderId}`,
+                    method :"PATCH",
+                    body : status
+                }
+            },
+            invalidatesTags :['orderStatus']
+        })
+
     }),
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation , useCreateTipsTricksMutation, useGetTipsTricksQuery , useCreateAccessibilityMutation, useGetAccessibilityQuery , useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation , useCreateFaqMutation , useGetFaqQuery , useReadNotificationMutation , useGetTransactionQuery }  = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation , useCreateTipsTricksMutation, useGetTipsTricksQuery , useCreateAccessibilityMutation, useGetAccessibilityQuery , useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation , useCreateFaqMutation , useGetFaqQuery , useReadNotificationMutation , useGetTransactionQuery , useChangeOrderStatusMutation}  = dashboardApi 

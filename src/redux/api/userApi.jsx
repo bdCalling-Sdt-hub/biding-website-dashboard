@@ -49,8 +49,17 @@ const userApi = baseApi.injectEndpoints({
                     body :  data
                 }
             }
+        }),
+        forgetPassword : builder.mutation({
+            query : (data)=>{
+                return {
+                    url : '/admin/auth/forgot-password',
+                    method : 'PATCH',
+                    body : data
+                }
+            }
         })
     })
 })
 
-export const { useRegisterUserMutation , useLoginAdminMutation , useGetUserProfileQuery , useUpdateUserProfileMutation , useChangePasswordMutation } = userApi;
+export const { useRegisterUserMutation , useLoginAdminMutation , useGetUserProfileQuery , useUpdateUserProfileMutation , useChangePasswordMutation , useForgetPasswordMutation } = userApi;

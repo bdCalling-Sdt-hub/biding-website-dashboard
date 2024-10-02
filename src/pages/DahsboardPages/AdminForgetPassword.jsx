@@ -1,9 +1,22 @@
 import { Button, Form, Input } from 'antd'
 import React from 'react'
+import { useForgetPasswordMutation } from '../../redux/api/userApi';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 
 const AdminForgetPassword = () => {
+    const navigate = useNavigate()
+    const [forgetPassword] = useForgetPasswordMutation()
+
     const onFinish = (values) => {
-        console.log('Success:', values);
+        forgetPassword(values).unwrap()
+            .then((payload) => {
+                toast.success(payload?.message)
+                navigate('/admin-verification-code')
+            })
+            .catch((error) =>{
+                toast.error(error?.data?.message)
+            });
     };
     return (
         <div className='flex flex-col items-center justify-center h-screen bg-[#fbe2b5] '>

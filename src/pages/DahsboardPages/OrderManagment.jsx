@@ -1,13 +1,15 @@
-import { Modal, Table } from 'antd'
+import { Modal, Select, Table } from 'antd'
 import React, { useState } from 'react'
 import { CiLocationOn, CiSearch } from 'react-icons/ci'
 import { IoArrowBackSharp, IoEyeOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
-import { useGetAllOrderQuery } from '../../redux/api/dashboardApi'
-
+import { useChangeOrderStatusMutation, useGetAllOrderQuery } from '../../redux/api/dashboardApi'
+import { toast } from 'sonner'
+const { Option } = Select;
 const OrderManagment = () => {
-    const [searchParams, setSearchParams] =  useState('')
-    const {data :  getOrders, isLoading} = useGetAllOrderQuery(searchParams)
+    const [searchParams, setSearchParams] = useState('')
+    const { data: getOrders, isLoading } = useGetAllOrderQuery(searchParams)
+    const [changeOrderStatus] = useChangeOrderStatusMutation()
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalData, setModalData] = useState()
     const columns = [
@@ -66,6 +68,19 @@ const OrderManagment = () => {
             title: "Status",
             dataIndex: "status",
             key: "status  ",
+            render: (_, record) => (
+                <Select
+                    value={record?.status}
+                    onChange={(newStatus) => handleStatusChange(record?.orderId, newStatus)}
+                    style={{ width: 150 }}
+                >
+                    <Option value="PAYMENT_PENDING">Payment Pending</Option>
+                    <Option value="PAYMENT_SUCCESS">Payment Success</Option>
+                    <Option value="PROCESSING">Processing</Option>
+                    <Option value="SHIPPED">Shipped</Option>
+                    <Option value="DELIVERED">Delivered</Option>
+                </Select>
+            )
         },
         {
             title: "Action",
@@ -85,24 +100,34 @@ const OrderManagment = () => {
 
     ];
 
+    /** Change order status function */
+    const handleStatusChange = (orderId, newStatus) => {
+        const status = {
+            "status": newStatus
+        }
+        changeOrderStatus({orderId, status}).unwrap()
+            .then((payload) => toast.success(payload?.message))
+            .catch((error) => toast.error(error?.data?.message));
+    };
+
     // Order management table data
-    const orderManagmentTableData = getOrders?.data?.result?.map((order, i)=>{
-      
+    const orderManagmentTableData = getOrders?.data?.result?.map((order, i) => {
+
         return {
-            key: i+ 1,
-            name: order?.user?.name ,
+            key: i + 1,
+            name: order?.user?.name,
             img: order?.user?.profile_image,
             winningProduct: order?.item?.name,
             winningProductImg: order?.item?.images[0],
             winningPrice: order?.item?.currentPrice,
             status: order?.status,
             expectedDeliveryDate: order?.expectedDeliveryData || "No Date",
-            phone:order?.user?.phone_number,
+            phone: order?.user?.phone_number,
             shippingAddress: order?.shippingAddress?.city,
             orderId: order?._id
         }
     })
-    
+
     return (
         <div className='bg-white p-5 rounded-md'>
             <div className='flex  justify-between items-center'>
@@ -113,7 +138,7 @@ const OrderManagment = () => {
                 <div>
                     <div className="relative">
                         <input
-                        onChange={(e)=>setSearchParams(e.target.value)}
+                            onChange={(e) => setSearchParams(e.target.value)}
                             type="text"
                             placeholder="Search here..."
                             className="w-full pl-10 pr-4 py-1 rounded-md border border-[#EAEAEA] focus:border-blue-500 focus:outline-none focus:ring-1 "
