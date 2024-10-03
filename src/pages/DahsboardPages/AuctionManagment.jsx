@@ -21,6 +21,7 @@ const AuctionManagment = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isEditModalOpen , setIsEditModalOpen] = useState(false)
 
+
   /** Auction managment data format table */
   const auctionDataFormat = getAllAuction?.data?.result?.map((auction, i) => {
     return {
@@ -31,6 +32,8 @@ const AuctionManagment = () => {
       category: auction?.category,
       description: auction?.description, 
       reservedBid: auction?.reservedBid,
+      financeAvailable : auction?.financeAvailable,
+      totalMonthForFinance: auction?.totalMonthForFinance,
       incrementValue: auction?.incrementValue,
       statingAndEndTime: `${auction?.startingDate.split('T')[0]}-at-${auction?.startingTime
         }  `,

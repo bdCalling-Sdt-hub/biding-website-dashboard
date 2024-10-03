@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Upload } from 'antd';
+import { Form, Input, Modal, Select, Upload } from 'antd';
 import React, { useState, useEffect } from 'react';
 import Button from './Button';
 import { PlusOutlined } from '@ant-design/icons';
@@ -9,6 +9,14 @@ import { useUpdateAuctionMutation } from '../../redux/api/dashboardApi';
 const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
     const [updateAuction] = useUpdateAuctionMutation()
     const [fileList, setFileList] = useState([]);
+  const [isFinancingAvailable, setIsFinancingAvailable] = useState(singleAuction?.financeAvailable);
+
+     // Update the financing availability state when singleAuction changes
+  useEffect(() => {
+    if (singleAuction?.financeAvailable !== undefined) {
+      setIsFinancingAvailable(singleAuction.financeAvailable);
+    }
+  }, [singleAuction]);
 
     const [form] = Form.useForm();
     // Handle upload image 
@@ -25,28 +33,30 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
         const id = singleAuction?.id;
         const data = {
             ...values,
+            ...(values?.totalMonthForFinance && {
+                totalMonthForFinance: Number(values?.totalMonthForFinance),
+              }),
             incrementValue: Number(values?.incrementValue),
             reservedBid: Number(values?.reservedBid),
         };
-    
+
         // Separate previously uploaded images (URLs) and new images (files)
         const existingImages = fileList
-            .filter(file => file.url) 
-            .map(file => file.url); 
-    
-        const newImages = fileList.filter(file => file.originFileObj); 
-    
-        // If there are new images, append them to FormData
+            .filter(file => file.url)
+            .map(file => file.url);
+
+        const newImages = fileList.filter(file => file.originFileObj);
+
         const formData = new FormData();
         formData.append('data', JSON.stringify({
             ...data,
-            images: existingImages, 
+            images: existingImages,
         }));
-    
+
         newImages.forEach((file) => {
             formData.append('image', file.originFileObj);
         });
-    
+
         // Send the formData to the server
         updateAuction({ formData, id }).unwrap()
             .then((payload) => {
@@ -59,7 +69,17 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
                 toast.error(error?.data?.message);
             });
     };
-    
+
+     // Handle the change in financing selection
+  const handleFinancingChange = (value) => {
+    if(value){
+      setIsFinancingAvailable(value);
+    }else{
+      setIsFinancingAvailable(false)
+    }
+  };
+
+
 
     // Set initial values when singleAuction changes
     useEffect(() => {
@@ -71,6 +91,8 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
                 incrementValue: singleAuction.incrementValue,
                 startingDate: singleAuction.statingAndEndTime.split('-at-')[0],
                 startingTime: singleAuction.statingAndEndTime.split('-at-')[1].trim(),
+                financeAvailable : singleAuction?.financeAvailable,
+                totalMonthForFinance : singleAuction?.totalMonthForFinance,
                 description: singleAuction.description || '',
             });
 
@@ -155,6 +177,42 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
                         >
                             <Input type='time' />
                         </Form.Item>
+                    </div>
+                    <div style={{ display: 'flex', gap: '2px', alignItems: 'center', justifyContent: 'space-between' }}>
+                        {/* Financing Select */}
+                        <div>
+                            <Form.Item
+                                label="Financing"
+                                name='financeAvailable'
+                                initialValue={false}
+                            >
+                                <Select
+                                    defaultValue="Select"
+                                    style={{ width: 200 }}
+                                    onChange={handleFinancingChange}
+                                >
+                                    <Option value={true}>Available</Option>
+                                    <Option value={false}>Not Available</Option>
+                                </Select>
+                            </Form.Item>
+
+                        </div>
+
+                        {/* Months Input */}
+                        <div>
+                            <Form.Item
+                                label='Month'
+                                name="totalMonthForFinance"
+                            >
+                                <Input
+                                    placeholder="12 Months"
+                                    type='number'
+                                    style={{ width: 200 }}
+                                    disabled={!isFinancingAvailable}
+                                />
+                            </Form.Item>
+
+                        </div>
                     </div>
                     <Form.Item
                         label="Description"
