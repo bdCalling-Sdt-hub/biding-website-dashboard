@@ -10,7 +10,6 @@ const DashboardPrivacyAndPolicy = () => {
   const [createPrivacyPolicy] = useCreatePrivacyPolicyMutation()
   const {data :  getPrivacyPolicy} = useGetPrivacyPolicyQuery()
 
-  console.log(getPrivacyPolicy);
     const editor = useRef(null);
     const [content, setContent] = useState('');
     const handleTerms = () => {

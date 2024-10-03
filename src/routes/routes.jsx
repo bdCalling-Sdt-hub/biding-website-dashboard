@@ -109,10 +109,10 @@ const router = createBrowserRouter([
         path: '/admin-reset-password',
         element: <AdminResetPassword />
     },
-    {
-        path: '/admin-reset-password',
-        element: <AdminLogin />
-    },
+    // {
+    //     path: '/admin-reset-password',
+    //     element: <AdminLogin />
+    // },
    
 ])
 

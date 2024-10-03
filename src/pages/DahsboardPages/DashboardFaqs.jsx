@@ -10,7 +10,6 @@ const { TextArea } = Input;
 const DashboardFaqs = () => {
   const [createFaq] = useCreateFaqMutation()
   const { data: getFaq } = useGetFaqQuery()
-  console.log(getFaq?.data);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // const faq = getFaq?.data?.map(faq => {

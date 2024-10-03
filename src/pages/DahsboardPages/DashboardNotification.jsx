@@ -11,7 +11,6 @@ import { useSocketContext } from '../../lib/SocketProviders';
 const DashboardNotification = () => {
     const { data: getAllNotification } = useGetNotificationQuery();
     const { notifications } = useSocketContext()
-    console.log(notifications?.length);
     const timeAgo = (date) => {
         const now = new Date();
         const past = new Date(date);
@@ -57,9 +56,7 @@ const DashboardNotification = () => {
             time: timeAgo(notification?.createdAt),
         }
     ))
-    const handleDelete = key => {
-        console.log(`Delete notification with key: ${key}`);
-    }
+ 
     return (
         <div>
             <div className="flex justify-between items-center gap-4">

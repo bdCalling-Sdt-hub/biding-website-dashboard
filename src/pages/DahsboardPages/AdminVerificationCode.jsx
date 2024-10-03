@@ -1,12 +1,29 @@
 import React, { useState } from 'react'
 import OTPInput from 'react-otp-input'
 import Button from '../../components/ui/Button'
+import { useForgetPasswordMutation, useVerifyOtpMutation } from '../../redux/api/userApi';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 
 const AdminVerificationCode = () => {
     const [otp, setOtp] = useState("");
-
+    const [forgetPassword] = useForgetPasswordMutation()
+    const [verifyOtp] = useVerifyOtpMutation()
+    const navigate = useNavigate()
     const handleVerifyOtp = () => {
-        console.log(otp);
+        const data = {
+            email: localStorage.getItem('email'),
+            verifyCode: Number(otp)
+        }
+        console.log(data);
+        verifyOtp(data).unwrap()
+            .then((payload) => {
+                
+                    navigate('/admin-reset-password')
+                
+                toast.success(payload?.message)
+            })
+            .catch((error) => toast.error(error?.data?.message));
     }
     return (
         <div className='flex flex-col items-center justify-center h-screen bg-[#fbe2b5] '>
@@ -36,7 +53,7 @@ const AdminVerificationCode = () => {
 
                 </div>
                 <div className='text-center mt-5'>
-                    You have not received the email? <span className='text-yellow'>Resend</span>
+                    You have not received the email? <span className='text-yellow cursor-pointer' onClick={() => forgetPassword(localStorage.getItem('email'))} >Resend</span>
                 </div>
             </div>
         </div>

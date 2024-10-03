@@ -11,6 +11,7 @@ const AdminForgetPassword = () => {
     const onFinish = (values) => {
         forgetPassword(values).unwrap()
             .then((payload) => {
+                localStorage.setItem('email', values?.email)
                 toast.success(payload?.message)
                 navigate('/admin-verification-code')
             })

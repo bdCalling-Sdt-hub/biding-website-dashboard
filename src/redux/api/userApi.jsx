@@ -13,7 +13,6 @@ const userApi = baseApi.injectEndpoints({
         }),
         loginAdmin : builder.mutation({
             query : (data)=>{
-                // console.log(data);
                 return {
                     url : '/admin/auth/login',
                     method : "POST",
@@ -32,7 +31,6 @@ const userApi = baseApi.injectEndpoints({
         }),
         updateUserProfile : builder.mutation({
             query : (data)=>{
-                console.log(data);
                 return {
                     url : '/admin/auth/update-profile',
                     method : "PATCH",
@@ -58,8 +56,26 @@ const userApi = baseApi.injectEndpoints({
                     body : data
                 }
             }
+        }),
+        verifyOtp :builder.mutation({
+            query : (data)=>{
+                return {
+                    url : '/admin/auth/verify-otp-forgot-password',
+                    method : 'PATCH',
+                    body : data
+                }
+            }
+        }),
+        resetPassword :builder.mutation({
+            query : (data)=>{
+                return {
+                    url : '/admin/auth/reset-password',
+                    method : 'PATCH',
+                    body : data
+                }
+            }
         })
     })
 })
 
-export const { useRegisterUserMutation , useLoginAdminMutation , useGetUserProfileQuery , useUpdateUserProfileMutation , useChangePasswordMutation , useForgetPasswordMutation } = userApi;
+export const { useRegisterUserMutation , useLoginAdminMutation , useGetUserProfileQuery , useUpdateUserProfileMutation , useChangePasswordMutation , useForgetPasswordMutation , useVerifyOtpMutation , useResetPasswordMutation } = userApi;

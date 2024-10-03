@@ -96,7 +96,6 @@ const UserManagement = () => {
       email: email,
       is_block: is_block
     }
-    console.log(data);
     blockUnblockUser(data).unwrap()
       .then((payload) => toast.success(payload?.message))
       .catch((error) => toast.error(error?.data?.message));

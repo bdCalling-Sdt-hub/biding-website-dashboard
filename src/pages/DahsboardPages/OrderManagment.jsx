@@ -129,7 +129,6 @@ const OrderManagement = () => {
             orderId: order?._id
         }
     });
-    // console.log(getOrders?.data?.meta?.total);
 
     return (
         <div className='bg-white p-5 rounded-md'>

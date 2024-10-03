@@ -11,8 +11,6 @@ const AdminLogin = () => {
         loginAdmin(values).unwrap()
             .then((payload) => {
                 if(payload?.data?.accessToken){
-                    console.log(payload?.data?.accessToken);
-
                     localStorage.setItem('token', JSON.stringify(payload?.data?.accessToken));
                     navigate("/");
                     toast.success(payload?.message)
