@@ -15,7 +15,7 @@ const CategoryAndBanner = () => {
 
     const [category, setCategory] = useState(true)
     const [openAddModal, setOpenAddModal] = useState(false)
-    const [openBannerModal, setOpenBannerModal] = useState(false)
+    const [openBannerModal, setOpenBannerModal] = useState(false)   
     const [modalTitle, setModalTitle] = useState('')
     // const [openCategoryModal, setOpenCategoryModal] = useState(false)
     

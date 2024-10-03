@@ -1,4 +1,4 @@
-import { Pagination, Table } from 'antd'
+import { Empty, Pagination, Spin, Table } from 'antd'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -6,8 +6,7 @@ import { CiSearch } from 'react-icons/ci';
 import { useGetTransactionQuery } from '../../redux/api/dashboardApi';
 const Transaction = () => {
     const [searchParams, setSearchParams] = useState('')
-    const { data: getAllTransaction } = useGetTransactionQuery(searchParams  )
-    console.log(getAllTransaction?.data?.meta);
+    const { data: getAllTransaction , isLoading} = useGetTransactionQuery(searchParams)
     const [current, setCurrent] = useState(1);
 
     const onChange = (page) => {
@@ -111,6 +110,11 @@ const Transaction = () => {
             <div className='mt-2 '>
                 <Table dataSource={tableData} columns={columns} className="custom-pagination"
                     pagination={false}
+                    loading={{
+                        spinning: isLoading,
+                        indicator: <Spin size="large" className='text-yellow' />,
+                      }}
+                      locale={isLoading ? { emptyText: <Empty description="No Transactions Found" /> } : {}}
                 />
                 {/* <div className='flex items-center  justify-center mt-5'>
                     <Pagination current={current}

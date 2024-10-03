@@ -65,15 +65,15 @@ const dashboardApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ['allAuction']
         }),
-        /** Order Managment api  */
+        /** Order Management API */
         getAllOrder: builder.query({
-            query: (searchParams) => {
+            query: ({ searchParams, page, limit }) => {
                 return {
-                    url: `/order/get-all-orders?searchTerm=${searchParams}`,
+                    url: `/order/get-all-orders?searchTerm=${searchParams}&page=${page}&limit=${limit}`,
                     method: 'GET'
                 }
             },
-            providesTags : ['orderStatus']
+            providesTags: ['orderStatus'],
         }),
 
         /** Category Api */
@@ -216,7 +216,7 @@ const dashboardApi = baseApi.injectEndpoints({
             },
             providesTags: ['tipsTricks']
         }),
-        getAccessibility : builder.query({
+        getAccessibility: builder.query({
             query: () => {
                 return {
                     url: '/manage/accessibility',
@@ -235,7 +235,7 @@ const dashboardApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ['accessibility']
         }),
-        getTermsAndCondition : builder.query({
+        getTermsAndCondition: builder.query({
             query: () => {
                 return {
                     url: '/manage/get-terms-conditions',
@@ -244,7 +244,7 @@ const dashboardApi = baseApi.injectEndpoints({
             },
             providesTags: ['terms']
         }),
-        createTermsAndCondition : builder.mutation({
+        createTermsAndCondition: builder.mutation({
             query: (data) => {
                 return {
                     url: '/manage/add-terms-conditions',
@@ -263,7 +263,7 @@ const dashboardApi = baseApi.injectEndpoints({
             },
             providesTags: ['privacyPolicy']
         }),
-        createPrivacyPolicy : builder.mutation({
+        createPrivacyPolicy: builder.mutation({
             query: (data) => {
                 return {
                     url: '/manage/add-privacy-policy',
@@ -273,24 +273,24 @@ const dashboardApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ['privacyPolicy']
         }),
-        createFaq : builder.mutation({
-            query : (data)=>{
+        createFaq: builder.mutation({
+            query: (data) => {
                 return {
-                    url : '/manage/add-faq',
-                    method : "POST",
-                    body : data
+                    url: '/manage/add-faq',
+                    method: "POST",
+                    body: data
                 }
             },
-            invalidatesTags : ['faq']
+            invalidatesTags: ['faq']
         }),
-        getFaq : builder.query({
-            query : ()=>{
+        getFaq: builder.query({
+            query: () => {
                 return {
-                    url : '/manage/all-faq',
-                    method : 'GET'
+                    url: '/manage/all-faq',
+                    method: 'GET'
                 }
             },
-            providesTags : ['faq']
+            providesTags: ['faq']
         }),
 
         /** read notification api */
@@ -303,30 +303,30 @@ const dashboardApi = baseApi.injectEndpoints({
             invalidatesTags: ['notification']
         }),
         /** transaction api */
-        getTransaction :  builder.query({
-            query : (searchParams)=>{
+        getTransaction: builder.query({
+            query: (searchParams) => {
                 return {
-                    url : `/transaction/get-all-transaction?searchTerm=${searchParams}`,
-                    method : 'GET',
+                    url: `/transaction/get-all-transaction?searchTerm=${searchParams}`,
+                    method: 'GET',
                 }
             }
         }),
 
         /** Change order status */
-        changeOrderStatus : builder.mutation({
-            query : ({orderId, status}) =>{
+        changeOrderStatus: builder.mutation({
+            query: ({ orderId, status }) => {
                 console.log(status);
                 return {
-                    url : `/order/change-order-status/${orderId}`,
-                    method :"PATCH",
-                    body : status
+                    url: `/order/change-order-status/${orderId}`,
+                    method: "PATCH",
+                    body: status
                 }
             },
-            invalidatesTags :['orderStatus']
+            invalidatesTags: ['orderStatus']
         })
 
     }),
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation , useCreateTipsTricksMutation, useGetTipsTricksQuery , useCreateAccessibilityMutation, useGetAccessibilityQuery , useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation , useCreateFaqMutation , useGetFaqQuery , useReadNotificationMutation , useGetTransactionQuery , useChangeOrderStatusMutation}  = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation, useCreateTipsTricksMutation, useGetTipsTricksQuery, useCreateAccessibilityMutation, useGetAccessibilityQuery, useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation, useCreateFaqMutation, useGetFaqQuery, useReadNotificationMutation, useGetTransactionQuery, useChangeOrderStatusMutation } = dashboardApi 

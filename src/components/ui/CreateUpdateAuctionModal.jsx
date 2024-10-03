@@ -12,13 +12,17 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
   const { data: getCategory } = useGetAllCategoryQuery()
   const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm()
-  
+
 
 
 
   // Handle the change in financing selection
   const handleFinancingChange = (value) => {
-      setIsFinancingAvailable(value === 'available');
+    if(value){
+      setIsFinancingAvailable(value);
+    }else{
+      setIsFinancingAvailable(false)
+    }
   };
 
   /** category options */
@@ -40,9 +44,13 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
   const onFinish = (values) => {
     const data = {
       ...values,
+      ...(values?.totalMonthForFinance && {
+        totalMonthForFinance: Number(values?.totalMonthForFinance),
+      }),
       incrementValue: Number(values?.incrementValue),
-      reservedBid: Number(values?.reservedBid)
-    }
+      reservedBid: Number(values?.reservedBid),
+    };
+
 
     if (fileList.length < 3) {
       return toast.error("Please select at least 3 image!!")
@@ -147,28 +155,40 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
           </Form.Item>
 
 
-          <div style={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '2px', alignItems: 'center', justifyContent: 'space-between' }}>
             {/* Financing Select */}
             <div>
-              <label>Financing</label>
-              <Select
-                defaultValue="Select"
-                style={{ width: 200 }}
-                onChange={handleFinancingChange}
+              <Form.Item
+                label="Financing"
+                name='financeAvailable'
+                initialValue={false} 
               >
-                <Option value="available">Available</Option>
-                <Option value="not_available">Not Available</Option>
-              </Select>
+                <Select
+                  defaultValue="Select"
+                  style={{ width: 200 }}
+                  onChange={handleFinancingChange}
+                >
+                  <Option value={true}>Available</Option>
+                  <Option value={false}>Not Available</Option>
+                </Select>
+              </Form.Item>
+
             </div>
 
             {/* Months Input */}
             <div>
-              <label>Months</label>
-              <Input
-                placeholder="12 Months"
-                style={{ width: 200 }}
-                disabled={!isFinancingAvailable}  // Disable when financing is not available
-              />
+              <Form.Item
+                label='Month'
+                name="totalMonthForFinance"
+              >
+                <Input
+                  placeholder="12 Months"
+                  type='number'
+                  style={{ width: 200 }}
+                  disabled={!isFinancingAvailable}
+                />
+              </Form.Item>
+
             </div>
           </div>
 
