@@ -74,6 +74,7 @@ const Profile = () => {
                             style={{ width: 140, height: 140, borderRadius: "100%" }}
                             src={`${image ? URL.createObjectURL(image) : `${imageUrl}${getProfile?.data?.profile_image}`}`}
                             alt=""
+                            className="border-2 shadow-md border-yellow p-[2px] object-cover"
                         />
 
                         {

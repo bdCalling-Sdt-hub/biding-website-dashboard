@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useGetUserProfileQuery } from '../../redux/api/userApi'
 import { useSocketContext } from '../../lib/SocketProviders'
 import { useReadNotificationMutation } from '../../redux/api/dashboardApi'
+import { imageUrl } from '../../redux/api/baseApi'
 const Header = () => {
     const { newNotifications } = useSocketContext()
     const [readNotification] = useReadNotificationMutation()
@@ -21,8 +22,8 @@ const Header = () => {
         </Link>
     </div>
     <div onClick={() => navigate('/profile')} className='flex justify-end items-center gap-1 border-gray-400 p-[2px] px-4 rounded-md cursor-pointer'>
-        <img className='h-10 w-10 rounded-full' src={getUserInfo?.data?.profile_image} alt="" />
-        <p className='font-medium text-white'>{getUserInfo?.data?.name}</p>
+        <img className='h-12 w-12 rounded-full border border-yellow p-[1px] object-cover' src={`${imageUrl}${getUserInfo?.data?.profile_image}`} alt="" />
+        <p className='font-medium text-[20px] text-white'>{getUserInfo?.data?.name}</p>
     </div>
 </div>
   )
