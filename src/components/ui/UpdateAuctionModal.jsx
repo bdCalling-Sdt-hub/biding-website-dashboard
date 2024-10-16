@@ -4,9 +4,11 @@ import Button from './Button';
 import { PlusOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
 import { toast } from 'sonner';
-import { useUpdateAuctionMutation } from '../../redux/api/dashboardApi';
+import { useGetAllCategoryQuery, useUpdateAuctionMutation } from '../../redux/api/dashboardApi';
 
 const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
+  const {data: getAllCategory} = useGetAllCategoryQuery()
+
     const [updateAuction] = useUpdateAuctionMutation()
     const [fileList, setFileList] = useState([]);
   const [isFinancingAvailable, setIsFinancingAvailable] = useState(singleAuction?.financeAvailable);
@@ -137,9 +139,16 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
                             label="Category"
                             name="category"
                             className='w-full'
-                            rules={[{ required: true, message: 'Please input category!' }]}
+                            // rules={[{ required: true, message: 'Please input category!' }]}
                         >
-                            <Input />
+                            {/* <Input /> */}
+                            <Select>
+                            {getAllCategory?.data?.map((category) => (
+                                    <Option key={category._id} value={category.name}>
+                                        {category.name}
+                                    </Option>
+                                ))}
+                            </Select>
                         </Form.Item>
                     </div>
                     <div className='flex justify-between items-center gap-2'>

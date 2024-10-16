@@ -3,11 +3,12 @@ import { Button, Form, Input, Spin } from "antd";
 import { IoCameraOutline } from "react-icons/io5";
 import { useChangePasswordMutation, useGetUserProfileQuery, useUpdateUserProfileMutation } from "../../redux/api/userApi";
 import { toast } from "sonner";
+import { imageUrl } from "../../redux/api/baseApi";
 
 const Profile = () => {
     const [updateProfile, { isLoading }] = useUpdateUserProfileMutation();
     const [changePassword] = useChangePasswordMutation()
-
+    
     const { data: getProfile } = useGetUserProfileQuery();
     const [image, setImage] = useState(null);
     const [form] = Form.useForm()
@@ -39,6 +40,7 @@ const Profile = () => {
     };
     const onEditProfile = (values) => {
         const formData = new FormData();
+        console.log(values);
         formData.append("data", JSON.stringify(values));
         if (image) {
             formData.append("profile_image", image);
@@ -55,7 +57,7 @@ const Profile = () => {
                 name: getProfile?.data.name,
                 email: getProfile?.data.email,
                 phone_number: getProfile?.data.phone_number,
-                location: getProfile?.data?.address || 'N/A'
+                streetAddress: getProfile?.data?.streetAddress || 'N/A'
             });
         }
     }, [getProfile?.data, form]);
@@ -70,7 +72,7 @@ const Profile = () => {
                         <input type="file" onInput={handleChange} id='img' style={{ display: "none" }} />
                         <img
                             style={{ width: 140, height: 140, borderRadius: "100%" }}
-                            src={`${image ? URL.createObjectURL(image) : `${getProfile?.data?.profile_image}`}`}
+                            src={`${image ? URL.createObjectURL(image) : `${imageUrl}${getProfile?.data?.profile_image}`}`}
                             alt=""
                         />
 
@@ -186,7 +188,7 @@ const Profile = () => {
                                     />
                                 </Form.Item>
                                 <Form.Item
-                                    name="location"
+                                    name="streetAddress"
                                     label={<p className="text-[#919191] text-[16px] leading-5 font-normal">Address</p>}
                                 >
                                     <Input

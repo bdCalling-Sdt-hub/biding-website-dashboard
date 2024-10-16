@@ -21,7 +21,6 @@ const AuctionManagment = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isEditModalOpen , setIsEditModalOpen] = useState(false)
 
-
   /** Auction managment data format table */
   const auctionDataFormat = getAllAuction?.data?.result?.map((auction, i) => {
     return {
