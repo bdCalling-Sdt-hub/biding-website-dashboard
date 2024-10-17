@@ -174,6 +174,8 @@ const OrderManagement = () => {
                     }}
                 />
 
+                {console.log(modalData)}
+
                 <Modal
                     open={isModalOpen}
                     centered

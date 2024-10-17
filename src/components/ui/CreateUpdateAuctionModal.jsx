@@ -59,7 +59,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
     formData.append('data', JSON.stringify(data));
 
     fileList.forEach((file) => {
-      formData.append('image', file.originFileObj || file);
+      formData.append('product_image', file.originFileObj || file);
     });
 
     // API call to create the auction
@@ -185,6 +185,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
                   placeholder="12 Months"
                   type='number'
                   style={{ width: 200 }}
+                  min={2}
                   disabled={!isFinancingAvailable}
                 />
               </Form.Item>

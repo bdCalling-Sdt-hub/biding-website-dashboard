@@ -6,13 +6,15 @@ import { CiSearch } from 'react-icons/ci';
 import { useGetTransactionQuery } from '../../redux/api/dashboardApi';
 const Transaction = () => {
     const [searchParams, setSearchParams] = useState('')
-    const { data: getAllTransaction , isLoading} = useGetTransactionQuery(searchParams)
-    const [current, setCurrent] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const { data: getAllTransaction , isLoading} = useGetTransactionQuery({searchParams, page: currentPage, limit: pageSize })
 
     const onChange = (page) => {
-        setCurrent(page);
+        setCurrentPage(page);
     };
 
+    console.log(getAllTransaction?.data);
 
 
     const columns = [
@@ -71,7 +73,7 @@ const Transaction = () => {
     /**Table data format */
     const tableData = getAllTransaction?.data?.result?.map((item, i) => {
         return {
-            key: i + 1,
+            key:(currentPage - 1) * pageSize + (i + 1),
             date: item?.createdAt?.split('T')[0],
             name: item?.user?.name,
             img: item?.user?.profile_image,
@@ -116,14 +118,14 @@ const Transaction = () => {
                       }}
                       locale={isLoading ? { emptyText: <Empty description="No Transactions Found" /> } : {}}
                 />
-                {/* <div className='flex items-center  justify-center mt-5'>
-                    <Pagination current={current}
+                <div className='flex items-center  justify-center mt-5'>
+                    <Pagination current={currentPage}
                         onChange={onChange}
-                        total={getAllTransaction?.data?.meta?.totalPage}
+                        total={getAllTransaction?.data?.meta?.total}
                         pageSize={getAllTransaction?.data?.meta?.limit}
                         showSizeChanger={false}
                         showTotal={(total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`} />
-                </div> */}
+                </div>
             </div>
         </div>
     )

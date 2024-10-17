@@ -29,7 +29,7 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
     const handleRemove = (file) => {
         setFileList(fileList.filter((item) => item.uid !== file.uid));
     };
-
+console.log(fileList);
     // Update auction product
     const onFinish = (values) => {
         const id = singleAuction?.id;
@@ -42,11 +42,7 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
             reservedBid: Number(values?.reservedBid),
         };
 
-        // Separate previously uploaded images (URLs) and new images (files)
-        const existingImages = fileList
-            .filter(file => file.url)
-            .map(file => file.url);
-
+        const existingImages = fileList.filter(file => file.url).map(file => file.url);
         const newImages = fileList.filter(file => file.originFileObj);
 
         const formData = new FormData();
@@ -56,7 +52,7 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
         }));
 
         newImages.forEach((file) => {
-            formData.append('image', file.originFileObj);
+            formData.append('product_image', file.originFileObj);
         });
 
         // Send the formData to the server
@@ -110,6 +106,7 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
             }
         }
     }, [singleAuction, form]);
+    console.log(fileList);
 
     return (
         <div>

@@ -10,6 +10,7 @@ import CreateUpdateAuctionModal from '../../components/ui/CreateUpdateAuctionMod
 import { useDeleteAuctionMutation, useGetAllAuctionQuery } from '../../redux/api/dashboardApi';
 import UpdateAuctionModal from '../../components/ui/UpdateAuctionModal';
 import { toast } from 'sonner';
+import { imageUrl } from '../../redux/api/baseApi';
 
 const AuctionManagment = () => {
   const [page, setPage] = useState(1)
@@ -23,11 +24,12 @@ const AuctionManagment = () => {
 
   /** Auction managment data format table */
   const auctionDataFormat = getAllAuction?.data?.result?.map((auction, i) => {
+    console.log(auction);
     return {
       id: auction?._id,
       key: i + 1,
       name: auction?.name,
-      img:auction?.images,
+      img: auction?.images,
       category: auction?.category,
       description: auction?.description, 
       reservedBid: auction?.reservedBid,
@@ -59,10 +61,11 @@ const AuctionManagment = () => {
       dataIndex: "name",
       key: "name",
       render: (_, record) => {
+        console.log(record);
         return (
           <div className="flex items-center gap-2">
             <img
-              src={record?.img?.[0]}
+              src={`${record?.img?.[0]}`}
               className="w-[40px] h-[40px] rounded-[8px]"
               alt=""
             />
@@ -82,11 +85,7 @@ const AuctionManagment = () => {
       dataIndex: "reservedBid",
       key: "reservedBid",
     },
-    {
-      title: "Reserved Bid",
-      dataIndex: "reservedBid",
-      key: "reservedBid",
-    },
+   
     {
       title: "Increment Value",
       dataIndex: "incrementValue",

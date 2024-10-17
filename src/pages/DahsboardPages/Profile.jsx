@@ -61,6 +61,7 @@ const Profile = () => {
             });
         }
     }, [getProfile?.data, form]);
+    console.log(getProfile?.data?.profile_image);
 
     return (
         <div>

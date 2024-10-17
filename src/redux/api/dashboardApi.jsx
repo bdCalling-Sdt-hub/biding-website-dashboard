@@ -304,9 +304,9 @@ const dashboardApi = baseApi.injectEndpoints({
         }),
         /** transaction api */
         getTransaction: builder.query({
-            query: (searchParams) => {
+            query: ({searchParams , page, limit}) => {
                 return {
-                    url: `/transaction/get-all-transaction?searchTerm=${searchParams}`,
+                    url: `/transaction/get-all-transaction?searchTerm=${searchParams}&page=${page}&limit=${limit}`,
                     method: 'GET',
                 }
             }
