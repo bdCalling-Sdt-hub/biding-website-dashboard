@@ -1,7 +1,7 @@
 import { Table } from 'antd';
 import { IoArrowBackSharp } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { useGetNotificationQuery } from '../../redux/api/dashboardApi';
+import { useGetNotificationQuery, useReadNotificationMutation } from '../../redux/api/dashboardApi';
 import { useSocketContext } from '../../lib/SocketProviders';
 
 
@@ -9,7 +9,8 @@ import { useSocketContext } from '../../lib/SocketProviders';
 
 
 const DashboardNotification = () => {
-    const { data: getAllNotification } = useGetNotificationQuery();
+    const { newNotifications } = useSocketContext()
+    const [readNotification] = useReadNotificationMutation()
     const { notifications } = useSocketContext()
     const timeAgo = (date) => {
         const now = new Date();
@@ -38,7 +39,7 @@ const DashboardNotification = () => {
         {
             dataIndex: 'notification',
             key: 'notification',
-            render: text => <span>{text}</span>,
+            render: text => <span >{text}</span>,
         },
         {
             dataIndex: 'time',
@@ -46,6 +47,7 @@ const DashboardNotification = () => {
             width: '150px',
             render: text => <span>{text}</span>,
         },
+       
 
     ];
     /** formatted notification table data */
@@ -54,9 +56,15 @@ const DashboardNotification = () => {
             key: notification?._id,
             notification: notification?.message,
             time: timeAgo(notification?.createdAt),
+            seen: notification?.seen,
         }
     ))
- 
+
+   // Define rowClassName for dynamic styling
+   const rowClassName = (record) => {
+    return !record.seen ? 'unread-notification' : ''; 
+};
+console.log(notifications);
     return (
         <div>
             <div className="flex justify-between items-center gap-4">
@@ -66,9 +74,14 @@ const DashboardNotification = () => {
 
             </div>
             <div>
-                <h2 className='text-[18px] font-semibold py-2'>Total {notifications?.length} Notifications</h2>
+                <div className='flex  items-center justify-between'>
+                    <h2 className='text-[18px] font-semibold py-2'>Total {newNotifications} Notifications</h2>
+                    <p className='mr-2 cursor-pointer hover:border-b hover:border-gray hover:text-gray' onClick={() => readNotification()} >Read All</p>
+                </div>
                 <Table columns={columns} dataSource={formattedTableData?.reverse()} pagination={false}
-                    className="custom-pagination" />
+                    className="custom-pagination"
+                    rowClassName={rowClassName} 
+                    />
             </div>
         </div>
     );

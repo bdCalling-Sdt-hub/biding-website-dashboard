@@ -155,6 +155,14 @@ const dashboardApi = baseApi.injectEndpoints({
                 }
             }
         }),
+        deleteNotification : builder.mutation({
+            query : (id)=>{
+                return {
+                    url : `notification/delete-notification/${id}`,
+                    method : 'DELETE'
+                }
+            }
+        }),
         /** User management */
         getAllUsers: builder.query({
             query: (searchParams) => {
@@ -328,4 +336,4 @@ const dashboardApi = baseApi.injectEndpoints({
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation, useCreateTipsTricksMutation, useGetTipsTricksQuery, useCreateAccessibilityMutation, useGetAccessibilityQuery, useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation, useCreateFaqMutation, useGetFaqQuery, useReadNotificationMutation, useGetTransactionQuery, useChangeOrderStatusMutation } = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation, useCreateTipsTricksMutation, useGetTipsTricksQuery, useCreateAccessibilityMutation, useGetAccessibilityQuery, useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation, useCreateFaqMutation, useGetFaqQuery, useReadNotificationMutation, useGetTransactionQuery, useChangeOrderStatusMutation , useDeleteNotificationMutation } = dashboardApi 

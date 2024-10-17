@@ -61,3 +61,6 @@
 background-color: #2AB9A4;
 border-color: #2AB9A4;
 }
+.unread-notification {
+  background-color: #f0f0f0; 
+}

@@ -61,7 +61,6 @@ const Profile = () => {
             });
         }
     }, [getProfile?.data, form]);
-    console.log(getProfile?.data?.profile_image);
 
     return (
         <div>
@@ -73,7 +72,7 @@ const Profile = () => {
                         <input type="file" onInput={handleChange} id='img' style={{ display: "none" }} />
                         <img
                             style={{ width: 140, height: 140, borderRadius: "100%" }}
-                            src={`${image ? URL.createObjectURL(image) : `${imageUrl}${getProfile?.data?.profile_image}`}`}
+                            src={`${image ? URL.createObjectURL(image) : `${getProfile?.data?.profile_image}`}`}
                             alt=""
                             className="border-2 shadow-md border-yellow p-[2px] object-cover"
                         />
