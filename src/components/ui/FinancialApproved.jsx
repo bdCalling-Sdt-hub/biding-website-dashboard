@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Button, Avatar, Tag, Modal } from "antd";
+import { Table, Button, Avatar, Tag, Modal, Input, Form } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 
 // Mock data (replace with real data)
@@ -117,7 +117,6 @@ const FinancialApproved = () => {
           style={{ backgroundColor: "#ECB206", color: "white" }}
           onClick={() => showModal(record)}
         >
-          View
         </Button>
       ),
     },
@@ -154,30 +153,23 @@ const FinancialApproved = () => {
 
             {/* User Information */}
             <div className="text-left space-y-2">
-              <p><strong>Email:</strong> {selectedUser.email}</p>
-              <p><strong>Phone number:</strong> {selectedUser.contact}</p>
-              <p><strong>Address:</strong> {selectedUser.address}</p>
-              <p><strong>Order ID:</strong> {selectedUser.orderId}</p>
-              <p><strong>Winning Product:</strong> {selectedUser.item}</p>
-              <p><strong>Winning Price:</strong> {selectedUser.winningPrice}</p>
-              <p><strong>Finance Available For:</strong> {selectedUser.months} Months</p>
-              <p><strong>Per Month Fee:</strong> {selectedUser.perMonthFee}</p>
+              <p className="flex justify-between items-center gap-2"><strong>Email:</strong> {selectedUser.email}</p>
+              <p className="flex justify-between items-center gap-2"><strong>Phone number:</strong> {selectedUser.contact}</p>
+              <p className="flex justify-between items-center gap-2"><strong>Address:</strong> {selectedUser.address}</p>
+              <p className="flex justify-between items-center gap-2"><strong>Order ID:</strong> {selectedUser.orderId}</p>
+              <p className="flex justify-between items-center gap-2"><strong>Winning Product:</strong> {selectedUser.item}</p>
+              <p className="flex justify-between items-center gap-2"><strong>Winning Price:</strong> {selectedUser.winningPrice}</p>
+              <p className="flex justify-between items-center gap-2"><strong>Finance Available For:</strong> {selectedUser.months} Months</p>
+              <p className="flex justify-between items-center gap-2"><strong>Per Month Fee:</strong> {selectedUser.perMonthFee}</p>
             </div>
-
-            <div className="flex justify-between mt-6">
-              <Button
-                danger
-                className="bg-red-600 text-white w-40 h-10 rounded-lg font-semibold hover:bg-red-700"
+            <Form className="flex justify-center mt-6 gap-2">
+              <Input placeholder="payment link " />
+              <button
+                className="bg-yellow text-white w-40 h-10 rounded-lg font-semibold hover:bg-yellow-600"
               >
-                Decline
-              </Button>
-              <Button
-                type="primary"
-                className="bg-yellow-500 text-white w-40 h-10 rounded-lg font-semibold hover:bg-yellow-600"
-              >
-                Accept
-              </Button>
-            </div>
+                send link
+              </button>
+            </Form>
           </div>
 
         )}
