@@ -1,77 +1,107 @@
-import React from 'react'
-import { IoEyeOutline } from 'react-icons/io5';
+import React from "react";
+import { Table, Button, Avatar } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
+
+// Mock data (replace with real data)
+const data = [
+    {
+        key: "1",
+        slNo: "#12333",
+        userName: "Kathryn Murp",
+        email: "bockely@att.com",
+        contact: "(201) 555-0124",
+        product: "iPhone 13 Pro Max",
+        totalFee: "$24.00",
+        months: 12,
+        perMonthFee: "$4.00",
+        image: "https://randomuser.me/api/portraits/women/1.jpg",
+    },
+    {
+        key: "2",
+        slNo: "#12333",
+        userName: "Devon Lane",
+        email: "csilvers@rizon.com",
+        contact: "(219) 555-0114",
+        product: "Samsung Smart TV",
+        totalFee: "$20.00",
+        months: 6,
+        perMonthFee: "$2.00",
+        image: "https://randomuser.me/api/portraits/men/2.jpg",
+    },
+    // Add more data objects similarly as per your data
+];
+
+// Column configuration for the table
+const columns = [
+    {
+        title: "SL no.",
+        dataIndex: "slNo",
+        key: "slNo",
+    },
+    {
+        title: "User's Name",
+        dataIndex: "userName",
+        key: "userName",
+        render: (text, record) => (
+            <div style={{ display: "flex", alignItems: "center" }}>
+                <Avatar src={record.image} style={{ marginRight: "10px" }} />
+                {text}
+            </div>
+        ),
+    },
+    {
+        title: "Email",
+        dataIndex: "email",
+        key: "email",
+    },
+    {
+        title: "Contact Number",
+        dataIndex: "contact",
+        key: "contact",
+    },
+    {
+        title: "Winning Product",
+        dataIndex: "product",
+        key: "product",
+    },
+    {
+        title: "Total Fee",
+        dataIndex: "totalFee",
+        key: "totalFee",
+    },
+    {
+        title: "Available Months",
+        dataIndex: "months",
+        key: "months",
+    },
+    {
+        title: "Per Month Fee",
+        dataIndex: "perMonthFee",
+        key: "perMonthFee",
+    },
+    {
+        title: "Action",
+        key: "action",
+        render: () => (
+            <Button icon={<EyeOutlined />} style={{ backgroundColor: "#ECB206", color: "white" }}>
+           
+            </Button>
+        ),
+    },
+];
+
 
 const FinancialApplied = () => {
 
-    const columns = [
-        {
-            title: "Order ID",
-            dataIndex: "key",
-            key: "key",
-        },
-        {
-            title: "Winner",
-            dataIndex: "name",
-            key: "name",
-            render: (_, record) => {
-                return (
-                    <div className="flex items-center gap-2">
-                        <img
-                            src={record?.img}
-                            className="w-[40px] h-[40px] rounded-[8px]"
-                            alt="Winner"
-                        />
-                        <p className="font-medium">{record?.name}</p>
-                    </div>
-                );
-            },
-        },
-        {
-            title: "Winning Product",
-            dataIndex: "winningProduct",
-            key: "winningProduct",
-            render: (_, record) => {
-                return (
-                    <div className="flex items-center gap-2">
-                        <img
-                            src={record?.winningProductImg}
-                            className="w-[40px] h-[40px] rounded-[8px]"
-                            alt="Product"
-                        />
-                        <p className="font-medium">{record?.winningProduct}</p>
-                    </div>
-                );
-            },
-        },
-        {
-            title: "Winning Price",
-            dataIndex: "winningPrice",
-            key: "winningPrice",
-        },
-        {
-            title: "Expected Delivery Time",
-            dataIndex: "expectedDeliveryDate",
-            key: "expectedDeliveryDate",
-        },
-        
-        {
-            title: "Action",
-            dataIndex: "action",
-            key: "action",
-            render: (_, record) => (
-                <button onClick={() => {
-                    // setIsModalOpen(true)
-                    // setModalData(record)
-                }} className="bg-yellow text-white p-2 rounded">
-                    <IoEyeOutline size={20} />
-                </button>
-            ),
-        },
-    ];
-
-  return (
-    <div>FinancialApplied</div>
-  )
-}
+    return (
+        <Table
+            columns={columns}
+            dataSource={data}
+            pagination={{ pageSize: 11 }}
+            rowKey="key"
+            style={{ margin: "20px" }}
+        />
+    );
+};
 
 export default FinancialApplied

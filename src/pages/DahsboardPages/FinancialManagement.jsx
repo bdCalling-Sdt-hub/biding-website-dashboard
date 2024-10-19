@@ -9,11 +9,11 @@ const FinancialManagement = () => {
     const [searchParams, setSearchParams] = useState('')
     const [applied, setApplied] = useState(false)
 
-    const handleApprovedModal = ()=>{
+    const handleApprovedModal = () => {
         setApplied(false)
     }
 
-    const handleAppliedModal = ()=>{
+    const handleAppliedModal = () => {
         setApplied(true)
     }
     return (
@@ -31,7 +31,6 @@ const FinancialManagement = () => {
                             className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
                         />
                         <span className="absolute left-3 top-2.5 text-gray-400">
-
                             <CiSearch />
                         </span>
                     </div>
@@ -51,7 +50,7 @@ const FinancialManagement = () => {
             </div>
 
             {
-                applied ? <FinancialApplied/> : <FinancialApproved/>
+                applied ? <FinancialApplied /> : <FinancialApproved />
             }
         </div>
     )
