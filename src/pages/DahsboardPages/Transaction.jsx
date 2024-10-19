@@ -14,7 +14,6 @@ const Transaction = () => {
         setCurrentPage(page);
     };
 
-    console.log(getAllTransaction?.data);
 
 
     const columns = [

@@ -11,20 +11,20 @@ import { CgLogIn } from 'react-icons/cg'
 
 const CategoryAndBanner = () => {
 
-    const {data: getAllCategory} = useGetAllCategoryQuery()
+    const { data: getAllCategory } = useGetAllCategoryQuery()
 
     const [category, setCategory] = useState(true)
     const [openAddModal, setOpenAddModal] = useState(false)
-    const [openBannerModal, setOpenBannerModal] = useState(false)   
+    const [openBannerModal, setOpenBannerModal] = useState(false)
     const [modalTitle, setModalTitle] = useState('')
     // const [openCategoryModal, setOpenCategoryModal] = useState(false)
-    
-    const handleCategoryModal =()=>{
+
+    const handleCategoryModal = () => {
         setModalTitle('Add New Ads')
         setCategory(true)
     }
 
-    const handleBannerModal = ()=>{
+    const handleBannerModal = () => {
         setModalTitle('Add New Video')
         setCategory(false)
     }
@@ -38,32 +38,32 @@ const CategoryAndBanner = () => {
             </div>
 
             <div className='flex justify-between items-center'>
-                    {/* <Input className='max-w-[250px] h-10' prefix={<CiSearch className='text-2xl' />} placeholder="Search" /> */}
-                    <div className='flex items-center gap-5 px-5'>
-                        <button onClick={() => handleCategoryModal()} className={` ${category ? 'bg-yellow text-white' : 'border border-yellow text-yellow'} px-4 rounded-sm start-center gap-1 py-2  flex justify-center items-center whitespace-nowrap`}>
+                {/* <Input className='max-w-[250px] h-10' prefix={<CiSearch className='text-2xl' />} placeholder="Search" /> */}
+                <div className='flex items-center gap-5 px-5'>
+                    <button onClick={() => handleCategoryModal()} className={` ${category ? 'bg-yellow text-white' : 'border border-yellow text-yellow'} px-4 rounded-sm start-center gap-1 py-2  flex justify-center items-center whitespace-nowrap`}>
 
-                            categories
-                        </button>
-                        <button onClick={() => handleBannerModal()} className={` ${category ? 'border border-yellow text-yellow' : 'bg-yellow text-white'}  px-4 rounded-sm start-center gap-1 py-2  flex justify-center items-center whitespace-nowrap`}>
+                        categories
+                    </button>
+                    <button onClick={() => handleBannerModal()} className={` ${category ? 'border border-yellow text-yellow' : 'bg-yellow text-white'}  px-4 rounded-sm start-center gap-1 py-2  flex justify-center items-center whitespace-nowrap`}>
 
-                            Banner
-                        </button>
-                    </div>
-
-                    {
-                        category ? <button onClick={() => setOpenAddModal(true)} className='bg-yellow px-4 rounded-sm start-center gap-1 py-2 text-white flex justify-center items-center whitespace-nowrap'>
-                            <FaPlus />
-                            Add Category
-                        </button> : <button onClick={() => setOpenBannerModal(true)} className='bg-yellow px-4 rounded-sm start-center gap-1 py-2 text-white flex justify-center items-center whitespace-nowrap'>
-                            <FaPlus />
-                            Add Banner
-                        </button>
-                    }
+                        Banner
+                    </button>
                 </div>
 
-                
+                {
+                    category ? <button onClick={() => setOpenAddModal(true)} className='bg-yellow px-4 rounded-sm start-center gap-1 py-2 text-white flex justify-center items-center whitespace-nowrap'>
+                        <FaPlus />
+                        Add Category
+                    </button> : <button onClick={() => setOpenBannerModal(true)} className='bg-yellow px-4 rounded-sm start-center gap-1 py-2 text-white flex justify-center items-center whitespace-nowrap'>
+                        <FaPlus />
+                        Add Banner
+                    </button>
+                }
+            </div>
+
+
             {
-                category ? <AddCategory getAllCategory={getAllCategory} />  : <AddBanner/>
+                category ? <AddCategory getAllCategory={getAllCategory} /> : <AddBanner />
             }
             <CategoryModal setOpenAddModal={setOpenAddModal} openAddModal={openAddModal} />
             <BannerModal setOpenBannerModal={setOpenBannerModal} openBannerModal={openBannerModal} />

@@ -4,6 +4,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { LiaCubeSolid } from 'react-icons/lia';
 import { MdOutlineCategory, MdOutlineDashboard, MdOutlineLogout, MdOutlineTrendingUp } from 'react-icons/md';
+import { PiDatabaseLight } from 'react-icons/pi';
 import { RiAuctionLine } from 'react-icons/ri';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
@@ -30,7 +31,7 @@ const SideBar = () => {
     },
     {
       path: '/order-managment',
-      label: 'Order Managment ',
+      label: 'Order Management ',
       icon: <LiaCubeSolid size={25} />,
       sub_menu: false
     },
@@ -50,6 +51,12 @@ const SideBar = () => {
       path: '/category-banner',
       label: 'Category & Banner',
       icon: <MdOutlineCategory size={25} />,
+      sub_menu: false
+    },
+    {
+      path: '/financial-management',
+      label: 'Financial Management',
+      icon: <PiDatabaseLight size={25} />,
       sub_menu: false
     },
 

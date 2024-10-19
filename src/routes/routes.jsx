@@ -20,6 +20,7 @@ import Transaction from "../pages/DahsboardPages/Transaction.jsx";
 import DashboardNotification from "../pages/DahsboardPages/DashboardNotification.jsx";
 import CategoryAndBanner from "../pages/DahsboardPages/CategoryAndBanner.jsx";
 import PrivateRoutes from "./PrivateRoutes.jsx";
+import FinancialManagement from "../pages/DahsboardPages/FinancialManagement.jsx";
 
 const router = createBrowserRouter([
    
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
             {
                 path : 'category-banner',
                 element : <CategoryAndBanner/>
+            },
+            {
+                path : 'financial-management',
+                element : <FinancialManagement/>
             },
             
         ]
