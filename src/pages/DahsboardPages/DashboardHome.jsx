@@ -2,6 +2,8 @@ import React from 'react';
 import income from '../../assets/income.png'
 import auction from '../../assets/auction.png'
 import user from '../../assets/user5.png'
+import user6 from '../../assets/user6.png'
+import user7 from '../../assets/user7.png'
 import IncomeOverview from '../../components/ui/IncomeOverview';
 import { Link } from 'react-router-dom'
 import ActiveAuction from './ActiveAuction';
@@ -16,12 +18,23 @@ const DashboardHome = () => {
     
 
     /** Top bidder data format for the table */
+    console.log(dashboardData?.data?.topBidders);
+    // const topBidderDataFormat = dashboardData?.data?.topBidders?.slice(0,3).map((bidder, i) =>(
+    //     {
+    //         key : i+ 1,
+    //         bidder: bidder?.name,
+    //         // img: checkImageSource(bidder?.profile_image),
+    //         img: bidder?.profile_image,
+    //         totalWin: bidder?.totalWin,
+    //     }
+    // ))
     const topBidderDataFormat = dashboardData?.data?.topBidders?.slice(0,3).map((bidder, i) =>(
         {
             key : i+ 1,
-            bidder: bidder?.name,
-            img: checkImageSource(bidder?.profile_image),
-            totalWin: bidder?.totalWin,
+            bidder: 'Shukumar Ghosh',
+            // img: checkImageSource(bidder?.profile_image),
+            img: user6,
+            totalWin:2,
         }
     ))
 
@@ -30,11 +43,19 @@ const DashboardHome = () => {
     const topAuctionDataFormat = dashboardData?.data?.topAuctions?.slice(0,3)?.map((auction,i)=>{
         return {
             key : i+1,
-            bidder : auction?.name,
-            img : checkImageSource(auction?.images?.[0]),
+            bidder : 'i phone 13 Pro',
+            img : user7,
             totalWin : auction?.currentPrice
         }
     })
+    // const topAuctionDataFormat = dashboardData?.data?.topAuctions?.slice(0,3)?.map((auction,i)=>{
+    //     return {
+    //         key : i+1,
+    //         bidder : auction?.name,
+    //         img : checkImageSource(auction?.images?.[0]),
+    //         totalWin : auction?.currentPrice
+    //     }
+    // })
 
 
     /** active user table data format */
@@ -46,12 +67,26 @@ const DashboardHome = () => {
             img : user?.images?.[0],
             startingDate: user?.startingDate?.split('T')[0],
             heightBidder: user?.winingBidder?.user?.name,
-            heightBidderImg: user?.winingBidder?.user?.profile_image || 'No Bidder',
+            heightBidderImg:user6,
             heightBid: user?.currentPrice || 'No Bid',
-            totalBids: user?.totalBidPlace,
+            totalBids: 12,
 
         }
     })
+    // const activeUserTableData = getAuction?.data?.result?.slice(0,3)?.map((user , i)=>{
+    //     return  {
+    //         id : user?._id,
+    //         key : i + 1,
+    //         name : user?.name,
+    //         img : user?.images?.[0],
+    //         startingDate: user?.startingDate?.split('T')[0],
+    //         heightBidder: user?.winingBidder?.user?.name,
+    //         heightBidderImg: user?.winingBidder?.user?.profile_image || 'No Bidder',
+    //         heightBid: user?.currentPrice || 'No Bid',
+    //         totalBids: user?.totalBidPlace,
+
+    //     }
+    // })
 
     
 

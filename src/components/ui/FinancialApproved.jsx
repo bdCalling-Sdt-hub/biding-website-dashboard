@@ -105,7 +105,7 @@ const FinancialApproved = () => {
       dataIndex: "status",
       key: "status",
       render: (status) => (
-        <Tag color={status === "Paid" ? "green" : "volcano"}>{status}</Tag>
+        <Tag className={`px-8 py-1 rounded-full ${status === 'Paid' ? "border-[#2AB9A4] text-[#2AB9A4] " : "border-[#F3A211] text-[#F3A211]" }`} >{status}</Tag>
       ),
     },
     {
@@ -113,7 +113,7 @@ const FinancialApproved = () => {
       key: "action",
       render: (text, record) => (
         <Button
-          icon={<EyeOutlined />}
+          icon={<EyeOutlined size={25} />}
           style={{ backgroundColor: "#ECB206", color: "white" }}
           onClick={() => showModal(record)}
         >
