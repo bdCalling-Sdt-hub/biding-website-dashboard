@@ -14,13 +14,13 @@ import { imageUrl } from '../../redux/api/baseApi';
 
 const AuctionManagment = () => {
   const [page, setPage] = useState(1)
-  const [singleAuction , setSingleAuction] = useState()
+  const [singleAuction, setSingleAuction] = useState()
   /** Get all auction api */
   const { data: getAllAuction, isLoading } = useGetAllAuctionQuery({ page })
   /** Delete auction api */
   const [deleteAuction] = useDeleteAuctionMutation()
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isEditModalOpen , setIsEditModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
   /** Auction managment data format table */
   const auctionDataFormat = getAllAuction?.data?.result?.map((auction, i) => {
@@ -31,9 +31,9 @@ const AuctionManagment = () => {
       name: auction?.name,
       img: auction?.images,
       category: auction?.category,
-      description: auction?.description, 
+      description: auction?.description,
       reservedBid: auction?.reservedBid,
-      financeAvailable : auction?.financeAvailable,
+      financeAvailable: auction?.financeAvailable,
       totalMonthForFinance: auction?.totalMonthForFinance,
       incrementValue: auction?.incrementValue,
       statingAndEndTime: `${auction?.startingDate.split('T')[0]}-at-${auction?.startingTime
@@ -45,9 +45,14 @@ const AuctionManagment = () => {
   /** delete auction functionlity */
 
   const handleDeleteAuction = (id) => {
+    return
     deleteAuction(id).unwrap()
-      .then((payload) => toast.success(payload?.message))
-      .catch((error) => toast.error(error?.data?.message));
+      .then((payload) => {
+        //toast.success(payload?.message)
+      })
+      .catch((error) => {
+        //toast.error(error?.data?.message)
+      });
   }
 
   const columns = [
@@ -85,7 +90,7 @@ const AuctionManagment = () => {
       dataIndex: "reservedBid",
       key: "reservedBid",
     },
-   
+
     {
       title: "Increment Value",
       dataIndex: "incrementValue",
@@ -181,9 +186,9 @@ const AuctionManagment = () => {
       </div>
 
 
-     
-      <CreateUpdateAuctionModal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen}  />
-      <UpdateAuctionModal singleAuction={singleAuction}  setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen}  />
+
+      <CreateUpdateAuctionModal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />
+      <UpdateAuctionModal singleAuction={singleAuction} setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} />
 
     </div>
   );

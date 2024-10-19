@@ -11,14 +11,18 @@ const DashboardAccessibility = () => {
   const { data: getAccessibility } = useGetAccessibilityQuery()
   const editor = useRef(null);
   const [content, setContent] = useState('');
-  
+
   const handleTerms = () => {
     const data = {
       'description': content
     }
     createAccessibility(data).unwrap()
-      .then((payload) => toast.success('Accessibility create successfully!'))
-      .catch((error) => toast.error(error?.data?.message));
+      .then((payload) => {
+        //toast.success('Accessibility create successfully!')
+      })
+      .catch((error) => {
+        //toast.error(error?.data?.message)
+      });
   }
   const config = {
     readonly: false,

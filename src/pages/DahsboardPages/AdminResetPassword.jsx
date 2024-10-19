@@ -18,11 +18,11 @@ const AdminResetPassword = () => {
         resetPassword(data).unwrap()
             .then((payload) => {
                 localStorage.removeItem('email')
-                toast.success(payload?.message)
+                //toast.success(payload?.message)
                 navigate('/')
             })
             .catch((error) => {
-                toast.error(error?.data?.message)
+                //toast.error(error?.data?.message)
             });
 
     }

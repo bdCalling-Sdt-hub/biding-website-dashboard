@@ -11,7 +11,7 @@ const OrderManagement = () => {
     const [searchParams, setSearchParams] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
-    
+
     // Update the query to fetch data based on pagination params
     const { data: getOrders, isLoading } = useGetAllOrderQuery({ searchParams, page: currentPage, limit: pageSize });
     const [changeOrderStatus] = useChangeOrderStatusMutation();
@@ -106,12 +106,17 @@ const OrderManagement = () => {
     ];
 
     const handleStatusChange = (orderId, newStatus) => {
+        return
         const status = {
             "status": newStatus
         }
-        changeOrderStatus({orderId, status}).unwrap()
-            .then((payload) => toast.success(payload?.message))
-            .catch((error) => toast.error(error?.data?.message));
+        changeOrderStatus({ orderId, status }).unwrap()
+            .then((payload) => {
+                //toast.success(payload?.message)
+            })
+            .catch((error) => {
+                //toast.error(error?.data?.message)
+            });
     };
 
     const orderManagementTableData = getOrders?.data?.result?.map((order, i) => {
@@ -203,19 +208,19 @@ const OrderManagement = () => {
 
                     <div className='mt-5 space-y-2'>
                         <p className='flex justify-between'>
-                            <span className='font-medium'>Order ID:</span> 
+                            <span className='font-medium'>Order ID:</span>
                             <span>{modalData?.orderId}</span>
                         </p>
                         <p className='flex justify-between'>
-                            <span className='font-medium'>Order Date:</span> 
+                            <span className='font-medium'>Order Date:</span>
                             <span>{modalData?.orderDate}</span>
                         </p>
                         <p className='flex justify-between'>
-                            <span className='font-medium'>Expected Delivery Date:</span> 
+                            <span className='font-medium'>Expected Delivery Date:</span>
                             <span>{modalData?.expectedDeliveryDate}</span>
                         </p>
                         <p className='flex justify-between'>
-                            <span className='font-medium'>Status:</span> 
+                            <span className='font-medium'>Status:</span>
                             <span>{modalData?.status}</span>
                         </p>
                     </div>

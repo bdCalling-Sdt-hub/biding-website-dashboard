@@ -12,11 +12,11 @@ const AdminForgetPassword = () => {
         forgetPassword(values).unwrap()
             .then((payload) => {
                 localStorage.setItem('email', values?.email)
-                toast.success(payload?.message)
+                //toast.success(payload?.message)
                 navigate('/admin-verification-code')
             })
             .catch((error) =>{
-                toast.error(error?.data?.message)
+                //toast.error(error?.data?.message)
             });
     };
     return (

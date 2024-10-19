@@ -55,8 +55,12 @@ const AddBanner = () => {
     /** Delete banner  */
     const handleDeleteBanner = (id) => {
         deleteBanner(id).unwrap()
-            .then((payload) => toast.success(payload?.message))
-            .catch((error) => toast.error(error?.data?.message))
+            .then((payload) => {
+                //toast.success(payload?.message)
+            })
+            .catch((error) => {
+                //toast.error(error?.data?.message)
+            })
 
     }
 

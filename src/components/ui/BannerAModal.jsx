@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 
 
 const BannerModal = ({ setOpenBannerModal, openBannerModal }) => {
-    const [createBanner, {isLoading}] = useCreateBannerMutation()
+    const [createBanner, { isLoading }] = useCreateBannerMutation()
     const [fileList, setFileList] = useState();
     const [form] = Form.useForm()
     // handle upload image 
@@ -18,7 +18,7 @@ const BannerModal = ({ setOpenBannerModal, openBannerModal }) => {
     const onFinish = () => {
         const formData = new FormData()
         if (!fileList || fileList.length === 0) {
-            return toast.error('Please Select an Image!!');
+            return //toast.error('Please Select an Image!!');
         }
         if (fileList.length > 0) {
 
@@ -26,11 +26,13 @@ const BannerModal = ({ setOpenBannerModal, openBannerModal }) => {
         }
         createBanner(formData).unwrap()
             .then((payload) => {
-                toast.success(payload?.message)
+                //toast.success(payload?.message)
                 setOpenBannerModal(false)
                 setFileList([])
             })
-            .catch((error) => toast.error(error?.data?.message));
+            .catch((error) => {
+                //toast.error(error?.data?.message)
+            });
     }
 
 
@@ -61,7 +63,7 @@ const BannerModal = ({ setOpenBannerModal, openBannerModal }) => {
                 <div className='flex justify-between  gap-3'>
                     <Form.Item className='w-full' >
                         <Button className='w-full' disabled={isLoading} >
-                            {isLoading ? <Spin/> : "Save"}
+                            {isLoading ? <Spin /> : "Save"}
                         </Button>
                     </Form.Item>
                     <Form.Item className='w-full' >

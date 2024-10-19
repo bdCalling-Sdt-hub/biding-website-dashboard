@@ -58,13 +58,13 @@ console.log(fileList);
         // Send the formData to the server
         updateAuction({ formData, id }).unwrap()
             .then((payload) => {
-                toast.success(payload?.message);
+                //toast.success(payload?.message);
                 setIsModalOpen(false);
                 form.resetFields();
                 setFileList([]);
             })
             .catch((error) => {
-                toast.error(error?.data?.message);
+                //toast.error(error?.data?.message);
             });
     };
 

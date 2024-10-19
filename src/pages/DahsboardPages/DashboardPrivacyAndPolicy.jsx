@@ -8,35 +8,40 @@ import { toast } from 'sonner';
 
 const DashboardPrivacyAndPolicy = () => {
   const [createPrivacyPolicy] = useCreatePrivacyPolicyMutation()
-  const {data :  getPrivacyPolicy} = useGetPrivacyPolicyQuery()
+  const { data: getPrivacyPolicy } = useGetPrivacyPolicyQuery()
 
-    const editor = useRef(null);
-    const [content, setContent] = useState('');
-    const handleTerms = () => {
-      const data = {
-        'description': content
+  const editor = useRef(null);
+  const [content, setContent] = useState('');
+  const handleTerms = () => {
+    return
+    const data = {
+      'description': content
     }
     createPrivacyPolicy(data).unwrap()
-        .then((payload) => toast.success('Privacy policy create successfully'))
-        .catch((error) => toast.error(error?.data?.message));
+      .then((payload) => {
+        //toast.success('Privacy policy create successfully')
+      })
+      .catch((error) => {
+        //toast.error(error?.data?.message)
+      });
+  }
+  const config = {
+    readonly: false,
+    placeholder: 'Start typings...',
+    style: {
+      height: 400,
+    },
+    buttons: [
+      'image', 'fontsize', 'bold', 'italic', 'underline', '|',
+      'font', 'brush',
+      'align'
+    ]
+  }
+  useEffect(() => {
+    if (getPrivacyPolicy?.data?.description) {
+      setContent(getPrivacyPolicy?.data?.description);
     }
-    const config = {
-        readonly: false,
-        placeholder: 'Start typings...',
-        style: {
-            height: 400,
-        },
-        buttons: [
-            'image', 'fontsize', 'bold', 'italic', 'underline', '|',
-            'font', 'brush',
-            'align'
-        ]
-    }
-    useEffect(()=>{
-      if (getPrivacyPolicy?.data?.description) {
-          setContent(getPrivacyPolicy?.data?.description);
-      }
-  },[getPrivacyPolicy])
+  }, [getPrivacyPolicy])
   return (
     <>
       <div className='flex justify-start items-center gap-2 mb-3 relative m-5'>
@@ -55,7 +60,7 @@ const DashboardPrivacyAndPolicy = () => {
           onChange={newContent => { }}
         />
         <div className='flex items-center   justify-center mt-5'>
-          <button onClick={()=>handleTerms()} className='bg-yellow  text-white px-4 py-2 rounded-lg test'>Save Changes</button>
+          <button onClick={() => handleTerms()} className='bg-yellow  text-white px-4 py-2 rounded-lg test'>Save Changes</button>
         </div>
 
       </div>

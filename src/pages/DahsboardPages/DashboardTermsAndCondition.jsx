@@ -8,31 +8,35 @@ import { toast } from 'sonner';
 
 const DashboardTermsAndCondition = () => {
   const [createTerms] = useCreateTermsAndConditionMutation();
-  const {data : getTerms} = useGetTermsAndConditionQuery()
-    const editor = useRef(null);
-    const [content, setContent] = useState('');
-    const handleTerms = () => {
-      const data = {
-        'description': content
-      }
-      createTerms(data).unwrap()
-        .then((payload) => toast.success('Terms and condition create successfully!'))
-        .catch((error) => toast.error(error?.data?.message));
+  const { data: getTerms } = useGetTermsAndConditionQuery()
+  const editor = useRef(null);
+  const [content, setContent] = useState('');
+  const handleTerms = () => {
+    const data = {
+      'description': content
     }
-    const config = {
-        readonly: false,
-        placeholder: 'Start typings...',
-        style: {
-            height: 400,
-        },
-        buttons: [
-            'image', 'fontsize', 'bold', 'italic', 'underline', '|',
-            'font', 'brush',
-            'align'
-        ]
-    }
+    createTerms(data).unwrap()
+      .then((payload) => {
+        //toast.success('Terms and condition create successfully!')
+      })
+      .catch((error) => {
+        //toast.error(error?.data?.message)
+      });
+  }
+  const config = {
+    readonly: false,
+    placeholder: 'Start typings...',
+    style: {
+      height: 400,
+    },
+    buttons: [
+      'image', 'fontsize', 'bold', 'italic', 'underline', '|',
+      'font', 'brush',
+      'align'
+    ]
+  }
 
-    
+
   useEffect(() => {
     if (getTerms?.data?.description) {
       setContent(getTerms?.data?.description);
@@ -56,7 +60,7 @@ const DashboardTermsAndCondition = () => {
           onChange={newContent => { }}
         />
         <div className='flex items-center   justify-center mt-5'>
-          <button onClick={()=>handleTerms()} className='bg-yellow  text-white px-4 py-2 rounded-lg test'>Save Changes</button>
+          <button onClick={() => handleTerms()} className='bg-yellow  text-white px-4 py-2 rounded-lg test'>Save Changes</button>
         </div>
 
       </div>

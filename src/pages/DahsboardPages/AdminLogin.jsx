@@ -10,13 +10,15 @@ const AdminLogin = () => {
     const onFinish = (values) => {
         loginAdmin(values).unwrap()
             .then((payload) => {
-                if(payload?.data?.accessToken){
+                if (payload?.data?.accessToken) {
                     localStorage.setItem('token', JSON.stringify(payload?.data?.accessToken));
                     navigate("/");
-                    toast.success(payload?.message)
-                  }
+                    //toast.success(payload?.message)
+                }
             })
-            .catch((error) => toast.error(error?.data?.message));
+            .catch((error) => {
+                //toast.error(error?.data?.message)
+            });
     }
     return (
         <div className='flex flex-col items-center justify-center h-screen bg-[#fbe2b5] '>

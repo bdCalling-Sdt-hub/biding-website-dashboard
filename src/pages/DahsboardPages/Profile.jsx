@@ -8,7 +8,7 @@ import { imageUrl } from "../../redux/api/baseApi";
 const Profile = () => {
     const [updateProfile, { isLoading }] = useUpdateUserProfileMutation();
     const [changePassword] = useChangePasswordMutation()
-    
+
     const { data: getProfile } = useGetUserProfileQuery();
     const [image, setImage] = useState(null);
     const [form] = Form.useForm()
@@ -34,11 +34,16 @@ const Profile = () => {
             return setPassError("Confirm password doesn't match")
         }
         changePassword(values).unwrap()
-            .then((payload) => toast.success(payload?.message))
-            .catch((error) => toast.error(error?.data?.message));
+            .then((payload) => {
+                //toast.success(payload?.message)
+            })
+            .catch((error) => {
+                //toast.error(error?.data?.message)
+            });
 
     };
     const onEditProfile = (values) => {
+        return
         const formData = new FormData();
         console.log(values);
         formData.append("data", JSON.stringify(values));
@@ -46,8 +51,12 @@ const Profile = () => {
             formData.append("profile_image", image);
         }
         updateProfile(formData).unwrap()
-            .then((payload) => toast.success(payload?.message))
-            .catch((error) => toast.error(error?.data?.message));
+            .then((payload) => {
+                //toast.success(payload?.message)
+            })
+            .catch((error) => {
+                //toast.error(error?.data?.message)
+            });
     }
 
 

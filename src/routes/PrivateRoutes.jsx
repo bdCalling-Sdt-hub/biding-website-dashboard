@@ -4,13 +4,13 @@ import { useGetUserProfileQuery } from "../redux/api/userApi";
 
  const PrivateRoutes = ({children}) =>{
     const location = useLocation()
-    const { data: getUserInfo,isError, isLoading } = useGetUserProfileQuery();
-    if(isLoading){
-        return <div className="flex items-center justify-center"><Skeleton active /></div>;
-    }
-    if (isError || !getUserInfo?.data?.email) {
-        return <Navigate to="/admin-login" state={{ from: location }} />;
-      }
+    // const { data: getUserInfo,isError, isLoading } = useGetUserProfileQuery();
+    // if(isLoading){
+    //     return <div className="flex items-center justify-center"><Skeleton active /></div>;
+    // }
+    // if (isError || !getUserInfo?.data?.email) {
+    //     return <Navigate to="/admin-login" state={{ from: location }} />;
+    //   }
     
       return children;
 

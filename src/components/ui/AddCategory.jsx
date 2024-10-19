@@ -15,7 +15,7 @@ const AddCategory = ({ getAllCategory }) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalData, setModalData] = useState(null);
-    
+
 
     useEffect(() => {
         if (modalData) {
@@ -45,9 +45,14 @@ const AddCategory = ({ getAllCategory }) => {
 
     /** Delete category  */
     const handleDeleteCategory = (id) => {
+        return
         deleteCategory(id).unwrap()
-            .then((payload) => toast.success(payload?.message))
-            .catch((error) => toast.error(error?.data?.message));
+            .then((payload) => {
+                //toast.success(payload?.message)
+            })
+            .catch((error) => {
+                //toast.error(error?.data?.message)
+            });
     };
 
     /** Update category data modal */
@@ -63,13 +68,13 @@ const AddCategory = ({ getAllCategory }) => {
         updateCategoryData({ formData, id: modalData.id })
             .unwrap()
             .then((payload) => {
-                toast.success(payload?.message);
+                //toast.success(payload?.message);
                 setIsModalOpen(false);
                 form.resetFields();
                 setFileList([]);
             })
             .catch((error) => {
-                toast.error(error?.data?.message);
+                //toast.error(error?.data?.message);
             });
     };
 
@@ -181,7 +186,7 @@ const AddCategory = ({ getAllCategory }) => {
                     <div className="flex justify-between gap-3">
                         <Form.Item className="w-full">
                             <Button disabled={isLoading} className="w-full" htmlType="submit">
-                                {isLoading ? <Spin/>  : 'Save'}
+                                {isLoading ? <Spin /> : 'Save'}
                             </Button>
                         </Form.Item>
                         <Form.Item className="w-full">

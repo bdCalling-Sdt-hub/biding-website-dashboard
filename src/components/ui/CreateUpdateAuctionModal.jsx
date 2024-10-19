@@ -18,9 +18,9 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
 
   // Handle the change in financing selection
   const handleFinancingChange = (value) => {
-    if(value){
+    if (value) {
       setIsFinancingAvailable(value);
-    }else{
+    } else {
       setIsFinancingAvailable(false)
     }
   };
@@ -53,7 +53,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
 
 
     if (fileList.length < 3) {
-      return toast.error("Please select at least 3 image!!")
+      return //toast.error("Please select at least 3 image!!")
     }
     const formData = new FormData();
     formData.append('data', JSON.stringify(data));
@@ -65,12 +65,14 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
     // API call to create the auction
     createAuction(formData).unwrap()
       .then((payload) => {
-        toast.success(payload?.message)
+        //toast.success(payload?.message)
         setIsModalOpen(false)
         form.resetFields();
         setFileList([])
       })
-      .catch((error) => toast.error(error?.data?.message));
+      .catch((error) => {
+        //toast.error(error?.data?.message)
+      });
   };
 
   return (
@@ -161,7 +163,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
               <Form.Item
                 label="Financing"
                 name='financeAvailable'
-                initialValue={false} 
+                initialValue={false}
               >
                 <Select
                   defaultValue="Select"

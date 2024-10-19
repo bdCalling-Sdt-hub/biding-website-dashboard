@@ -24,7 +24,7 @@ const CategoryModal = ({ setOpenAddModal, openAddModal }) => {
         const formData = new FormData()
         formData.append('data', JSON.stringify(values))
         if (!fileList || fileList.length === 0) {
-            return toast.error('Please Select an Image!!');
+            return //toast.error('Please Select an Image!!');
         }
 
         if (fileList.length > 0) {
@@ -32,12 +32,14 @@ const CategoryModal = ({ setOpenAddModal, openAddModal }) => {
         }
         createCatrgory(formData).unwrap()
             .then((payload) => {
-                toast.success(payload?.message)
+                //toast.success(payload?.message)
                 form.resetFields()
                 setFileList([])
                 setOpenAddModal(false)
             })
-            .catch((error) => toast.error(error?.data?.message));
+            .catch((error) => {
+                //toast.error(error?.data?.message)
+            });
     }
 
     return (

@@ -18,12 +18,14 @@ const AdminVerificationCode = () => {
         console.log(data);
         verifyOtp(data).unwrap()
             .then((payload) => {
-                
-                    navigate('/admin-reset-password')
-                
-                toast.success(payload?.message)
+
+                navigate('/admin-reset-password')
+
+                //toast.success(payload?.message)
             })
-            .catch((error) => toast.error(error?.data?.message));
+            .catch((error) => {
+                //toast.error(error?.data?.message)
+            });
     }
     return (
         <div className='flex flex-col items-center justify-center h-screen bg-[#fbe2b5] '>

@@ -28,9 +28,14 @@ const DashboardFaqs = () => {
   }
 
   const onFinish = (values) => {
+    return
     createFaq(values).unwrap()
-      .then((payload) => toast.success('FAQ create successfully!'))
-      .catch((error) => toast.error(error?.data?.message));
+      .then((payload) => {
+        //toast.success('FAQ create successfully!')
+      })
+      .catch((error) => {
+        //toast.error(error?.data?.message)
+      });
     setIsModalOpen(false)
   }
 

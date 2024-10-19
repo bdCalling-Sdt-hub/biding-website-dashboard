@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 const UserManagement = () => {
   const [searchParams, setSearchParams] = useState('')
   const { data: getAllUsers } = useGetAllUsersQuery(searchParams);
-  const [blockUnblockUser , {isLoading}] = useBlockUnblockUserMutation()
+  const [blockUnblockUser, { isLoading }] = useBlockUnblockUserMutation()
   const columns = [
     {
       title: "SL no",
@@ -88,17 +88,22 @@ const UserManagement = () => {
     dob: user?.date_of_birth || 'Not available',
     location: user?.location || 'Not available',
     auctionWin: user?.totalWin,
-    is_block : user?.is_block
+    is_block: user?.is_block
   }))
 
   const handleBlockUnBlockUser = (email, is_block) => {
+    return
     const data = {
       email: email,
       is_block: is_block
     }
     blockUnblockUser(data).unwrap()
-      .then((payload) => toast.success(payload?.message))
-      .catch((error) => toast.error(error?.data?.message));
+      .then((payload) => {
+        //toast.success(payload?.message)
+      })
+      .catch((error) => {
+        //toast.error(error?.data?.message)
+      });
   }
 
 
@@ -113,7 +118,7 @@ const UserManagement = () => {
         <div>
           <div className="relative">
             <input
-            onChange={(e)=>setSearchParams(e.target.value)}
+              onChange={(e) => setSearchParams(e.target.value)}
               type="text"
               placeholder="Search here..."
               className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "

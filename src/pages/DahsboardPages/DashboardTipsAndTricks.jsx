@@ -12,13 +12,17 @@ const DashboardTipsAndTricks = () => {
   const editor = useRef(null);
   const [content, setContent] = useState('');
   const handleTerms = () => {
-   
+    return
     const data = {
       'description': content
     }
     createTipsTricks(data).unwrap()
-      .then((payload) => toast.success('Tips and tricks create successfully'))
-      .catch((error) => toast.error(error?.data?.message))
+      .then((payload) => {
+        //toast.success('Tips and tricks create successfully')
+      })
+      .catch((error) => {
+        //toast.error(error?.data?.message)
+      })
   }
   const config = {
     readonly: false,
@@ -32,12 +36,12 @@ const DashboardTipsAndTricks = () => {
       'align'
     ]
   }
-  useEffect(()=>{
+  useEffect(() => {
 
-    if(getTipsTricks?.data?.description){
+    if (getTipsTricks?.data?.description) {
       setContent(getTipsTricks?.data?.description)
     }
-  },[getTipsTricks])
+  }, [getTipsTricks])
   return (
     <>
       <div className='flex justify-start items-center gap-2 mb-3 relative m-5'>
@@ -56,7 +60,7 @@ const DashboardTipsAndTricks = () => {
           onChange={newContent => { }}
         />
         <div className='flex items-center   justify-center mt-5'>
-          <button onClick={()=>handleTerms()} className='bg-yellow  text-white px-4 py-2 rounded-lg test'>Save Changes</button>
+          <button onClick={() => handleTerms()} className='bg-yellow  text-white px-4 py-2 rounded-lg test'>Save Changes</button>
         </div>
 
       </div>
