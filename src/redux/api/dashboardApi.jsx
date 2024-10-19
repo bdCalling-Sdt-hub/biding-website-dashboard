@@ -330,10 +330,18 @@ const dashboardApi = baseApi.injectEndpoints({
                 }
             },
             invalidatesTags: ['orderStatus']
+        }),
+        financialManagement : builder.query({
+            query : ({applied})=>{
+                
+                return {
+                    url :`/order/get-all-orders?isApproved=${applied}`
+                }
+            }
         })
 
     }),
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation, useCreateTipsTricksMutation, useGetTipsTricksQuery, useCreateAccessibilityMutation, useGetAccessibilityQuery, useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation, useCreateFaqMutation, useGetFaqQuery, useReadNotificationMutation, useGetTransactionQuery, useChangeOrderStatusMutation , useDeleteNotificationMutation } = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation, useCreateTipsTricksMutation, useGetTipsTricksQuery, useCreateAccessibilityMutation, useGetAccessibilityQuery, useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation, useCreateFaqMutation, useGetFaqQuery, useReadNotificationMutation, useGetTransactionQuery, useChangeOrderStatusMutation , useDeleteNotificationMutation, useFinancialManagementQuery } = dashboardApi 

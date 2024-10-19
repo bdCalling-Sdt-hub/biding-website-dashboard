@@ -4,10 +4,13 @@ import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import FinancialApplied from '../../components/ui/FinancialApplied'
 import FinancialApproved from '../../components/ui/FinancialApproved'
+import { useFinancialManagementQuery } from '../../redux/api/dashboardApi'
 
 const FinancialManagement = () => {
     const [searchParams, setSearchParams] = useState('')
-    const [applied, setApplied] = useState(false)
+    const [applied, setApplied] = useState(true)
+    console.log(applied);
+    const {data} =  useFinancialManagementQuery({applied})
 
     const handleApprovedModal = ()=>{
         setApplied(false)
@@ -51,7 +54,7 @@ const FinancialManagement = () => {
             </div>
 
             {
-                applied ? <FinancialApplied/> : <FinancialApproved/>
+                applied ?<FinancialApplied appliedData={data?.data} />  : <FinancialApproved/>
             }
         </div>
     )
