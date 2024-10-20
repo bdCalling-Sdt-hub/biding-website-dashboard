@@ -57,7 +57,7 @@ const AddCategory = ({ getAllCategory }) => {
 
         // Append new image if uploaded
         if (fileList.length > 0 && fileList[0].originFileObj) {
-            formData.append('image', fileList[0].originFileObj);
+            formData.append('category_image', fileList[0].originFileObj);
         }
 
         updateCategoryData({ formData, id: modalData.id })

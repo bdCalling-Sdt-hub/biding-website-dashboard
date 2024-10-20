@@ -365,9 +365,18 @@ const dashboardApi = baseApi.injectEndpoints({
                 }
             }
         }),
+        sendCredits :  builder.mutation({
+            query : ({id, creditAmount})=>{
+                return {
+                    url : `/dashboard/send-credit/${id}`,
+                    method : 'POST',
+                    body : creditAmount
+                }
+            }
+        })
 
     }),
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation, useCreateTipsTricksMutation, useGetTipsTricksQuery, useCreateAccessibilityMutation, useGetAccessibilityQuery, useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation, useCreateFaqMutation, useGetFaqQuery, useReadNotificationMutation, useGetTransactionQuery, useChangeOrderStatusMutation , useDeleteNotificationMutation, useFinancialManagementQuery , useApproveFinancialOrderMutation, useDeclineFinancialOrderMutation, useSentPaymentLinkMutation } = dashboardApi 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation, useCreateTipsTricksMutation, useGetTipsTricksQuery, useCreateAccessibilityMutation, useGetAccessibilityQuery, useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation, useCreateFaqMutation, useGetFaqQuery, useReadNotificationMutation, useGetTransactionQuery, useChangeOrderStatusMutation , useDeleteNotificationMutation, useFinancialManagementQuery , useApproveFinancialOrderMutation, useDeclineFinancialOrderMutation, useSentPaymentLinkMutation, useSendCreditsMutation } = dashboardApi 

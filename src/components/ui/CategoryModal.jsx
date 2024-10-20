@@ -20,7 +20,6 @@ const CategoryModal = ({ setOpenAddModal, openAddModal }) => {
 
     /** Add Category function */
     const onFinish = (values) => {
-
         const formData = new FormData()
         formData.append('data', JSON.stringify(values))
         if (!fileList || fileList.length === 0) {
@@ -28,7 +27,7 @@ const CategoryModal = ({ setOpenAddModal, openAddModal }) => {
         }
 
         if (fileList.length > 0) {
-            formData.append('file', fileList[0].originFileObj);
+            formData.append('category_image', fileList[0].originFileObj);
         }
         createCatrgory(formData).unwrap()
             .then((payload) => {
