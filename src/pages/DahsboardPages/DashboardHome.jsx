@@ -52,7 +52,6 @@ const DashboardHome = () => {
         }
     })
 
-    console.log(getAuction?.data?.result);
 
   
     return (

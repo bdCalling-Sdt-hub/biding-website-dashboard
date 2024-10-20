@@ -117,7 +117,6 @@ const UserManagement = () => {
   }
 
   const handleSendCredit = (values) => {
-    console.log(sendCreditId);
     const creditAmount = values.creditAmount;
 
     if (!creditAmount) {

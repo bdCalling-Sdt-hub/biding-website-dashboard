@@ -60,7 +60,6 @@ const AuctionManagment = () => {
       dataIndex: "name",
       key: "name",
       render: (_, record) => {
-        console.log(record);
         return (
           <div className="flex items-center gap-2">
             <img

@@ -29,7 +29,6 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
     const handleRemove = (file) => {
         setFileList(fileList.filter((item) => item.uid !== file.uid));
     };
-console.log(fileList);
     // Update auction product
     const onFinish = (values) => {
         const id = singleAuction?.id;
@@ -106,7 +105,6 @@ console.log(fileList);
             }
         }
     }, [singleAuction, form]);
-    console.log(fileList);
 
     return (
         <div>

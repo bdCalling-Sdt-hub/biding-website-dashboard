@@ -40,7 +40,6 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
   // Show the modal and pass the selected user data
   const showModal = (record) => {
     setSelectedUser(record);
-    console.log(record);
     setInputValue(record?.paymentLink)
     setIsModalVisible(true);
   };

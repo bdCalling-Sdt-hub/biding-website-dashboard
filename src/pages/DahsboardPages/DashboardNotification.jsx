@@ -64,7 +64,6 @@ const DashboardNotification = () => {
    const rowClassName = (record) => {
     return !record.seen ? 'unread-notification' : ''; 
 };
-console.log(notifications);
     return (
         <div>
             <div className="flex justify-between items-center gap-4">

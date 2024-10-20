@@ -40,7 +40,6 @@ const Profile = () => {
     };
     const onEditProfile = (values) => {
         const formData = new FormData();
-        console.log(values);
         formData.append("data", JSON.stringify(values));
         if (image) {
             formData.append("profile_image", image);
