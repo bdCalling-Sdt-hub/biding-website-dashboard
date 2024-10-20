@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Table, Button, Avatar, Tag, Modal, Input, Form, Pagination } from "antd";
+import { Table, Button, Avatar, Tag, Modal, Input, Form, Pagination, Popconfirm } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
-import { useSentPaymentLinkMutation } from "../../redux/api/dashboardApi";
+import { useMakePaidMutation, useSentPaymentLinkMutation } from "../../redux/api/dashboardApi";
 import { toast } from "sonner";
 
 
@@ -12,7 +12,7 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
   const [sendPaymentLink] = useSentPaymentLinkMutation()
   const [inputValue, setInputValue] = useState('');
   const [form] = Form.useForm()
-
+  const [makePaid] = useMakePaidMutation()
 
   const formattedDataTable = financialData?.data?.result?.map((item, i) => (
     {
@@ -26,12 +26,13 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
       months: item?.totalMonth,
       perMonthFee: item?.monthlyAmount,
       lastPayment: item?.lastPayment || 'Not Pay',
+      paidMonth: item?.paidInstallment,
       status: item?.monthlyStatus,
       image: item?.user?.profile_image,
       address: item?.shippingAddress?.streetAddress,
       orderId: item?._id,
       winningPrice: item?.totalAmount,
-      paymentLink : item?.paymentLink || ""
+      paymentLink: item?.paymentLink || ""
     }
   ))
 
@@ -90,6 +91,11 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
       key: "perMonthFee",
     },
     {
+      title: "Paid Month",
+      dataIndex: "paidMonth",
+      key: "paidMonth",
+    },
+    {
       title: "Last Payment",
       dataIndex: "lastPayment",
       key: "lastPayment",
@@ -106,12 +112,24 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
       title: "Action",
       key: "action",
       render: (text, record) => (
-        <Button
-          icon={<EyeOutlined size={25} />}
-          style={{ backgroundColor: "#ECB206", color: "white" }}
-          onClick={() => showModal(record)}
-        >
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            icon={<EyeOutlined size={25} />}
+            style={{ backgroundColor: "#F3A211", color: "white" }}
+            onClick={() => showModal(record)}
+          >
+          </Button>
+          <Popconfirm
+            placement="topRight"
+            title="Are you sure for paid this user?"
+            onConfirm={() => handleMakePaid(record?.key)}
+            okText="Yes"
+            cancelText="No"
+          >
+
+            <Button style={{ backgroundColor: "#F3A211", color: "white" }}>Make Paid</Button>
+          </Popconfirm>
+        </div>
       ),
     },
   ];
@@ -121,7 +139,7 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
     const paymentLink = {
       paymentLink: inputValue
     }
-    sendPaymentLink({id,paymentLink }).unwrap()
+    sendPaymentLink({ id, paymentLink }).unwrap()
       .then((payload) => {
         toast.success(payload?.message)
         setIsModalVisible(false)
@@ -129,6 +147,12 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
       .catch((error) => toast.error(error?.data?.message));
 
 
+  }
+
+  const handleMakePaid = (id) => {
+    makePaid(id).unwrap()
+      .then((payload) => toast.success(payload?.message))
+      .catch((error) => toast.error(error?.data?.message));
   }
 
   const handleInputChange = (e) => {
