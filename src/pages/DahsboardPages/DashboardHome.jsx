@@ -13,14 +13,13 @@ const DashboardHome = () => {
     const {data : getAuction, isLoading :  auctionLoading} = useGetAllAuctionQuery("ACTIVE")
 
 
-    
 
     /** Top bidder data format for the table */
     const topBidderDataFormat = dashboardData?.data?.topBidders?.slice(0,3).map((bidder, i) =>(
         {
             key : i+ 1,
             bidder: bidder?.name,
-            img: checkImageSource(bidder?.profile_image),
+            img: bidder?.profile_image,
             totalWin: bidder?.totalWin,
         }
     ))
@@ -31,7 +30,7 @@ const DashboardHome = () => {
         return {
             key : i+1,
             bidder : auction?.name,
-            img : checkImageSource(auction?.images?.[0]),
+            img : auction?.images?.[0],
             totalWin : auction?.currentPrice
         }
     })
@@ -53,7 +52,7 @@ const DashboardHome = () => {
         }
     })
 
-    
+    console.log(getAuction?.data?.result);
 
   
     return (

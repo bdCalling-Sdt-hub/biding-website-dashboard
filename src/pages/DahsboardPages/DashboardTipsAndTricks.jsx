@@ -24,7 +24,7 @@ const DashboardTipsAndTricks = () => {
     readonly: false,
     placeholder: 'Start typings...',
     style: {
-      height: 400,
+      height: '70vh',
     },
     buttons: [
       'image', 'fontsize', 'bold', 'italic', 'underline', '|',

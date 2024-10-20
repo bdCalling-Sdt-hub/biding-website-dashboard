@@ -11,6 +11,7 @@ const ActiveAuctionPage = () => {
 
     /** active user table data format */
     const activeUserTableData = getAuction?.data?.result?.map((user, i) => {
+        console.log(user);
         return {
             id: user?._id,
             key: i + 1,
