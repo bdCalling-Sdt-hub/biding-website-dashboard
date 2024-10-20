@@ -1,43 +1,18 @@
 import React, { useState } from "react";
-import { Table, Button, Avatar, Modal } from "antd";
+import { Table, Button, Avatar, Modal, Pagination } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
+import { useApproveFinancialOrderMutation, useDeclineFinancialOrderMutation } from "../../redux/api/dashboardApi";
+import { toast } from "sonner";
 
-// Mock data (replace with real data)
-const data = [
-    {
-        key: "1",
-        slNo: "#12333",
-        userName: "Kathryn Murp",
-        email: "bockely@att.com",
-        contact: "(201) 555-0124",
-        product: "iPhone 13 Pro Max",
-        totalFee: "$24.00",
-        months: 12,
-        perMonthFee: "$4.00",
-        image: "https://randomuser.me/api/portraits/women/1.jpg",
-    },
-    {
-        key: "2",
-        slNo: "#12333",
-        userName: "Devon Lane",
-        email: "csilvers@rizon.com",
-        contact: "(219) 555-0114",
-        product: "Samsung Smart TV",
-        totalFee: "$20.00",
-        months: 6,
-        perMonthFee: "$2.00",
-        image: "https://randomuser.me/api/portraits/men/2.jpg",
-    },
-    // Add more data objects similarly as per your data
-];
+
 
 // Column configuration for the table
-const FinancialApplied = ({data}) => {
+const FinancialApplied = ({ financialData, page, setPage }) => {
 
-    console.log(data);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
-
+    const [approvedFinancialOrder] = useApproveFinancialOrderMutation()
+    const [declineFinancialOrder] = useDeclineFinancialOrderMutation()
     // Function to handle showing the modal with user details
     const showModal = (record) => {
         setSelectedUser(record);
@@ -50,18 +25,19 @@ const FinancialApplied = ({data}) => {
         setSelectedUser(null);
     };
 
-    const tableFormattedData = data?.map((item, i)=>(
+
+    const tableFormattedData = financialData?.data?.result?.map((item, i) => (
         {
-            key: "1",
-            slNo: "#12333",
-            userName: "Kathryn Murp",
-            email: "bockely@att.com",
-            contact: "(201) 555-0124",
-            product: "iPhone 13 Pro Max",
-            totalFee: "$24.00",
-            months: 12,
-            perMonthFee: "$4.00",
-            image: "https://randomuser.me/api/portraits/women/1.jpg",
+            key: item?._id,
+            slNo: i + 1,
+            userName: item?.customerName,
+            email: item?.customerEmail,
+            contact: item?.customerPhoneNum,
+            product: item?.item?.name,
+            totalFee: `$ ${item?.totalAmount}`,
+            months: item?.totalMonth,
+            perMonthFee: `$ ${item?.monthlyAmount}`,
+            image: item?.user?.profile_image,
         }
     ))
 
@@ -126,15 +102,46 @@ const FinancialApplied = ({data}) => {
         },
     ];
 
+    /** Approved financial management function */
+    const handleApprovedFinancial = (id) => {
+        approvedFinancialOrder(id).unwrap()
+            .then((payload) => {
+                toast.success(payload?.message)
+                setIsModalVisible(false)
+            })
+            .catch((error) => toast.error(error?.data?.message));
+
+    }
+/** Decline financial management function */
+    const handleDeclineFinancialOrder = (id) => {
+        declineFinancialOrder(id).unwrap()
+        .then((payload) => {
+            toast.success(payload?.message)
+            setIsModalVisible(false)
+        })
+        .catch((error) => toast.error(error?.data?.message));
+    }
+
     return (
         <>
-            <Table
-                columns={columns}
-                dataSource={tableFormattedData}
-                pagination={{ pageSize: 11 }}
-                rowKey="key"
-                style={{ margin: "20px" }}
-            />
+            <div>
+                <Table
+                    columns={columns}
+                    dataSource={tableFormattedData}
+                    pagination={false}
+                    rowKey="key"
+                    style={{ margin: "20px" }}
+                />
+                <div className='flex items-center justify-center mt-5'>
+                    <Pagination
+                        total={financialData?.data?.meta?.total}
+                        pageSize={financialData?.data?.meta?.limit}
+                        current={page || financialData?.data?.meta?.page}
+                        showSizeChanger={false}
+                        onChange={(page) => setPage(page)}
+                    />
+                </div>
+            </div>
 
             {/* Modal to show detailed user information */}
             <Modal
@@ -168,12 +175,13 @@ const FinancialApplied = ({data}) => {
                         {/* Action buttons */}
                         <div className="flex justify-between mt-6">
                             <button
-                        
+                                onClick={() => handleDeclineFinancialOrder(selectedUser?.key)}
                                 className="bg-[#D9000A] text-white w-40 h-10 rounded-lg font-semibold hover:bg-red-700"
                             >
                                 Decline
                             </button>
                             <button
+                                onClick={() => handleApprovedFinancial(selectedUser?.key)}
                                 className="bg-yellow text-white w-40 h-10 rounded-lg font-semibold hover:bg-yellow-600"
                             >
                                 Accept

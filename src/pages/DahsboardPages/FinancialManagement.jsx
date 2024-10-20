@@ -7,17 +7,18 @@ import FinancialApproved from '../../components/ui/FinancialApproved'
 import { useFinancialManagementQuery } from '../../redux/api/dashboardApi'
 
 const FinancialManagement = () => {
+    const [page, setPage] = useState(1)
     const [searchParams, setSearchParams] = useState('')
-    const [applied, setApplied] = useState(true)
-    console.log(applied);
-    const {data} =  useFinancialManagementQuery({applied})
+    const [applied, setApplied] = useState(false)
+    const {data : financialData} =  useFinancialManagementQuery({applied ,  page })
+    // console.log(data?.data?.result);
 
     const handleApprovedModal = ()=>{
-        setApplied(false)
+        setApplied(true)
     }
 
     const handleAppliedModal = ()=>{
-        setApplied(true)
+        setApplied(false)
     }
     return (
         <div className='bg-white rounded-md p-5'>
@@ -43,18 +44,18 @@ const FinancialManagement = () => {
 
 
             <div className='flex items-center gap-5 px-5'>
-                <button onClick={() => handleAppliedModal()} className={` ${applied ? 'bg-yellow text-white' : 'border border-yellow text-yellow'} px-4 rounded-sm start-center gap-1 py-2  flex justify-center items-center whitespace-nowrap`}>
+                <button onClick={() => handleAppliedModal()} className={` ${!applied ? 'bg-yellow text-white' : 'border border-yellow text-yellow'} px-4 rounded-sm start-center gap-1 py-2  flex justify-center items-center whitespace-nowrap`}>
 
                     Applied
                 </button>
-                <button onClick={() => handleApprovedModal()} className={` ${applied ? 'border border-yellow text-yellow' : 'bg-yellow text-white'}  px-4 rounded-sm start-center gap-1 py-2  flex justify-center items-center whitespace-nowrap`}>
+                <button onClick={() => handleApprovedModal()} className={` ${!applied ? 'border border-yellow text-yellow' : 'bg-yellow text-white'}  px-4 rounded-sm start-center gap-1 py-2  flex justify-center items-center whitespace-nowrap`}>
 
                     Approved
                 </button>
             </div>
 
             {
-                applied ?<FinancialApplied appliedData={data?.data} />  : <FinancialApproved/>
+                applied ? <FinancialApproved financialData={financialData} page={page} setPage={setPage} /> : <FinancialApplied financialData={financialData} page={page} setPage={setPage} /> 
             }
         </div>
     )

@@ -1,53 +1,46 @@
 import React, { useState } from "react";
-import { Table, Button, Avatar, Tag, Modal, Input, Form } from "antd";
+import { Table, Button, Avatar, Tag, Modal, Input, Form, Pagination } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
+import { useSentPaymentLinkMutation } from "../../redux/api/dashboardApi";
+import { toast } from "sonner";
 
-// Mock data (replace with real data)
-const data = [
-  {
-    key: "1",
-    slNo: "#12333",
-    userName: "Kathryn Murp",
-    email: "bockely@att.com",
-    contact: "(201) 555-0124",
-    item: "iPhone 13 Pro Max",
-    totalFee: "$24.00",
-    months: 12,
-    perMonthFee: "$4.00",
-    lastPayment: "12/06/24",
-    status: "Due",
-    image: "https://randomuser.me/api/portraits/women/1.jpg",
-    address: "Royal Ln. Mesa, New Jersey",
-    orderId: "#3456364573245",
-    winningPrice: "$436",
-  },
-  {
-    key: "2",
-    slNo: "#12333",
-    userName: "Devon Lane",
-    email: "csilvers@rizon.com",
-    contact: "(219) 555-0114",
-    item: "Samsung Smart TV",
-    totalFee: "$20.00",
-    months: 6,
-    perMonthFee: "$2.00",
-    lastPayment: "10/06/24",
-    status: "Paid",
-    image: "https://randomuser.me/api/portraits/men/2.jpg",
-    address: "1234 Elm St, Springfield",
-    orderId: "#876543234556",
-    winningPrice: "$300",
-  },
-  // Add more data objects similarly as per your data
-];
 
-const FinancialApproved = () => {
+
+const FinancialApproved = ({ financialData, page, setPage }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [sendPaymentLink] = useSentPaymentLinkMutation()
+  const [inputValue, setInputValue] = useState('');
+  const [form] = Form.useForm()
+
+
+  const formattedDataTable = financialData?.data?.result?.map((item, i) => (
+    {
+      key: item?._id,
+      slNo: i + 1,
+      userName: item?.customerName,
+      email: item?.customerEmail,
+      contact: item?.customerPhoneNum,
+      item: item?.item?.name,
+      totalFee: item?.totalAmount,
+      months: item?.totalMonth,
+      perMonthFee: item?.monthlyAmount,
+      lastPayment: item?.lastPayment || 'Not Pay',
+      status: item?.monthlyStatus,
+      image: item?.user?.profile_image,
+      address: item?.shippingAddress?.streetAddress,
+      orderId: item?._id,
+      winningPrice: item?.totalAmount,
+      paymentLink : item?.paymentLink || ""
+    }
+  ))
+
 
   // Show the modal and pass the selected user data
   const showModal = (record) => {
     setSelectedUser(record);
+    console.log(record);
+    setInputValue(record?.paymentLink)
     setIsModalVisible(true);
   };
 
@@ -55,6 +48,7 @@ const FinancialApproved = () => {
   const handleClose = () => {
     setIsModalVisible(false);
     setSelectedUser(null);
+    setInputValue('')
   };
 
   // Column configuration for the table
@@ -105,7 +99,7 @@ const FinancialApproved = () => {
       dataIndex: "status",
       key: "status",
       render: (status) => (
-        <Tag className={`px-8 py-1 rounded-full ${status === 'Paid' ? "border-[#2AB9A4] text-[#2AB9A4] " : "border-[#F3A211] text-[#F3A211]" }`} >{status}</Tag>
+        <Tag className={`px-8 py-1 rounded-full ${status === 'paid' ? "border-[#2AB9A4] text-[#2AB9A4] " : "border-[#F3A211] text-[#F3A211]"}`} >{status}</Tag>
       ),
     },
     {
@@ -122,15 +116,45 @@ const FinancialApproved = () => {
     },
   ];
 
+  /** handle send payment link function */
+  const handleSendPaymentLink = (id) => {
+    const paymentLink = {
+      paymentLink: inputValue
+    }
+    sendPaymentLink({id,paymentLink }).unwrap()
+      .then((payload) => {
+        toast.success(payload?.message)
+        setIsModalVisible(false)
+      })
+      .catch((error) => toast.error(error?.data?.message));
+
+
+  }
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
   return (
     <>
-      <Table
-        columns={columns}
-        dataSource={data}
-        pagination={{ pageSize: 11 }}
-        rowKey="key"
-        style={{ margin: "20px" }}
-      />
+      <div>
+        <Table
+          columns={columns}
+          dataSource={formattedDataTable}
+          pagination={false}
+          rowKey="key"
+          style={{ margin: "20px" }}
+        />
+        <div className='flex items-center justify-center mt-5'>
+          <Pagination
+            total={financialData?.data?.meta?.total}
+            pageSize={financialData?.data?.meta?.limit}
+            current={page || financialData?.data?.meta?.page}
+            showSizeChanger={false}
+            onChange={(page) => setPage(page)}
+          />
+        </div>
+      </div>
 
       {/* Modal Component */}
       <Modal
@@ -162,9 +186,10 @@ const FinancialApproved = () => {
               <p className="flex justify-between items-center gap-2"><strong>Finance Available For:</strong> {selectedUser.months} Months</p>
               <p className="flex justify-between items-center gap-2"><strong>Per Month Fee:</strong> {selectedUser.perMonthFee}</p>
             </div>
-            <Form className="flex justify-center mt-6 gap-2">
-              <Input placeholder="payment link " />
+            <Form className="flex justify-center mt-6 gap-2" form={form} >
+              <Input placeholder="payment link " value={inputValue} onChange={handleInputChange} />
               <button
+                onClick={() => handleSendPaymentLink(selectedUser?.key)}
                 className="bg-yellow text-white w-40 h-10 rounded-lg font-semibold hover:bg-yellow-600"
               >
                 send link

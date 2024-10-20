@@ -22,9 +22,8 @@ const AuctionManagment = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isEditModalOpen , setIsEditModalOpen] = useState(false)
 
-  /** Auction managment data format table */
+  /** Auction management data format table */
   const auctionDataFormat = getAllAuction?.data?.result?.map((auction, i) => {
-    console.log(auction);
     return {
       id: auction?._id,
       key: i + 1,
@@ -42,7 +41,7 @@ const AuctionManagment = () => {
     }
   })
 
-  /** delete auction functionlity */
+  /** delete auction functionality */
 
   const handleDeleteAuction = (id) => {
     deleteAuction(id).unwrap()
