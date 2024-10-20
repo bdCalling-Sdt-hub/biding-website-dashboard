@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Table, Button, Avatar, Tag, Modal, Input, Form, Pagination, Popconfirm } from "antd";
+import { Table, Button, Avatar, Tag, Modal, Input, Form, Pagination, Popconfirm, Select } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
-import { useMakePaidMutation, useSentPaymentLinkMutation } from "../../redux/api/dashboardApi";
+import { useChangeOrderStatusMutation, useMakePaidMutation, useSentPaymentLinkMutation } from "../../redux/api/dashboardApi";
 import { toast } from "sonner";
 
 
@@ -13,6 +13,8 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
   const [inputValue, setInputValue] = useState('');
   const [form] = Form.useForm()
   const [makePaid] = useMakePaidMutation()
+  const [changeOrderStatus] = useChangeOrderStatusMutation();
+
 
   const formattedDataTable = financialData?.data?.result?.map((item, i) => (
     {
@@ -28,6 +30,7 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
       lastPayment: item?.lastPayment || 'Not Pay',
       paidMonth: item?.paidInstallment,
       status: item?.monthlyStatus,
+      paymentStatus : item?.status,
       image: item?.user?.profile_image,
       address: item?.shippingAddress?.streetAddress,
       orderId: item?._id,
@@ -35,6 +38,7 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
       paymentLink: item?.paymentLink || ""
     }
   ))
+
 
 
   // Show the modal and pass the selected user data
@@ -108,6 +112,24 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
       ),
     },
     {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (_, record) => (
+          <Select
+              value={record?.paymentStatus}
+              onChange={(newStatus) => handleStatusChange(record?.key, newStatus)}
+              style={{ width: 150 }}
+          >
+              <Option value="PAYMENT_PENDING">Payment Pending</Option>
+              <Option value="PAYMENT_SUCCESS">Payment Success</Option>
+              <Option value="PROCESSING">Processing</Option>
+              <Option value="SHIPPED">Shipped</Option>
+              <Option value="DELIVERED">Delivered</Option>
+          </Select>
+      )
+  },
+    {
       title: "Action",
       key: "action",
       render: (text, record) => (
@@ -132,6 +154,18 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
       ),
     },
   ];
+
+
+  const handleStatusChange = (orderId, newStatus) => {
+    console.log(orderId);
+    const status = {
+        "status": newStatus
+    }
+
+    changeOrderStatus({orderId, status}).unwrap()
+        .then((payload) => toast.success(payload?.message))
+        .catch((error) => toast.error(error?.data?.message));
+};
 
   /** handle send payment link function */
   const handleSendPaymentLink = (id) => {

@@ -67,9 +67,9 @@ const dashboardApi = baseApi.injectEndpoints({
         }),
         /** Order Management API */
         getAllOrder: builder.query({
-            query: ({ searchParams, page, limit }) => {
+            query: ({ searchParams, page, limit   }) => {
                 return {
-                    url: `/order/get-all-orders?searchTerm=${searchParams}&page=${page}&limit=${limit}`,
+                    url: `/order/get-all-orders?searchTerm=${searchParams}&page=${page}&limit=${limit}&orderType='NORMAL'`,
                     method: 'GET'
                 }
             },
@@ -329,13 +329,13 @@ const dashboardApi = baseApi.injectEndpoints({
                     body: status
                 }
             },
-            invalidatesTags: ['orderStatus']
+            invalidatesTags: ['orderStatus' , 'financialManagement']
         }),
         financialManagement : builder.query({
             query : ({applied , page})=>{
                 
                 return {
-                    url :`/order/get-all-orders?isApproved=${applied}&page=${page}`,
+                    url :`/order/get-all-orders?isApproved=${applied}&page=${page}&orderType=FINANCE`,
                     method : 'GET'
                 }
             },
