@@ -79,7 +79,7 @@ const Transaction = () => {
             email: item?.user?.email,
             item: item?.item,
             paymentStatus: item?.paymentStatus,
-            paymentAmount: item?.paidAmount,
+            paymentAmount: `$${item?.paidAmount}`,
             paymentType: item?.paymentType,
         }
     })

@@ -40,13 +40,17 @@ const AdminLogin = () => {
                         <Input.Password placeholder='**********' />
                     </Form.Item>
                     <div className='flex justify-between items-center'>
-                        <Checkbox checked >Remember me</Checkbox>
+                        <Checkbox  >Remember me</Checkbox>
                         <Link to='/admin-forget-password' className='text-[#F3A211] hover:text-[#F3A211] font-medium'>Forget Password?</Link>
                     </div>
                     <Form.Item
 
                     >
-                        <Button type="primary" className='w-[100%] mt-4 bg-yellow hover:bg-yellow custom-button' htmlType="submit">
+                        <Button  className='w-[100%] mt-4 bg-yellow hover:bg-yellow custom-button' style={{
+                            backgroundColor : '#f29d0c',
+                            color : '#ffff',
+                            border: 'none'
+                        }} htmlType="submit">
                             Sign in
                         </Button>
                     </Form.Item>

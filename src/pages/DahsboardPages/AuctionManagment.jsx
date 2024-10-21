@@ -51,7 +51,7 @@ const AuctionManagment = () => {
 
   const columns = [
     {
-      title: "Order ID",
+      title: "Sl No",
       dataIndex: "key",
       key: "key",
     },

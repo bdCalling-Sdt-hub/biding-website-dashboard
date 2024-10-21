@@ -123,8 +123,8 @@ const OrderManagement = () => {
             winningProductImg: order?.item?.images[0],
             winningPrice: order?.winingBid,
             status: order?.status,
-            expectedDeliveryDate: order?.expectedDeliveryData || "No Date",
-            phone: order?.user?.phone_number,
+            expectedDeliveryDate: order?.expectedDeliveryData?.split['T'][0] || "No Date",
+            phone: order?.user?.phone_number || 'Not Available',
             shippingAddress: order?.shippingAddress?.city,
             orderId: order?._id
         }
