@@ -25,7 +25,7 @@ const FinancialManagement = () => {
                 <div className="flex items-center gap-2">
                     <Link to={-1}><FaArrowLeft size={18} className='text-yellow ' /></Link>
                     <span className='font-semibold text-[20px]'>Financial Management</span></div>
-                <div>
+                {/* <div>
                     <div className="relative">
                         <input
                             onChange={(e) => setSearchParams(e.target.value)}
@@ -38,7 +38,7 @@ const FinancialManagement = () => {
                             <CiSearch />
                         </span>
                     </div>
-                </div>
+                </div> */}
             </div>
 
 

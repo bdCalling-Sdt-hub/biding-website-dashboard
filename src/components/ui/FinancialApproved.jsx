@@ -16,6 +16,7 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
   const [changeOrderStatus] = useChangeOrderStatusMutation();
 
 
+  console.log(financialData?.data?.result);
   const formattedDataTable = financialData?.data?.result?.map((item, i) => (
     {
       key: item?._id,
@@ -27,7 +28,7 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
       totalFee: item?.totalAmount,
       months: item?.totalMonth,
       perMonthFee: item?.monthlyAmount,
-      lastPayment: item?.lastPayment || 'Not Pay',
+      lastPayment: item?.lastPayment?.split('T')[0] || 'Not Pay',
       paidMonth: item?.paidInstallment,
       status: item?.monthlyStatus,
       paymentStatus : item?.status,
@@ -35,7 +36,9 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
       address: item?.shippingAddress?.streetAddress,
       orderId: item?._id,
       winningPrice: item?.totalAmount,
-      paymentLink: item?.paymentLink || ""
+      paymentLink: item?.paymentLink || "",
+      installmentLeft : item?.installmentLeft,
+      paidInstallment : item?.paidInstallment
     }
   ))
 
@@ -52,9 +55,10 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
   const handleClose = () => {
     setIsModalVisible(false);
     setSelectedUser(null);
+    form.resetFields();
     setInputValue('')
   };
-
+console.log(inputValue);
   // Column configuration for the table
   const columns = [
     {
@@ -184,14 +188,17 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
 
   const handleMakePaid = (id) => {
     makePaid(id).unwrap()
-      .then((payload) => toast.success(payload?.message))
+      .then((payload) => {
+        toast.success(payload?.message)
+        form.resetFields()
+        setInputValue('')
+      })
       .catch((error) => toast.error(error?.data?.message));
   }
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
-
   return (
     <>
       <div>
@@ -234,16 +241,20 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
 
             {/* User Information */}
             <div className="text-left space-y-2">
+              <p className="flex justify-between items-center gap-2"><strong>Order ID:</strong> {selectedUser.orderId}</p>
               <p className="flex justify-between items-center gap-2"><strong>Email:</strong> {selectedUser.email}</p>
               <p className="flex justify-between items-center gap-2"><strong>Phone number:</strong> {selectedUser.contact}</p>
               <p className="flex justify-between items-center gap-2"><strong>Address:</strong> {selectedUser.address}</p>
-              <p className="flex justify-between items-center gap-2"><strong>Order ID:</strong> {selectedUser.orderId}</p>
               <p className="flex justify-between items-center gap-2"><strong>Winning Product:</strong> {selectedUser.item}</p>
               <p className="flex justify-between items-center gap-2"><strong>Winning Price:</strong> {selectedUser.winningPrice}</p>
               <p className="flex justify-between items-center gap-2"><strong>Finance Available For:</strong> {selectedUser.months} Months</p>
               <p className="flex justify-between items-center gap-2"><strong>Per Month Fee:</strong> {selectedUser.perMonthFee}</p>
+              <p className="flex justify-between items-center gap-2"><strong>Paid Installment:</strong> {selectedUser.paidInstallment}</p>
+              <p className="flex justify-between items-center gap-2"><strong>Installment Left:</strong> {selectedUser.installmentLeft}</p>
+              <p className="flex justify-between items-center gap-2"><strong>Last Payment:</strong> {selectedUser.lastPayment}</p>
+              <p className="flex justify-between items-center gap-2"><strong>Monthly Payment Status:</strong> {selectedUser.status}</p>
             </div>
-            <Form className="flex justify-center mt-6 gap-2" form={form} >
+            <Form className="flex justify-center mt-6 gap-2" form={form}  >
               <Input placeholder="payment link " value={inputValue} onChange={handleInputChange} />
               <button
                 onClick={() => handleSendPaymentLink(selectedUser?.key)}
