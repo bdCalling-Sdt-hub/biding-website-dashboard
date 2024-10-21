@@ -366,7 +366,8 @@ const dashboardApi = baseApi.injectEndpoints({
                     method : 'PATCH',
                     body : paymentLink
                 }
-            }
+            },
+            invalidatesTags : ['financialManagement']
         }),
         sendCredits :  builder.mutation({
             query : ({id, creditAmount})=>{

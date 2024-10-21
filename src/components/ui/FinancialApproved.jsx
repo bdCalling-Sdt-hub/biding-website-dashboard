@@ -16,7 +16,6 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
   const [changeOrderStatus] = useChangeOrderStatusMutation();
 
 
-  console.log(financialData?.data?.result);
   const formattedDataTable = financialData?.data?.result?.map((item, i) => (
     {
       key: item?._id,
