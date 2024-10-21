@@ -22,7 +22,7 @@ const BannerModal = ({ setOpenBannerModal, openBannerModal }) => {
         }
         if (fileList.length > 0) {
 
-            formData.append('banner', fileList[0].originFileObj)
+            formData.append('banner_image', fileList[0].originFileObj)
         }
         createBanner(formData).unwrap()
             .then((payload) => {
