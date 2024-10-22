@@ -12,7 +12,7 @@ const DashboardHome = () => {
     const {data :  dashboardData , isLoading} = useGetDashboardDataQuery()
     const {data : getAuction, isLoading :  auctionLoading} = useGetAllAuctionQuery("ACTIVE")
 
-
+    console.log(getAuction);
 
     /** Top bidder data format for the table */
     const topBidderDataFormat = dashboardData?.data?.topBidders?.slice(0,3).map((bidder, i) =>(

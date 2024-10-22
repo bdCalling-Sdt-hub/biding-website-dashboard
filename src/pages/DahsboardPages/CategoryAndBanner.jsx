@@ -42,6 +42,7 @@ const CategoryAndBanner = () => {
                 <div className='flex items-center gap-5 px-5'>
                     <button onClick={() => handleCategoryModal()} className={` ${category ? 'bg-yellow text-white' : 'border border-yellow text-yellow'} px-4 rounded-sm start-center gap-1 py-2  flex justify-center items-center whitespace-nowrap`}>
 
+
                         Categories
                     </button>
                     <button onClick={() => handleBannerModal()} className={` ${category ? 'border border-yellow text-yellow' : 'bg-yellow text-white'}  px-4 rounded-sm start-center gap-1 py-2  flex justify-center items-center whitespace-nowrap`}>
