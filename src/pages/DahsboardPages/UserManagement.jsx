@@ -100,7 +100,7 @@ const UserManagement = () => {
     img: user?.profile_image,
     email: user?.email,
     contactNumber: user?.phone_number || 'Not available',
-    dob: user?.date_of_birth || 'Not available',
+    dob: user?.date_of_birth?.split('T')[0] || 'Not available',
     location: user?.location || 'Not available',
     auctionWin: user?.totalWin,
     is_block: user?.is_block

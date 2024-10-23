@@ -14,6 +14,8 @@ createRoot(document.getElementById('root')).render(
         <RouterProvider router={router} />
       </SocketProviders>
     </Providers>
-    <Toaster position="top-right" richColors />
+    <Toaster position="top-right" richColors   toastOptions={{
+        duration: 1500,
+      }} />
   </StrictMode>,
 )
