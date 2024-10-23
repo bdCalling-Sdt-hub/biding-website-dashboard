@@ -109,6 +109,7 @@ const UserManagement = () => {
   const handleBlockUnBlockUser = (email, is_block) => {
     const data = {
       email: email,
+      
       is_block: is_block
     }
     blockUnblockUser(data).unwrap()
