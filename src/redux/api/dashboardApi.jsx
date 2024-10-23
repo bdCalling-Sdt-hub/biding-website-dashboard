@@ -67,9 +67,9 @@ const dashboardApi = baseApi.injectEndpoints({
         }),
         /** Order Management API */
         getAllOrder: builder.query({
-            query: ({ searchParams, page, limit   }) => {
+            query: ({ page, limit   }) => {
                 return {
-                    url: `/order/get-all-orders?searchTerm=${searchParams}&page=${page}&limit=${limit}&orderType='NORMAL'`,
+                    url: `/order/get-all-orders?orderType=NORMAL&page=${page}&limit=${limit}`,
                     method: 'GET'
                 }
             },

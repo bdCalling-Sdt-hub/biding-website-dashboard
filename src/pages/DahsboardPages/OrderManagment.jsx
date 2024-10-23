@@ -13,11 +13,13 @@ const OrderManagement = () => {
     const [pageSize, setPageSize] = useState(10);
     
     // Update the query to fetch data based on pagination params
-    const { data: getOrders, isLoading } = useGetAllOrderQuery({ searchParams, page: currentPage, limit: pageSize });
+    const { data: getOrders, isLoading } = useGetAllOrderQuery({  page: currentPage, limit: pageSize });
     const [changeOrderStatus] = useChangeOrderStatusMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalData, setModalData] = useState();
 
+
+    console.log(getOrders);
     const handleTableChange = (pagination) => {
         setCurrentPage(pagination);
     };
@@ -123,7 +125,7 @@ const OrderManagement = () => {
             winningProductImg: order?.item?.images[0],
             winningPrice: order?.winingBid,
             status: order?.status,
-            expectedDeliveryDate: order?.expectedDeliveryData?.split['T'][0] || "No Date",
+            expectedDeliveryDate: order?.expectedDeliveryData?.split['T']?.[0] || "No Date",
             phone: order?.user?.phone_number || 'Not Available',
             shippingAddress: order?.shippingAddress?.city,
             orderId: order?._id
