@@ -133,6 +133,7 @@ const UserManagement = () => {
     
     sendCredit({id :sendCreditId , creditAmount : values }).unwrap()
       .then((payload) => {
+        form.resetFields();
         toast.success(payload.message)
         setOpenCreditModal(false)
       })
@@ -179,7 +180,10 @@ const UserManagement = () => {
           setOpenCreditModal(false)
           form.resetFields();
 
-        }} >
+        }} 
+        // afterClose={() => form.resetFields()}
+        
+        >
           <h1 className='text-center font-medium mb-5'>Send Credit</h1>
           <Form onFinish={handleSendCredit} form={form}>
             <Form.Item name='creditAmount'>
