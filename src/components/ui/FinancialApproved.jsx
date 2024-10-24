@@ -30,17 +30,16 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
       lastPayment: item?.lastPayment?.split('T')[0] || 'Not Pay',
       paidMonth: item?.paidInstallment,
       status: item?.monthlyStatus,
-      paymentStatus : item?.status,
+      paymentStatus: item?.status,
       image: item?.user?.profile_image,
       address: item?.shippingAddress?.streetAddress,
       orderId: item?._id,
       winningPrice: item?.totalAmount,
       paymentLink: item?.paymentLink || "",
-      installmentLeft : item?.installmentLeft,
-      paidInstallment : item?.paidInstallment
+      installmentLeft: item?.installmentLeft,
+      paidInstallment: item?.paidInstallment
     }
   ))
-
 
 
   // Show the modal and pass the selected user data
@@ -57,7 +56,6 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
     form.resetFields();
     setInputValue('')
   };
-console.log(inputValue);
   // Column configuration for the table
   const columns = [
     {
@@ -119,19 +117,19 @@ console.log(inputValue);
       dataIndex: "status",
       key: "status",
       render: (_, record) => (
-          <Select
-              value={record?.paymentStatus}
-              onChange={(newStatus) => handleStatusChange(record?.key, newStatus)}
-              style={{ width: 150 }}
-          >
-              <Option value="PAYMENT_PENDING">Payment Pending</Option>
-              <Option value="PAYMENT_SUCCESS">Payment Success</Option>
-              <Option value="PROCESSING">Processing</Option>
-              <Option value="SHIPPED">Shipped</Option>
-              <Option value="DELIVERED">Delivered</Option>
-          </Select>
+        <Select
+          value={record?.paymentStatus}
+          onChange={(newStatus) => handleStatusChange(record?.key, newStatus)}
+          style={{ width: 150 }}
+        >
+          <Option value="PAYMENT_PENDING">Payment Pending</Option>
+          <Option value="PAYMENT_SUCCESS">Payment Success</Option>
+          <Option value="PROCESSING">Processing</Option>
+          <Option value="SHIPPED">Shipped</Option>
+          <Option value="DELIVERED">Delivered</Option>
+        </Select>
       )
-  },
+    },
     {
       title: "Action",
       key: "action",
@@ -151,7 +149,10 @@ console.log(inputValue);
             cancelText="No"
           >
 
-            <Button style={{ backgroundColor: "#F3A211", color: "white" }}>Make Paid</Button>
+            <Button disabled={record?.status == 'paid'}  style={{
+              backgroundColor: record?.status === 'paid' ? 'gray' : '#F3A211',
+              color: "white" // Keep text color white
+            }}>Make Paid</Button>
           </Popconfirm>
         </div>
       ),
@@ -162,13 +163,13 @@ console.log(inputValue);
   const handleStatusChange = (orderId, newStatus) => {
     console.log(orderId);
     const status = {
-        "status": newStatus
+      "status": newStatus
     }
 
-    changeOrderStatus({orderId, status}).unwrap()
-        .then((payload) => toast.success(payload?.message))
-        .catch((error) => toast.error(error?.data?.message));
-};
+    changeOrderStatus({ orderId, status }).unwrap()
+      .then((payload) => toast.success(payload?.message))
+      .catch((error) => toast.error(error?.data?.message));
+  };
 
   /** handle send payment link function */
   const handleSendPaymentLink = (id) => {
