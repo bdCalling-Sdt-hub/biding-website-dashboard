@@ -168,7 +168,7 @@ const UserManagement = () => {
       {/* User Management table */}
       <div className='mt-5'>
         <Table dataSource={userTableData} columns={columns} className="custom-pagination" pagination={{
-          pageSize: 5,
+          pageSize: 10,
           showTotal: (total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`,
           locale: {
             items_per_page: '',
