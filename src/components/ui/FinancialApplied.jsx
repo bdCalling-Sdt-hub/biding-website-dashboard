@@ -38,6 +38,8 @@ const FinancialApplied = ({ financialData, page, setPage }) => {
             months: item?.totalMonth,
             perMonthFee: `$ ${item?.monthlyAmount}`,
             image: item?.user?.profile_image,
+            status :  item?.isRejected ? "Rejected" : 'Pending'
+
         }
     ))
 
@@ -87,6 +89,12 @@ const FinancialApplied = ({ financialData, page, setPage }) => {
             title: "Per Month Fee",
             dataIndex: "perMonthFee",
             key: "perMonthFee",
+        },
+        {
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
+            
         },
         {
             title: "Action",

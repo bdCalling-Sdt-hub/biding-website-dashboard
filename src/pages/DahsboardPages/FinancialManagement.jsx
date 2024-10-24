@@ -11,6 +11,7 @@ const FinancialManagement = () => {
     const [searchParams, setSearchParams] = useState('')
     const [applied, setApplied] = useState(false)
     const {data : financialData} =  useFinancialManagementQuery({applied ,  page })
+    console.log(financialData);
 
     const handleApprovedModal = ()=>{
         setApplied(true)
