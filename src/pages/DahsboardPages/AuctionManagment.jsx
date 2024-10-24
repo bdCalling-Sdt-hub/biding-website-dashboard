@@ -41,6 +41,8 @@ const AuctionManagment = () => {
     }
   })
 
+  // console.log(getAllAuction?.data?.result);
+
   /** delete auction functionality */
 
   const handleDeleteAuction = (id) => {
