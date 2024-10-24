@@ -10,7 +10,7 @@ import { useGetAllAuctionQuery, useGetDashboardDataQuery } from '../../redux/api
 import { checkImageSource } from '../../lib/checkImageSource';
 const DashboardHome = () => {
     const {data :  dashboardData , isLoading} = useGetDashboardDataQuery()
-    const {data : getAuction, isLoading :  auctionLoading} = useGetAllAuctionQuery("ACTIVE")
+    const {data : getAuction, isLoading :  auctionLoading} = useGetAllAuctionQuery({status: 'ACTIVE'})
 
     console.log(getAuction);
 

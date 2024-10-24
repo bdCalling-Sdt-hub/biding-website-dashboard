@@ -7,7 +7,8 @@ import { Link } from 'react-router-dom'
 import { useGetAllAuctionQuery } from '../../redux/api/dashboardApi'
 import { Pagination } from 'antd'
 const ActiveAuctionPage = () => {
-    const { data: getAuction, isLoading: auctionLoading } = useGetAllAuctionQuery("ACTIVE")
+    const { data: getAuction, isLoading: auctionLoading } = useGetAllAuctionQuery({status: 'ACTIVE'})
+    console.log(getAuction);
 
     /** active user table data format */
     const activeUserTableData = getAuction?.data?.result?.map((user, i) => {
