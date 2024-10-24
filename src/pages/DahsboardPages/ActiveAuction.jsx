@@ -70,7 +70,7 @@ const ActiveAuction = ({ dataSource }) => {
             render: (_, record) => {
                 return (
                     <div className="flex items-center justify-center gap-1">
-                        <Link to={`http://192.168.10.103:3000/product-details/${record?.id}`} target='_blank' className='bg-yellow p-1 rounded-sm'>
+                        <Link to={`http://103.161.9.133:3003/product-details/${record?.id}`} target='_blank' className='bg-yellow p-1 rounded-sm'>
                             <IoMdLink size={22} className='text-white' />
                         </Link>
                     </div>
