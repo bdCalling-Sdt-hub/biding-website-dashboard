@@ -9,6 +9,7 @@ const { TextArea } = Input;
 
 const DashboardFaqs = () => {
   const [createFaq] = useCreateFaqMutation()
+  const [form] = Form.useForm()
   const { data: getFaq } = useGetFaqQuery()
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -29,7 +30,10 @@ const DashboardFaqs = () => {
 
   const onFinish = (values) => {
     createFaq(values).unwrap()
-      .then((payload) => toast.success('FAQ create successfully!'))
+      .then((payload) =>{
+        toast.success('FAQ create successfully!')
+        form.resetFields()
+      })
       .catch((error) => toast.error(error?.data?.message));
     setIsModalOpen(false)
   }
@@ -67,6 +71,10 @@ const DashboardFaqs = () => {
         <p className='text-center font-semibold pb-5 text-xl'>Add FAQ</p>
         <Form
           onFinish={onFinish}
+          form={form}
+          onCancel={
+            form.resetFields()
+          }
         >
           <Form.Item
             name='question'
