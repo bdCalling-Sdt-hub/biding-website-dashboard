@@ -243,6 +243,44 @@ const dashboardApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ['accessibility']
         }),
+        getHelp: builder.query({
+            query: () => {
+                return {
+                    url: 'manage/get-help',
+                    method: 'GET'
+                }
+            },
+            providesTags: ['help']
+        }),
+        createHelp: builder.mutation({
+            query: (data) => {
+                return {
+                    url: 'manage/create-help',
+                    method: "POST",
+                    body: data
+                }
+            },
+            invalidatesTags: ['help']
+        }),
+        getContact: builder.query({
+            query: () => {
+                return {
+                    url: 'manage/get-contact-us',
+                    method: 'GET'
+                }
+            },
+            providesTags: ['contact']
+        }),
+        createContact: builder.mutation({
+            query: (data) => {
+                return {
+                    url: 'manage/add-contact-us',
+                    method: "POST",
+                    body: data
+                }
+            },
+            invalidatesTags: ['contact']
+        }),
         getTermsAndCondition: builder.query({
             query: () => {
                 return {
@@ -392,4 +430,4 @@ const dashboardApi = baseApi.injectEndpoints({
 
 })
 
-export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation, useCreateTipsTricksMutation, useGetTipsTricksQuery, useCreateAccessibilityMutation, useGetAccessibilityQuery, useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation, useCreateFaqMutation, useGetFaqQuery, useReadNotificationMutation, useGetTransactionQuery, useChangeOrderStatusMutation , useDeleteNotificationMutation, useFinancialManagementQuery , useApproveFinancialOrderMutation, useDeclineFinancialOrderMutation, useSentPaymentLinkMutation, useSendCreditsMutation , useMakePaidMutation} = dashboardApi; 
+export const { useGetDashboardDataQuery, useGetAllAuctionQuery, useGetDashboardChartQuery, useDeleteAuctionMutation, useCreateAuctionMutation, useGetAllOrderQuery, useUpdateAuctionMutation, useGetAllCategoryQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, useCreateBannerMutation, useDeleteBannerMutation, useGetBannerQuery, useGetNotificationQuery, useGetAllUsersQuery, useBlockUnblockUserMutation, useGetAboutUsQuery, useCreateAboutUsMutation, useCreateTipsTricksMutation, useGetTipsTricksQuery, useCreateAccessibilityMutation, useGetAccessibilityQuery, useCreateTermsAndConditionMutation, useGetTermsAndConditionQuery, useGetPrivacyPolicyQuery, useCreatePrivacyPolicyMutation, useCreateFaqMutation, useGetFaqQuery, useReadNotificationMutation, useGetTransactionQuery, useChangeOrderStatusMutation , useDeleteNotificationMutation, useFinancialManagementQuery , useApproveFinancialOrderMutation, useDeclineFinancialOrderMutation, useSentPaymentLinkMutation, useSendCreditsMutation , useMakePaidMutation , useCreateHelpMutation , useGetHelpQuery , useCreateContactMutation , useGetContactQuery} = dashboardApi; 

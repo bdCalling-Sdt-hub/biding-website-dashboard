@@ -92,6 +92,16 @@ const SideBar = () => {
           icon: <></>,
         },
         {
+          path: '/contact',
+          label: 'Contact',
+          icon: <></>,
+        },
+        {
+          path: '/help',
+          label: 'Help',
+          icon: <></>,
+        },
+        {
           path: '/privacy-policy',
           label: 'Privacy Policy',
           icon: <></>,

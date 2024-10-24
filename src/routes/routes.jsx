@@ -21,6 +21,8 @@ import DashboardNotification from "../pages/DahsboardPages/DashboardNotification
 import CategoryAndBanner from "../pages/DahsboardPages/CategoryAndBanner.jsx";
 import PrivateRoutes from "./PrivateRoutes.jsx";
 import FinancialManagement from "../pages/DahsboardPages/FinancialManagement.jsx";
+import Contact from "../pages/DahsboardPages/Contact.jsx";
+import Help from "../pages/DahsboardPages/Help.jsx";
 
 const router = createBrowserRouter([
    
@@ -76,6 +78,14 @@ const router = createBrowserRouter([
             {
                 path : 'accessibility',
                 element : <DashboardAccessibility/>
+            },
+            {
+                path : 'Contact',
+                element : <Contact/>
+            },
+            {
+                path : 'Help',
+                element : <Help/>
             },
             {
                 path : 'transaction',
