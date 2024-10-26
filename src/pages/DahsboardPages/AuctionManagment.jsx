@@ -22,6 +22,7 @@ const AuctionManagment = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isEditModalOpen , setIsEditModalOpen] = useState(false)
 
+
   /** Auction management data format table */
   const auctionDataFormat = getAllAuction?.data?.result?.map((auction, i) => {
     return {
@@ -35,6 +36,7 @@ const AuctionManagment = () => {
       financeAvailable : auction?.financeAvailable,
       totalMonthForFinance: auction?.totalMonthForFinance,
       incrementValue: auction?.incrementValue,
+      endDataAndEndTime : `${auction?.endingDate?.split('T')[0]}-at-${auction?.endingTime} `,
       statingAndEndTime: `${auction?.startingDate.split('T')[0]}-at-${auction?.startingTime
         }  `,
       status: auction?.status
@@ -95,6 +97,11 @@ const AuctionManagment = () => {
       title: "Start Date & Time",
       dataIndex: "statingAndEndTime",
       key: "statingAndEndTime",
+    },
+    {
+      title: "End Date & Time",
+      dataIndex: "endDataAndEndTime",
+      key: "endDataAndEndTime",
     },
 
 

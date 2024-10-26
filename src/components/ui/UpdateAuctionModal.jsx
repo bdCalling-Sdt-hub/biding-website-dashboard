@@ -1,24 +1,27 @@
 import { Form, Input, Modal, Select, Upload } from 'antd';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from './Button';
 import { PlusOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
 import { toast } from 'sonner';
 import { useGetAllCategoryQuery, useUpdateAuctionMutation } from '../../redux/api/dashboardApi';
+import JoditEditor from 'jodit-react';
 
 const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
-  const {data: getAllCategory} = useGetAllCategoryQuery()
+    const { data: getAllCategory } = useGetAllCategoryQuery()
 
     const [updateAuction] = useUpdateAuctionMutation()
     const [fileList, setFileList] = useState([]);
-  const [isFinancingAvailable, setIsFinancingAvailable] = useState(singleAuction?.financeAvailable);
+    const [isFinancingAvailable, setIsFinancingAvailable] = useState(singleAuction?.financeAvailable);
+    const editor = useRef(null);
+    const [content, setContent] = useState('');
 
-     // Update the financing availability state when singleAuction changes
-  useEffect(() => {
-    if (singleAuction?.financeAvailable !== undefined) {
-      setIsFinancingAvailable(singleAuction.financeAvailable);
-    }
-  }, [singleAuction]);
+    // Update the financing availability state when singleAuction changes
+    useEffect(() => {
+        if (singleAuction?.financeAvailable !== undefined) {
+            setIsFinancingAvailable(singleAuction.financeAvailable);
+        }
+    }, [singleAuction]);
 
     const [form] = Form.useForm();
     // Handle upload image 
@@ -36,7 +39,7 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
             ...values,
             ...(values?.totalMonthForFinance && {
                 totalMonthForFinance: Number(values?.totalMonthForFinance),
-              }),
+            }),
             incrementValue: Number(values?.incrementValue),
             reservedBid: Number(values?.reservedBid),
         };
@@ -67,18 +70,20 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
             });
     };
 
-     // Handle the change in financing selection
-  const handleFinancingChange = (value) => {
-    if(value){
-      setIsFinancingAvailable(value);
-    }else{
-      setIsFinancingAvailable(false)
-    }
-  };
+    // Handle the change in financing selection
+    const handleFinancingChange = (value) => {
+        if (value) {
+            setIsFinancingAvailable(value);
+        } else {
+            setIsFinancingAvailable(false)
+        }
+    };
 
 
 
     // Set initial values when singleAuction changes
+
+    console.log(singleAuction);
     useEffect(() => {
         if (singleAuction) {
             form.setFieldsValue({
@@ -88,8 +93,10 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
                 incrementValue: singleAuction.incrementValue,
                 startingDate: singleAuction.statingAndEndTime.split('-at-')[0],
                 startingTime: singleAuction.statingAndEndTime.split('-at-')[1].trim(),
-                financeAvailable : singleAuction?.financeAvailable,
-                totalMonthForFinance : singleAuction?.totalMonthForFinance,
+                endingDate: singleAuction.endDataAndEndTime.split('-at-')[0],
+                endingTime: singleAuction?.endDataAndEndTime?.split('-at-')[1].trim(),
+                financeAvailable: singleAuction?.financeAvailable,
+                totalMonthForFinance: singleAuction?.totalMonthForFinance,
                 description: singleAuction.description || '',
             });
 
@@ -105,6 +112,19 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
             }
         }
     }, [singleAuction, form]);
+
+    const config = {
+        readonly: false,
+        placeholder: 'Write description here...',
+        style: {
+            height: '15vh',
+        },
+        buttons: [
+            'image', 'fontsize', 'bold', 'italic', 'underline', '|',
+            'font', 'brush',
+            'align'
+        ]
+    }
 
     return (
         <div>
@@ -134,11 +154,11 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
                             label="Category"
                             name="category"
                             className='w-full'
-                            // rules={[{ required: true, message: 'Please input category!' }]}
+                        // rules={[{ required: true, message: 'Please input category!' }]}
                         >
                             {/* <Input /> */}
                             <Select>
-                            {getAllCategory?.data?.map((category) => (
+                                {getAllCategory?.data?.map((category) => (
                                     <Option key={category._id} value={category.name}>
                                         {category.name}
                                     </Option>
@@ -178,6 +198,24 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
                             name='startingTime'
                             className='w-full'
                             rules={[{ required: true, message: 'Please select starting time!' }]}
+                        >
+                            <Input type='time' />
+                        </Form.Item>
+                    </div>
+                    <div className='flex justify-between items-center gap-2'>
+                        <Form.Item
+                            label="End Date"
+                            name='endingDate'
+                            className='w-full'
+                            rules={[{ required: true, message: 'Please select end date!' }]}
+                        >
+                            <Input type='date' />
+                        </Form.Item>
+                        <Form.Item
+                            label="End Time"
+                            name='endingTime'
+                            className='w-full'
+                            rules={[{ required: true, message: 'Please select end time!' }]}
                         >
                             <Input type='time' />
                         </Form.Item>
@@ -223,7 +261,15 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
                         name='description'
                         rules={[{ required: true, message: 'Please enter a description!' }]}
                     >
-                        <TextArea />
+                        {/* <TextArea /> */}
+                        <JoditEditor
+                            ref={editor}
+                            value={content}
+                            config={config}
+                            tabIndex={1}
+                            onBlur={newContent => setContent(newContent)}
+                            onChange={newContent => { }}
+                        />
                     </Form.Item>
 
                     <Form.Item label="Upload Images">
