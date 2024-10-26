@@ -64,3 +64,6 @@ border-color: #2AB9A4;
 .unread-notification {
   background-color: #f0f0f0; 
 }
+/* .jodit-wysiwyg, .jodit-container {
+  border-bottom: none !important;
+} */
