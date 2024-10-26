@@ -132,6 +132,7 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
                 centered
                 open={isModalOpen}
                 footer={false}
+                width={800}
                 onCancel={() => {
                     setIsModalOpen(false);
                     form.resetFields();
@@ -230,7 +231,7 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
                             >
                                 <Select
                                     defaultValue="Select"
-                                    style={{ width: 200 }}
+                                    style={{ width: 350 }}
                                     onChange={handleFinancingChange}
                                 >
                                     <Option value={true}>Available</Option>
@@ -249,7 +250,7 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
                                 <Input
                                     placeholder="12 Months"
                                     type='number'
-                                    style={{ width: 200 }}
+                                    style={{ width: 350 }}
                                     disabled={!isFinancingAvailable}
                                 />
                             </Form.Item>

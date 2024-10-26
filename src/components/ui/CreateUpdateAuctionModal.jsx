@@ -93,6 +93,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
       <Modal centered
         open={isModalOpen}
         footer={false}
+        width={800} 
         onCancel={() => {
           setIsModalOpen(false)
           form.resetFields();
@@ -183,7 +184,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
             label="Description"
             name='description'
             rules={[{ required: true, message: 'Please enter a description!' }]}
-            className=''
+            className=' '
           >
             {/* <TextArea/> */}
             <JoditEditor
@@ -207,7 +208,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
               >
                 <Select
                   defaultValue="Select"
-                  style={{ width: 200 }}
+                  style={{ width: 350 }}
                   onChange={handleFinancingChange}
                 >
                   <Option value={true}>Available</Option>
@@ -226,7 +227,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
                 <Input
                   placeholder="12 Months"
                   type='number'
-                  style={{ width: 200 }}
+                  style={{ width: 350 }}
                   min={2}
                   disabled={!isFinancingAvailable}
                 />
