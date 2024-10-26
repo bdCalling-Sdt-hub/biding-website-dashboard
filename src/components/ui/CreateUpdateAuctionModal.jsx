@@ -166,7 +166,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
               label="End Date"
               name='endingDate'
               className='w-full'
-              rules={[{ required: true, message: 'Please select end date!' }]}
+              rules={[{ required: true, message: 'Please select ends date!' }]}
             >
               <Input type='date' />
             </Form.Item>
