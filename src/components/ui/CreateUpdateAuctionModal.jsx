@@ -1,10 +1,11 @@
 import { Form, Input, Modal, Select, Spin, Upload } from 'antd';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Button from './Button';
 import { PlusOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
 import { useCreateAuctionMutation, useGetAllCategoryQuery } from '../../redux/api/dashboardApi';
 import { toast } from 'sonner';
+import JoditEditor from 'jodit-react';
 
 const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
   const [isFinancingAvailable, setIsFinancingAvailable] = useState(false);
@@ -12,15 +13,16 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
   const { data: getCategory } = useGetAllCategoryQuery()
   const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm()
-
+  const editor = useRef(null);
+  const [content, setContent] = useState('');
 
 
 
   // Handle the change in financing selection
   const handleFinancingChange = (value) => {
-    if(value){
+    if (value) {
       setIsFinancingAvailable(value);
-    }else{
+    } else {
       setIsFinancingAvailable(false)
     }
   };
@@ -72,6 +74,19 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
       })
       .catch((error) => toast.error(error?.data?.message));
   };
+
+  const config = {
+    readonly: false,
+    placeholder: 'Write description here...',
+    style: {
+      height: '15vh',
+    },
+    buttons: [
+      'image', 'fontsize', 'bold', 'italic', 'underline', '|',
+      'font', 'brush',
+      'align'
+    ]
+  }
 
   return (
     <div>
@@ -146,12 +161,39 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
               <Input type='time' />
             </Form.Item>
           </div>
+          <div className='flex justify-between items-center gap-2'>
+            <Form.Item
+              label="End Date"
+              name='endingDate'
+              className='w-full'
+              rules={[{ required: true, message: 'Please select end date!' }]}
+            >
+              <Input type='date' />
+            </Form.Item>
+            <Form.Item
+              label="End Time"
+              name='endingTime'
+              className='w-full'
+              rules={[{ required: true, message: 'Please select end time!' }]}
+            >
+              <Input type='time' />
+            </Form.Item>
+          </div>
           <Form.Item
             label="Description"
             name='description'
             rules={[{ required: true, message: 'Please enter a description!' }]}
+            className=''
           >
-            <TextArea />
+            {/* <TextArea/> */}
+            <JoditEditor
+              ref={editor}
+              value={content}
+              config={config}
+              tabIndex={1}
+              onBlur={newContent => setContent(newContent)}
+              onChange={newContent => { }}
+            />
           </Form.Item>
 
 
@@ -161,7 +203,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
               <Form.Item
                 label="Financing"
                 name='financeAvailable'
-                initialValue={false} 
+                initialValue={false}
               >
                 <Select
                   defaultValue="Select"
