@@ -83,7 +83,6 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
 
     // Set initial values when singleAuction changes
 
-    console.log(singleAuction);
     useEffect(() => {
         if (singleAuction) {
             form.setFieldsValue({

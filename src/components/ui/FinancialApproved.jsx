@@ -161,7 +161,6 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
 
 
   const handleStatusChange = (orderId, newStatus) => {
-    console.log(orderId);
     const status = {
       "status": newStatus
     }

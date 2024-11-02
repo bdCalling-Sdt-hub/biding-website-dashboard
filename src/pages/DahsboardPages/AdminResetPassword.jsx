@@ -9,7 +9,6 @@ const AdminResetPassword = () => {
     const [resetPassword] = useResetPasswordMutation()
     const navigate = useNavigate()
     const onFinish = (values) => {
-        console.log(values);
         const data = {
             email: localStorage.getItem('email'),
             newPassword: values?.password,

@@ -19,7 +19,6 @@ const OrderManagement = () => {
     const [modalData, setModalData] = useState();
 
 
-    console.log(getOrders);
     const handleTableChange = (pagination) => {
         setCurrentPage(pagination);
     };
