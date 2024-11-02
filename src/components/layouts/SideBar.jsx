@@ -7,7 +7,7 @@ import { MdOutlineCategory, MdOutlineDashboard, MdOutlineLogout, MdOutlineTrendi
 import { PiDatabaseLight } from 'react-icons/pi';
 import { RiAuctionLine } from 'react-icons/ri';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-
+import logo from '../../assets/biddingLogo.png'
 const SideBar = () => {
   const [openIndex, setOpenIndex] = useState(null);
   const navigate = useNavigate()
@@ -135,9 +135,8 @@ const SideBar = () => {
 
 
   return (
-    <div id='sidebar' className='flex flex-col gap-5  mt-[30px]'>
-      {/* <img src={img} className='w-[150px] mb-[40px] mx-auto' alt="" /> */}
-      <h1 className='text-center font-medium text-[24px] text-yellow'>Bidding Web</h1>
+    <div id='sidebar' className='flex flex-col gap-5  mt-[10px]'>
+      <img src={logo} className='w-56' alt="logo" />
       {
         links?.map((item, index) => {
           const isActive = item.path === pathname;
