@@ -16,7 +16,7 @@ const SocketProviders = ({ children }) => {
 
     useEffect(() => {
         if (localStorage.getItem("token")) {
-            const socketConnect = io(`http://167.71.82.21:5000`, {
+            const socketConnect = io(`http://198.211.109.64:5000`, {
                 auth: {
                     token: JSON.parse(localStorage.getItem("token")),
                 }
