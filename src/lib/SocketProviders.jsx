@@ -16,7 +16,7 @@ const SocketProviders = ({ children }) => {
 
     useEffect(() => {
         if (localStorage.getItem("token")) {
-            const socketConnect = io(`http://159.203.183.245:5000`, {
+            const socketConnect = io(`https://api.sellaze.com`, {
                 auth: {
                     token: JSON.parse(localStorage.getItem("token")),
                 }
