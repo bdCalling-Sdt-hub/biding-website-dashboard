@@ -34,9 +34,9 @@ const FinancialApplied = ({ financialData, page, setPage }) => {
             email: item?.customerEmail,
             contact: item?.customerPhoneNum,
             product: item?.item?.name,
-            totalFee: `$ ${item?.totalAmount}`,
+            totalFee: `$ ${item?.totalAmount?.toFixed(2)}`,
             months: item?.totalMonth,
-            perMonthFee: `$ ${item?.monthlyAmount}`,
+            perMonthFee: `$ ${item?.monthlyAmount?.toFixed(2)}`,
             image: item?.user?.profile_image,
             status :  item?.isRejected ? "Rejected" : 'Pending'
 

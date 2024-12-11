@@ -24,7 +24,7 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
       email: item?.customerEmail,
       contact: item?.customerPhoneNum,
       item: item?.item?.name,
-      totalFee: item?.totalAmount,
+      totalFee: item?.totalAmount.toFixed(2),
       months: item?.totalMonth,
       perMonthFee: item?.monthlyAmount,
       lastPayment: item?.lastPayment?.split('T')[0] || 'Not Pay',
@@ -34,7 +34,7 @@ const FinancialApproved = ({ financialData, page, setPage }) => {
       image: item?.user?.profile_image,
       address: item?.shippingAddress?.streetAddress,
       orderId: item?._id,
-      winningPrice: item?.totalAmount,
+      winningPrice: item?.totalAmount.toFixed(2),
       paymentLink: item?.paymentLink || "",
       installmentLeft: item?.installmentLeft,
       paidInstallment: item?.paidInstallment

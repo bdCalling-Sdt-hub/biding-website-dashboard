@@ -114,7 +114,7 @@ const OrderManagement = () => {
             .then((payload) => toast.success(payload?.message))
             .catch((error) => toast.error(error?.data?.message));
     };
-
+    console.log(getOrders?.data?.result);
     const orderManagementTableData = getOrders?.data?.result?.map((order, i) => {
         return {
             key: i + 1,
@@ -122,7 +122,7 @@ const OrderManagement = () => {
             img: order?.user?.profile_image,
             winningProduct: order?.item?.name,
             winningProductImg: order?.item?.images[0],
-            winningPrice: order?.winingBid,
+            winningPrice: order?.winingBid?.toFixed(2),
             status: order?.status,
             expectedDeliveryDate: order?.expectedDeliveryData?.split['T']?.[0] || "No Date",
             phone: order?.user?.phone_number || 'Not Available',
