@@ -159,7 +159,7 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
                             {/* <Input /> */}
                             <Select>
                                 {getAllCategory?.data?.map((category) => (
-                                    <Option key={category._id} value={category.name}>
+                                    <Option key={category._id} value={category._id}>
                                         {category.name}
                                     </Option>
                                 ))}

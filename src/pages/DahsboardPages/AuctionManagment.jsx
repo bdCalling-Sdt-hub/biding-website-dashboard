@@ -30,7 +30,7 @@ const AuctionManagment = () => {
       key: i + 1,
       name: auction?.name,
       img: auction?.images,
-      category: auction?.category,
+      category: auction?.category?.name,
       description: auction?.description, 
       reservedBid: auction?.reservedBid,
       financeAvailable : auction?.financeAvailable,

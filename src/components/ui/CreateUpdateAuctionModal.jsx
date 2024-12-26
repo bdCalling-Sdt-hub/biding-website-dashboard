@@ -29,7 +29,7 @@ const CreateUpdateAuctionModal = ({ isModalOpen, setIsModalOpen }) => {
 
   /** category options */
   const categoryOptions = getCategory?.data?.map((category) => (
-    <Select.Option key={category._id} value={category.name}>
+    <Select.Option key={category._id} value={category._id}>
       {category?.name}
     </Select.Option>
   ))
