@@ -87,7 +87,7 @@ const UpdateAuctionModal = ({ isModalOpen, setIsModalOpen, singleAuction }) => {
         if (singleAuction) {
             form.setFieldsValue({
                 name: singleAuction.name,
-                category: singleAuction.category,
+                category: singleAuction.category?._id,
                 reservedBid: singleAuction.reservedBid,
                 incrementValue: singleAuction.incrementValue,
                 startingDate: singleAuction.statingAndEndTime.split('-at-')[0],
